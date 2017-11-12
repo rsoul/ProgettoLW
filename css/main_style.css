@@ -1,0 +1,55 @@
+#header {
+	/* Impostazioni colori sfondo header */
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0.39) 0%, rgba(0,0,0,0.44) 20%, rgba(0,0,0,0.53) 51%, rgba(0,0,0,0.14) 87%, rgba(0,0,0,0.08) 93%, rgba(0,0,0,0.07) 94%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.39)), color-stop(20%,rgba(0,0,0,0.44)), color-stop(51%,rgba(0,0,0,0.53)), color-stop(87%,rgba(0,0,0,0.14)), color-stop(93%,rgba(0,0,0,0.08)), color-stop(94%,rgba(0,0,0,0.07)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+	width: 100%;
+	margin-top: 0;
+	margin: auto;
+}
+
+#main_container {
+	background-color:rgba(255, 255, 255, 0.5);
+	overflow: hidden;
+	display: block;
+	padding: 10px;
+	margin: 5px;
+	margin-left: 10%;
+	margin-right: 10%;
+	border: 1px solid grey;
+	border-radius: 10px 10px 10px 10px;
+}
+
+#container_title {
+	text-align: center;
+}
+
+body {
+	background: #660066 url("../wallpapers/index.jpg"); /* Colore e immagine sfondo */
+	background-repeat: no-repeat;	/* Non ripetere */
+	background-attachment: fixed;	/* Fisso */
+    background-position: center;	/* Centrale */
+	background-size:100%;			/* 100% dello schermo */
+	margin:0px;
+	padding:0px;
+	font-family: "Tahoma","Verdana","Arial",sans-serif;
+}
+
+#footer{
+	font-size:12px;
+	width:100%;
+	text-align:center;
+	color: white;
+	overflow: hidden;
+	padding-top:5px;
+	padding-bottom:1px;
+	margin-top:10px;
+	margin-bottom: 0;
+	clear: both;		/* Fisso sotto a tutto */
+	display: block;
+	bottom:0;
+}
