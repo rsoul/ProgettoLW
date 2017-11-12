@@ -3,7 +3,16 @@
 <head>
 	<script type="text/javascript" src="js\function_index.js"></script>
 	<link href="css\main_style.css" rel="stylesheet" type="text/css">
-	<meta author="M. Anselmi / R. D. Nuccatelli / A. Federico">
+
+	<!--External API-->
+	<script type="text/javascript" src="js\Chart.bundle.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+
+	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
 <body onload="setTitle()">
 	<header id="header">
@@ -13,20 +22,28 @@
 	<div id="main_container">
 		<h1 id="container_title">Welcome to CFU Book</h1>
 
+		<!-- Generate personal chart-->
+		<canvas id="user_chart" width="400" height="400"></canvas>
+		
+
 		<form name="exam" method="POST" action="">
 			<h3>Inserisci l'esame</h3>
 			<table border="0px">
 				<tr><td>Data dell'esame</td><td><input type="date" id="exam_date" name="exam_date" onclick="getToday()" min="1900-01-01"></td></tr>
-				<tr><td>Voto ottenuto</td><td><input type="number" id="exam_grade" name="exam_grade" min="0" max="30" value="18"></td><td>Lode?</td>
-					<td>Si<input type="radio" name="exam_praise" value="praise_yes"></td>
-					<td>No<input type="radio" name="exam_praise" value="praise_no" checked></td>
+				<tr><td>Voto ottenuto</td><td><input type="number" id="exam_grade" name="exam_grade" min="18" max="30" value="18"></td><td>Lode?</td>
+					<td>Si<input type="checkbox" name="exam_praise" value="praise_yes"></td>
+					
 				</tr>
 				<tr><td>CFU</td><td><input type="number" id="exam_cfu" name="exam_cfu" min="1" max="24" value="6"></td></tr>
+				<tr><td><button type="button">Inserisci Esame</button></td>
+				<td><button type="button">Reset Grafico </button></td><</tr>
+				
+
 			</table>
 		</form>
 	</div>
 	<footer id="footer">
-		<p>Copyright © 2017 CFU Book - M. Anselmi / R. D. Nuccatelli / A. Federico</p>
+		<p>Copyright © 2017 CFU Book - M. Anselmi / R. D. Nuccetelli / A. Federico</p>
 	</footer>
 </body>
 </html>
