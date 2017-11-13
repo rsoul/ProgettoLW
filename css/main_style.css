@@ -17,6 +17,32 @@
 	margin-left: 1%;
 }
 
+#faqs a {
+	font-size: 20px;
+	color: #bf0000;
+}
+
+#login_register a {
+	color: #bf0000;
+}
+
+#login_register a:hover,
+#faqs a:hover {
+	color: #6b0000;
+	text-decoration: none;
+}
+
+#faqs,
+#homepage {
+	margin-right: 10%;
+	margin-left: 10%; 
+	text-align: center;
+}
+
+#faqs p {
+	color: black;
+}
+
 #nav_bar {
 	margin-left: 3%;
 	margin-right: 3%;
