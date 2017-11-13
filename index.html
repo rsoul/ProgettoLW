@@ -14,34 +14,38 @@
 
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
-<body onload="setTitle()">
+<body onload="loadingPage()">
+	<!-- Header -->
 	<header id="header">
 		<a href="index.html"><img src="img\logo.png" alt="Logo CFU Book"></a>
 
 	</header>
+
+	<!-- Main Container -->
 	<div id="main_container">
 		<h1 id="container_title">Welcome to CFU Book</h1>
 
 		<!-- Generate personal chart-->
 		<canvas id="user_chart" width="400" height="400"></canvas>
 		
-
+		<!-- Form exam insert -->
 		<form name="exam" method="POST" action="">
 			<h3>Inserisci l'esame</h3>
 			<table border="0px">
-				<tr><td>Data dell'esame</td><td><input type="date" id="exam_date" name="exam_date" onclick="getToday()" min="1900-01-01"></td></tr>
-				<tr><td>Voto ottenuto</td><td><input type="number" id="exam_grade" name="exam_grade" min="18" max="30" value="18"></td><td>Lode?</td>
-					<td>Si<input type="checkbox" name="exam_praise" value="praise_yes"></td>
-					
+				<tr><td>Data dell'esame</td><td><input type="date" id="exam_date" name="exam_date" min="1900-01-01" required></td></tr>
+				<tr><td>Voto ottenuto</td><td><input type="number" id="exam_grade" name="exam_grade" min="0" max="30" value="18" onchange="showPraise()" required></td>
+					<!-- Praise visible only if grade == 30 -->
+					<td id="td_grade" style="visibility: hidden;"><i>Lode?</i> Si <input type="radio" name="exam_praise" value="praise_yes"> No <input type="radio" name="exam_praise" value="praise_no" checked></td>
 				</tr>
-				<tr><td>CFU</td><td><input type="number" id="exam_cfu" name="exam_cfu" min="1" max="24" value="6"></td></tr>
-				<tr><td><button type="button">Inserisci Esame</button></td>
-				<td><button type="button">Reset Grafico </button></td><</tr>
-				
-
+				<tr><td>CFU</td><td><input type="number" id="exam_cfu" name="exam_cfu" min="1" max="24" value="6" required></td></tr>
+				<tr><td><input type="submit" id="send_exam" name="send_exam" class="button button_exam" value="Invia Esame"></td>
+					<td><input type="reset" id="exam_reset" name="exam_reset" class ="button button_exam" value="Reset Campi"></td>
+				</tr>
 			</table>
 		</form>
 	</div>
+
+	<!-- Footer -->
 	<footer id="footer">
 		<p>Copyright © 2017 CFU Book - M. Anselmi / R. D. Nuccetelli / A. Federico</p>
 	</footer>
