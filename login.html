@@ -23,33 +23,23 @@
 				<li><a href="index.html">Home</a></li>
 				<li><a href="#">CFU Book</a></li>
 				<li><a href="#">FAQ</a></li>
-				<li style="float: right;"><a href="login.html">Login</a></li>
+				<li style="float: right;"><a href="#">Login</a></li>
 			</ul>
 		</nav>
 	</header>
 
 	<!-- Main Container -->
 	<div id="main_container">
-		<h1 id="container_title">Welcome to CFU Book</h1>
+		<h3 id="container_title">Esegui il login</h3>
 
-		<!-- Form exam insert -->
-		<form name="exam" method="POST" action="">
-			<h3>Inserisci l'esame</h3>
-			<table border="0px">
-				<tr><td>Data dell'esame</td><td><input type="date" id="exam_date" name="exam_date" min="1900-01-01" required></td></tr>
-				<tr><td>Voto ottenuto</td><td><input type="number" id="exam_grade" name="exam_grade" min="0" max="30" value="18" onchange="showPraise()" required></td>
-					<!-- Praise visible only if grade == 30 -->
-					<td id="td_grade" style="visibility: hidden;"><i>Lode?</i> Si <input type="radio" name="exam_praise" value="praise_yes"> No <input type="radio" name="exam_praise" value="praise_no" checked></td>
-				</tr>
-				<tr><td>CFU</td><td><input type="number" id="exam_cfu" name="exam_cfu" min="1" max="24" value="6" required></td></tr>
-				<tr><td><input type="submit" id="send_exam" name="send_exam" class="button button_submit" value="Invia Esame"></td>
-					<td><input type="button" id="exam_reset" name="exam_reset" class ="button button_submit" value="Reset Campi" onclick="resetExamFields()"></td>
-				</tr>
+		<!-- Sample per login form -->
+		<form name="login" method="POST" action="">
+			<table>
+				<tr><td>Username</td><td><input type="text" id="login_username" name="login_username"></td></tr>
+				<tr><td>Password</td><td><input type="password" id="login_password" name="login_password"></td></tr>
+				<tr><td><input type="submit" name="login_submit" id="login_submit" class="button button_submit"></td><td><input type="reset" class="button button_submit" value="Cancella"></td></tr>
 			</table>
 		</form>
-
-		<!-- Generate personal chart-->
-		<canvas id="user_chart" width="400" height="400"></canvas>
 	</div>
 
 	<!-- Footer -->

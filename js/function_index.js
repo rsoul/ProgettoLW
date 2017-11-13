@@ -38,3 +38,15 @@ function showPraise() {
 		td_grade.style.visibility = "collapse";
 	}
 }
+
+/* Reset function for exam fields */
+function resetExamFields() {
+	var today = getToday();
+	setDateDefault(today);
+	var grade = document.getElementById("exam_grade");
+	grade.value = "18";
+	var td_grade = document.getElementById("td_grade");
+	td_grade.style.visibility = "collapse";
+	var exam_cfu = document.getElementById("exam_cfu");
+	exam_cfu.value = "6";
+}
