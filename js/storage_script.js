@@ -5,16 +5,20 @@ function initStorageExams(){
 	}
 }
 
+
+
 /* Reset all exams on the storage */
 function resetStorageExams(){ 
 	localStorage.exams="[]";
 }
 
+
+
 /* Print all the exam of the user on a div called my_exams */
 function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
-	var s = new String("<h3>I tuoi esami:</h3>");
+	var s = new String("<div style=\"text-align: center;\"<h3>I tuoi esami:</h3>");
 	s += "<table border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
 	for (i=0; i<len; i++) {
 		s += "<tr><td>" + exams[i].code + "</td>";
@@ -25,11 +29,14 @@ function printExams(){
 		else s += exams[i].grade;
 		s += "</td>";
 
-		s += "<td>" + exams[i].cfu + "</td></tr></table>";
+		s += "<td>" + exams[i].cfu + "</td></tr>";
 	}
+	s += "</table></div>";
 	document.getElementById("my_exams").innerHTML = s;
 	return true;
 }
+
+
 
 /* Script insert exam on the local storage, after checking the validity of every field */
 function insertExam(){
@@ -43,6 +50,7 @@ function insertExam(){
 		alert("Codice esame non valido!");
 		return false;
 	}
+
 	if (!checkDate(exam_date)) {
 		alert("Data non valida!");
 		return false;
@@ -57,8 +65,7 @@ function insertExam(){
 	}
 
 	var exams = JSON.parse(localStorage.exams);
-	var where = exams.length;
-	
+	var where = exams.length;	
 	var obj = { code: exam_code,
 				date: getExamDate(exam_date),
 				grade: getGrade(exam_grade, exam_praise),
@@ -76,6 +83,13 @@ function insertExam(){
 	alert("Esame inserito correttamente!");
 	return true;
 }
+
+function sameExam(a,b){
+	if ((a.code==b.code))
+		return true;
+	return false;
+}
+
 
 function checkCode(code) {
 	if (code != "") return true;
@@ -111,7 +125,7 @@ function checkDate(date) {
 }
 
 function checkGrade(grade, praise) {
-	if (isNaN(grade) || grade < 0 || grade > 30) {return false;}
+	if (isNaN(grade) || grade < 18 || grade > 30) {return false;}
 	else if ((grade == 30 && praise != "praise_yes" && praise == "praise_no")) {
 		return false;
 	}
@@ -134,4 +148,31 @@ function getGrade(grade, praise) {
 
 function getExamDate(date) {
 	return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+}
+
+function printChart() {
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+	var voti = [];
+	var codici = [];
+
+	for (i=0; i<len; i++) {
+		voti[i] = exams[i].grade;
+		codici[i] = exams[i].code;
+	}
+
+	var ctx = document.getElementById("user_chart").getContext('2d');
+	new Chart(ctx,{
+		type: "line",
+		data: {
+			labels: codici,
+			datasets: [{
+				label: "Voti",
+				data: voti,
+				fill: false,
+				borderColor: "rgb(191, 0, 0)",
+				lineTension:0.1}
+			]},
+		options: {}
+	});
 }

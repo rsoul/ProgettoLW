@@ -39,7 +39,7 @@
 			<table border="0px">
 				<tr><td>Codice esame</td><td><input type="text" title="Exam code" id="exam_code" required></td></tr>
 				<tr><td>Data dell'esame</td><td><input type="date" title="Exam date" id="exam_date" min="1900-01-01" required></td></tr>
-				<tr><td>Voto ottenuto</td><td><input type="number" title="Exam grade" id="exam_grade" min="0" max="30" value="18" onchange="showPraise()" required></td>
+				<tr><td>Voto ottenuto</td><td><input type="number" title="Exam grade" id="exam_grade" min="18" max="30" value="18" onchange="showPraise()" required></td>
 					<!-- Praise visible only if grade == 30 -->
 					<td id="td_grade" style="visibility: hidden;"><i>Lode?</i> Si <input type="radio" id="exam_praise" name="exam_praise" value="praise_yes"> No <input type="radio" id="exam_praise" name="exam_praise" value="praise_no" checked></td>
 				</tr>
@@ -49,6 +49,7 @@
 			<input type="button" id="exam_reset" class="button button_submit" value="Reset Campi" onclick="resetExamFields()">
 			<input type="button" id="storage_reset" class="button button_submit" value="Elimina Esami" onclick="resetStorageExams()">
 			<input type="button" id="print_exams" class ="button button_submit" value="Mostra Esami" onclick="printExams()">
+			<input type="button" id="print_chart" class="button button_submit" value="Mostra Grafico" onclick="printChart()">
 		</form>
 
 		<!-- Div for printing exams -->
@@ -56,7 +57,7 @@
 		</div>
 
 		<!-- Generate personal chart-->
-		<canvas id="user_chart" width="400" height="400"></canvas>
+		<canvas id="user_chart" style="display: block; width: 100px; height: 30px;"></canvas>
 	</div>
 
 	<!-- Footer -->
