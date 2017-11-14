@@ -35,18 +35,13 @@ function getToday() {
 	return today;
 }
 
-function setTitle(title) {document.title = title;}
-function setDateMax(today) {document.getElementById("exam_date").setAttribute("max", today);}
-function setDateDefault(today) {document.getElementById("exam_date").value = today;}
-
-/* On body load, set maxium (and default) date of the exam_date field and the title of the page */
-function loadingExamPage() {
-	var today = getToday();
-	var title = "CFU Book";
-	setTitle(title);
-	setDateMax(today);
-	setDateDefault(today);
+/* Set date default and max on add_exam html form */
+function setExamDate(today) {
+	exam_date = document.getElementById("exam_date");
+	exam_date.setAttribute("max", today);
+	exam_date.value = today;
 }
+
 
 /* Check if exam grade is == 30, then show praise radio buttons */
 function showPraise() {
@@ -64,6 +59,8 @@ function showPraise() {
 function resetExamFields() {
 	var today = getToday();
 	setDateDefault(today);
+	var code = document.getElementById("exam_code");
+	code.value = "";
 	var grade = document.getElementById("exam_grade");
 	grade.value = "18";
 	var td_grade = document.getElementById("td_grade");

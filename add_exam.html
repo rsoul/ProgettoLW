@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+	<script type="text/javascript" src="js\storage_script.js"></script>
 	<script type="text/javascript" src="js\function_index.js"></script>
 	<link href="css\main_style.css" rel="stylesheet" type="text/css">
 
@@ -14,7 +15,7 @@
 
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
-<body onload="loadingExamPage()">
+<body onload="setExamDate(getToday()); initStorageExams();">
 	<!-- Header -->
 	<header id="header">
 		<a href="index.html"><img src="img\logo.png" alt="Logo CFU Book" id="logo"></a><br>
@@ -31,23 +32,28 @@
 
 	<!-- Main Container -->
 	<div id="main_container">
-		<h1 id="container_title">Welcome to CFU Book</h1>
+		<h1 id="container_title">Inserisci i tuoi esami</h1>
 
 		<!-- Form exam insert -->
-		<form name="exam" method="POST" action="">
-			<h3>Inserisci l'esame</h3>
+		<form name="form_exam" method="POST" onsubmit="insertExam()">
 			<table border="0px">
-				<tr><td>Data dell'esame</td><td><input type="date" id="exam_date" min="1900-01-01" required></td></tr>
-				<tr><td>Voto ottenuto</td><td><input type="number" id="exam_grade" min="0" max="30" value="18" onchange="showPraise()" required></td>
+				<tr><td>Codice esame</td><td><input type="text" title="Exam code" id="exam_code" required></td></tr>
+				<tr><td>Data dell'esame</td><td><input type="date" title="Exam date" id="exam_date" min="1900-01-01" required></td></tr>
+				<tr><td>Voto ottenuto</td><td><input type="number" title="Exam grade" id="exam_grade" min="0" max="30" value="18" onchange="showPraise()" required></td>
 					<!-- Praise visible only if grade == 30 -->
-					<td id="td_grade" style="visibility: hidden;"><i>Lode?</i> Si <input type="radio" value="praise_yes"> No <input type="radio" value="praise_no" checked></td>
+					<td id="td_grade" style="visibility: hidden;"><i>Lode?</i> Si <input type="radio" id="exam_praise" name="exam_praise" value="praise_yes"> No <input type="radio" id="exam_praise" name="exam_praise" value="praise_no" checked></td>
 				</tr>
-				<tr><td>CFU</td><td><input type="number" id="exam_cfu" min="1" max="24" value="6" required></td></tr>
-				<tr><td><input type="submit" id="send_exam" class="button button_submit" value="Invia Esame"></td>
-					<td><input type="button" id="exam_reset" class ="button button_submit" value="Reset Campi" onclick="resetExamFields()"></td>
-				</tr>
+				<tr><td>CFU</td><td><input type="number" title="Exam CFUs" id="exam_cfu" min="1" max="24" value="6" required></td></tr>
 			</table>
+			<input type="submit" id="send_exam" class="button button_submit" value="Invia Esame">
+			<input type="button" id="exam_reset" class="button button_submit" value="Reset Campi" onclick="resetExamFields()">
+			<input type="button" id="storage_reset" class="button button_submit" value="Elimina Esami" onclick="resetStorageExams()">
+			<input type="button" id="print_exams" class ="button button_submit" value="Mostra Esami" onclick="printExams()">
 		</form>
+
+		<!-- Div for printing exams -->
+		<div id="my_exams">
+		</div>
 
 		<!-- Generate personal chart-->
 		<canvas id="user_chart" width="400" height="400"></canvas>
