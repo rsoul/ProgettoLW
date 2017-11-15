@@ -18,8 +18,8 @@ function resetStorageExams(){
 function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
-	var s = new String("<div style=\"text-align: center;\"<h3>I tuoi esami:</h3>");
-	s += "<table border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
+	var s = new String("<div style=\"text-align: center; padding-top:5px;\"<h3>I tuoi esami:</h3>");
+	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
 	for (i=0; i<len; i++) {
 		s += "<tr><td>" + exams[i].code + "</td>";
 		s += "<td>" + exams[i].date + "</td>";

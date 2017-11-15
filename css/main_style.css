@@ -1,142 +1,33 @@
-#header {
-	/* Impostazioni colori sfondo header */
-	background: -moz-linear-gradient(top,  rgba(0,0,0,0.39) 0%, rgba(0,0,0,0.44) 20%, rgba(0,0,0,0.53) 51%, rgba(0,0,0,0.14) 87%, rgba(0,0,0,0.08) 93%, rgba(0,0,0,0.07) 94%, rgba(0,0,0,0) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.39)), color-stop(20%,rgba(0,0,0,0.44)), color-stop(51%,rgba(0,0,0,0.53)), color-stop(87%,rgba(0,0,0,0.14)), color-stop(93%,rgba(0,0,0,0.08)), color-stop(94%,rgba(0,0,0,0.07)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  rgba(0,0,0,0.39) 0%,rgba(0,0,0,0.44) 20%,rgba(0,0,0,0.53) 51%,rgba(0,0,0,0.14) 87%,rgba(0,0,0,0.08) 93%,rgba(0,0,0,0.07) 94%,rgba(0,0,0,0) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
-	width: 100%;
-	margin-top: 0;
-	margin: auto;
-}
-
-#logo {
-	margin-top: 1%;
-	margin-left: 1%;
-}
-
-#faqs a {
-	font-size: 20px;
-	color: #bf0000;
-}
-
-#login_register a {
-	color: #bf0000;
-}
-
-#login_register a:hover,
-#faqs a:hover {
-	color: #6b0000;
-	text-decoration: none;
-}
-
-#faqs,
-#homepage {
-	margin-right: 10%;
-	margin-left: 10%; 
-	text-align: center;
-}
-
-#faqs p {
-	color: black;
-}
-
-#nav_bar {
-	margin-left: 3%;
-	margin-right: 3%;
-	background-color:rgba(0, 0, 0, 0.5);
-	border-radius: 15px 15px 5px 5px;
-}
-
-#nav_bar ul {
-    list-style-type: none;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-#nav_bar li {
-    float: left;
-}
-
-#nav_bar li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    border-radius: 15px 15px 5px 5px;
-}
-
-#nav_bar li a:hover {
-	color: black;
-	background-color:rgba(255, 255, 255, 0.5);
-}
-
-.button {
-	font-family: "Verdana", sans-serif;
-    padding: 6px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-
-.button_submit {
-    background-color: white;
-    color: black;
-    border: 2px solid #555555;
-}
-
-.button_submit:hover {
-    background-color: #555555;
-    color: white;
-}
 
 #main_container {
-	background-color:rgba(255, 255, 255, 0.5);
+	background-color:#FFFFFF;
 	overflow: hidden;
 	display: block;
 	padding: 10px;
 	margin: 5px;
 	margin-left: 10%;
 	margin-right: 10%;
-	border: 1px solid grey;
+	
 	border-radius: 10px 10px 10px 10px;
+	
 }
-
-#container_title {
-	text-align: center;
-}
-
 body {
-	background: #660066 url("../wallpapers/index.jpg"); /* Colore e immagine sfondo */
+	background: #000000 ; /* Colore e immagine sfondo */
 	background-repeat: no-repeat;	/* Non ripetere */
 	background-attachment: fixed;	/* Fisso */
     background-position: center;	/* Centrale */
 	background-size:100%;			/* 100% dello schermo */
 	margin:0px;
 	padding:0px;
-	font-family: "Raleway",sans-serif;
+	
 }
 
-#footer{
-	font-size:12px;
-	width:100%;
-	text-align:center;
-	color: white;
-	overflow: hidden;
-	padding-top:5px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-bottom: 0;
-	clear: both;		/* Fisso sotto a tutto */
-	display: block;
-	bottom:0;
+.footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
 }

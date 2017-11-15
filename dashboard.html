@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-	<title>MyBook | Log in</title>
+	<title>MyBook | Dashboard</title>
 
 	<link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
 	<script type="text/javascript" src="js\storage_script.js"></script>
@@ -27,41 +27,50 @@
 		<nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="#" style="padding-right: 5px;">
     <img src="apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
   </a>
-  <form class="form-inline" >
-  	<a href="./dashboard.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
+  <form class="form-inline">
+    <button class="btn btn-outline-success" type="button">Log out</button>
     
-    <button class="btn btn-outline-secondary" type="button">Sign up </button>
-    
-  </form> </nav>
-
-	<!-- Main Container -->
-	<div id="main_container">
-		<h1 id="container_title" style="text-align: center">Esegui il login</h1>
-<div class="jumbotron">
-		<div class="container">
-  <form>
-    <div class="form-group row">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-      </div>
-    </div>
-        <div class="form-group row">
-      <div class="offset-sm-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Sign in</button>
-      </div>
-    </div>
   </form>
-</div></div>
+ 
+</nav>
 
-	<!-- Footer -->
-	<div class="footer"><div class="footer"><p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a></p>
+			
+	<div id="main_container">
+		<h1 style="text-align: center;">Dashboard</h1>
+
+<ul class="nav nav-tabs" >
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#home">Esami Sostenuti</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#profile">Calendario Esami</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#profile">Trend Esami</a>
+  </li>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade active in" id="home">
+    <p>Sto andando a dormire quindi qui sarebbe tutto da fare</p>
+  </div>
+  <div class="tab-pane fade" id="profile">
+    <p>Fpraticamente va implementato ogni tab. ogni volta che viene aperto un tab viene caricato il content relativo.</p>
+  </div>
+  <div class="tab-pane fade" id="dropdown1">
+   
+  </div>
+  <div class="tab-pane fade" id="dropdown2">
+    
+  </div>
+</div>
+  
+</ul>
+</div>
+
+
+
+<div class="footer"><p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a></p>
 </div>
 </body>
 </html>
+
+
