@@ -33,7 +33,6 @@ function printExams(){
 	}
 	s += "</table></div>";
 	document.getElementById("my_exams").innerHTML = s;
-	return true;
 }
 
 
@@ -170,7 +169,7 @@ function printChart() {
 				label: "Voti",
 				data: voti,
 				fill: false,
-				borderColor: "rgb(191, 0, 0)",
+				borderColor: "rgb(0, 0, 0)",
 				lineTension:0.1}
 			]},
 		options: {}

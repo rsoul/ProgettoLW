@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-	<title>MyBook | Log in</title>
+	<title>MyBook | Sign Up</title>
 
 	<link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
 	<script type="text/javascript" src="js\storage_script.js"></script>
@@ -26,17 +26,17 @@
 	<nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="index.html" style="padding-right: 5px;">
     <img src="img/apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
     </a>
-    <form class="form-inline" action="register.html">
-      <a href="#" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
-      <button class="btn btn-outline-secondary" type="submit">Sign up</button>
+    <form class="form-inline">
+      <a href="./login.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
+      <button class="btn btn-outline-secondary" type="button">Sign up</button>
     </form>
   </nav>
 
 	<!-- Main Container -->
 	<div id="main_container">
-		<h1 id="container_title" style="text-align: center">Effettua il Login</h1>
+		<h1 id="container_title" style="text-align: center">Nuovo utente? Registrati!</h1>
     <div class="jumbotron">
-      <div class="container">
+		  <div class="container">
         <form action="./dashboard.html" method="POST">
 
           <!-- Inserimento email -->
@@ -55,9 +55,17 @@
             </div>
           </div>
 
+          <!-- Ripeti password -->
+          <div class="form-group row">
+            <label for="inputRepeatPassword" class="col-sm-2 col-form-label">Ripeti Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Ripeti Password" required>
+            </div>
+          </div>
+
           <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">Sign in</button>
+              <button type="submit" class="btn btn-primary">Sign up</button>
             </div>
           </div>
         </form>

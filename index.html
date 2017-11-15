@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="js\function_index.js"></script>
 	<link href="css\main_style.css" rel="stylesheet" type="text/css">
 
-	<link rel='shortcut icon' type='image/x-icon' href='favicon-32x32.png' />
+	<link rel='shortcut icon' type='image/x-icon' href='img/favicon-32x32.png' />
 
 	<!--External API-->
 	<script type="text/javascript" src="js\Chart.bundle.min.js"></script>
@@ -21,21 +21,17 @@
 	<link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
-<body onload="setExamDate(getToday()); initStorageExams();">
-	
-	
-		<nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="#" style="padding-right: 5px;">
-    <img src="apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
-  </a>
-  <form class="form-inline" >
-  	<a href="./dashboard.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
-    
-    <a href="./login.html" class="btn btn-outline-secondary" role="button" aria-pressed="true">Sign up </a>
-    
-  </form>
- 
-</nav>
+<body>
 
+	<nav class="navbar navbar-light bg-faded">  
+		<a class="navbar-brand" href="#" style="padding-right: 5px;">
+    	<img src="img/apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
+  		</a>
+  		<form class="form-inline" >
+  			<a href="./login.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
+    		<a href="./register.html" class="btn btn-outline-secondary" role="button" aria-pressed="true">Sign up </a>
+  		</form>
+	</nav>
 
 	<!-- Main Container -->
 	<div id="main_container">
@@ -43,7 +39,6 @@
 
 		<div id="homepage">
 			<p style="text-align:center;">Aggiungi esami e crea statistiche e grafici di moltissime tipologie!</p>
-		
 
 			<!-- Generate personal chart-->
 			<canvas id="user_chart" style="display: block; width: 100px; height: 30px;"></canvas>
@@ -52,8 +47,8 @@
 	</div>
 
 	<!-- Footer -->
-	<div class="footer"><div class="footer"><p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a></p>
-
-</div>
+	<div class="footer">
+		<p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a> - <a href="./faq.html">FAQ</a></p>
+	</div>
 </body>
 </html>

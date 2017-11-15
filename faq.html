@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+	<title>MyBook | FAQ</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
+	<script type="text/javascript" src="js\storage_script.js"></script>
 	<script type="text/javascript" src="js\function_index.js"></script>
 	<link href="css\main_style.css" rel="stylesheet" type="text/css">
+
+	<link rel='shortcut icon' type='image/x-icon' href='img/favicon-32x32.png' />
 
 	<!--External API-->
 	<script type="text/javascript" src="js\Chart.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
-
+	
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
 <body>
-	<!-- Header -->
-	<header id="header">
-		<a href="index.html"><img src="img\logo.png" alt="Logo CFU Book" id="logo"></a><br>
-		<nav id="nav_bar">
-			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="#">CFU Book</a></li>
-				<li><a href="#">FAQ</a></li>
-				<li><a href="licence.html">Licenza MIT</a></li>
-				<li style="float: right;"><a href="login.html">Login</a></li>
-			</ul>
-		</nav>
-	</header>
+
+	<nav class="navbar navbar-light bg-faded">  
+		<a class="navbar-brand" href="./index.html" style="padding-right: 5px;">
+    	<img src="img/apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
+  		</a>
+  		<form class="form-inline" >
+  			<a href="./login.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
+    		<a href="./register.html" class="btn btn-outline-secondary" role="button" aria-pressed="true">Sign up </a>
+  		</form>
+	</nav>
+
 
 	<!-- Main Container -->
 	<div id="main_container">
-		<h1 id="container_title">FAQ Time</h1>
-
-		<div id="faqs">
+		<h1 style="text-align: center;">FAQ Time</h1>
+		<div>
 			<a href="#question_one" onclick="showQuestion('question_one')">Come nasce CFU Book</a>
 			<p id="question_one" style="visibility: hidden; display: none;"><b>&#9658;</b> Il progetto <i>CFU Book</i> nasce per rendere più comodo e veloce l'inserimento degli esami passati per ottenere valori statistici insieme ad altri insiemi di esami di vari studenti delle università.</p>
 		</div>
 	</div>
 
+
 	<!-- Footer -->
-	<footer id="footer">
-		<p>Copyright © 2017 CFU Book - M. Anselmi / R. D. Nuccetelli / A. Federico</p>
-	</footer>
+	<div class="footer">
+		<p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a> - <a href="#">FAQ</a></p>
+	</div>
 </body>
 </html>

@@ -1,24 +1,3 @@
-var login_page = '<form name="login" method="POST" action="">\
-			<table>\
-				<tr><td>Username</td><td><input title="Enter your username" type="text" id="login_username" required></td></tr>\
-				<tr><td>Password</td><td><input title="Enter your password" type="password" id="login_password" required></td></tr>\
-				<tr><td><input type="submit" id="login_submit" class="button button_submit" value="Entra"></td><td><input type="reset" class="button button_submit" value="Cancella"></td></tr>\
-			</table>\
-			<a href="#" id="register_link" onclick="showPage(\'login_register\',\'register\')">Se non sei registrato, registrati!</a>\
-		</form>';
-
-var register_page = '<form name="register" method="POST" action="">\
-			<table>\
-				<tr><td>Username</td><td><input title="Enter your username" type="text" id="register_username" required></td></tr>\
-				<tr><td>Password</td><td><input title="Enter your password" type="password" id="register_password" required></td></tr>\
-				<tr><td>Ripeti password</td><td><input title="Repeat the password" type="password" id="register_repeat_password" onchange="checkPassword()" required></td></tr>\
-				<tr><td>E-Mail</td><td><input title="Enter your email" type="email" id="register_email" required></td></tr>\
-				<tr><td>Università</td><td><input title="Enter your university name" type="text" id="register_university" required></td></tr>\
-				<tr><td><input type="submit" id="register_submit" class="button button_submit" value="Registrati"></td><td><input type="reset" class="button button_submit" value="Cancella"></td></tr>\
-			</table>\
-			<a href="#" id="login_link" onclick="showPage(\'login_register\',\'login\')">Se sei già registrato, loggati!</a>\
-		</form>';
-
 function getToday() {
 	var today = new Date();
 	var dd = today.getDate();
