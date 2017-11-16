@@ -58,19 +58,20 @@ function insertExam(){
 
 	var exams = JSON.parse(localStorage.exams);
 	var where = exams.length;	
-	var obj = { code: exam_code,
+	var exam = { 
+				code: exam_code,
 				date: exam_date,
 				grade: getGrade(exam_grade, exam_praise),
 				cfu: exam_cfu
 			};
 	
 	for (i=0; i<where; i++)
-		if(sameExam(exams[i], obj)) {
+		if(sameExam(exams[i], exam)) {
 			alert("Esame già presente!");
 			return false;
 		}
 
-	exams[where] = obj;
+	exams[where] = exam;
 	localStorage.exams = JSON.stringify(exams);
 	return true;
 }
@@ -88,19 +89,19 @@ function insertCalendarEvent(){
 		return false;
 	}
 
-	var obj={
+	var event ={
 		name: calendar_name,
 		date: calendar_date,
 		time: calendar_time
 	};
 	
 	for (i=0; i<len; i++)
-		if(sameEvent(calendar[i], obj)) {
+		if(sameEvent(calendar[i], event)) {
 			alert("Evento già presente!");
 			return false;
 		}
 
-	calendar[len]=obj;
+	calendar[len]=event;
 	localStorage.calendar=JSON.stringify(calendar);
 }
 
@@ -205,13 +206,12 @@ function dateDiffInDays(a, b) {
 function printCalendar(){
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
-
 	var s = new String("");
+	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th></tr>";
-
+	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th><th>Elimina</th></tr>";
 	for (i=0; i<len; i++) {
-		var dateDiff = dateDiffInDays(new Date("2017-11-16"), calendar[i].date);
+		var dateDiff = dateDiffInDays(new Date(getToday()), calendar[i].date);
 		var name = calendar[i].name;
 		var date = calendar[i].date;
 		var time = calendar[i].time;
@@ -221,14 +221,16 @@ function printCalendar(){
 			s += "<tr><td>" + name + "</td>";
 			s += "<td>" + date + "</td>";
 			s += "<td>" + time + "</td>";
-			s += "<td>" + dateDiff + "</td></tr>";
+			s += "<td>" + dateDiff + "</td>";
+			s += "<td><button class=\"btn btn-danger btn-sm\" onclick=\"removeEvent(\'"+name+"\')\"><span>Remove</span></button></td></tr>";
 		}
 		else {
 			s += "<tr><td class=\"table-danger\">" + name + "</td>";
 			s += "<td class=\"table-danger\">" + date + "</td>";
 			s += "<td class=\"table-danger\">" + time + "</td>";
-			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td></tr>";}
-			else {s += "<td class=\"table-danger\">" + dateDiff + "</td></tr>";}
+			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
+			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
+			s += "<td class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" onclick=\"removeEvent(\'"+name+"\')\"><span>Remove</span></button></td></tr>";
 		}
 	}
 
@@ -240,10 +242,10 @@ function printCalendar(){
 function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
-
 	var s = new String("");
+	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Elimina</th></tr>";
+	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Elimina</th></tr>";
 	for (i=0; i<len; i++) {
 		var code = exams[i].code;
 		var date = exams[i].date;
@@ -255,17 +257,16 @@ function printExams(){
 			s += "<td class=\"table-success\">" + date + "</td>";
 			s += "<td class=\"table-success\">30 e Lode</td>";
 			s += "<td class=\"table-success\">" + cfu + "</td>";
+			s += "<td class=\"table-success\"><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\"><span>Remove</span></button></td></tr>";
 		} 
 		else {
 			s += "<tr><td>" + code + "</td>";
 			s += "<td>" + date + "</td>";
 			s += "<td>" + grade + "</td>";
 			s += "<td>" + cfu + "</td>";
-		}
-
-		s += "<td><button class=\"btn btn-danger\" onclick=\"removeExam("+code+")\"><span>Remove</span></button></td></tr>";
+			s += "<td><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\"><span>Remove</span></button></td></tr>";
+		}		
 	}
-
 	s += "</table></div>";
 	document.getElementById("my_exams").innerHTML = s;
 }
@@ -296,4 +297,40 @@ function printChart() {
 			]},
 		options: {}
 	});
+}
+
+/* ---------------------------------------- */
+/* FUNZIONI PER LA RIMOZIONE                */
+/* ---------------------------------------- */
+
+/* Remove exam from exams local storage */
+function removeExam(code) {
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+
+	for (i=0; i<len; i++) {
+		if(parseInt(exams[i].code) == parseInt(code)) {
+			exams.splice(i,1);
+			break;
+		}
+	}
+
+	localStorage.exams = JSON.stringify(exams);	
+	printExams();
+}
+
+/* Remove event from calendar local storage */
+function removeEvent(name) {
+	var calendar = JSON.parse(localStorage.calendar);
+	var len = calendar.length;
+
+	for (i=0; i<len; i++) {
+		if(calendar[i].name == name) {
+			calendar.splice(i,1);
+			break;
+		}
+	}
+
+	localStorage.calendar = JSON.stringify(calendar);	
+	printCalendar();
 }
