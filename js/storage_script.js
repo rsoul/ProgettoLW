@@ -73,6 +73,7 @@ function insertCalendarEvent(){
 	var len=calendar.length;
 	var calendar_name = document.getElementById("inputName").value;
 	var calendar_date = document.getElementById("inputDateCalendar").value;
+	var calendar_time = document.getElementById("inputTime").value;
 
 	if (!checkDate(new Date(calendar_date))) {
 		alert("Data non valida!");
@@ -81,7 +82,8 @@ function insertCalendarEvent(){
 
 	var obj={
 		name: calendar_name,
-		date: calendar_date
+		date: calendar_date,
+		time: calendar_time
 	};
 	
 	for (i=0; i<len; i++)
@@ -182,19 +184,27 @@ function printCalendar(){
 
 	var s = new String("");
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
+	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th></tr>";
 
 	for (i=0; i<len; i++) {
 		var dateDiff = dateDiffInDays(new Date("2017-11-16"), calendar[i].date);
+		var name = calendar[i].name;
+		var date = calendar[i].date;
+		var time = calendar[i].time;
+
+		if(time == "") time = "Not Defined";
 		if (dateDiff > 10) {
-			s += "<tr><td>" + calendar[i].name + "</td>";
-			s += "<td>" + calendar[i].date + "</td>";
+			s += "<tr><td>" + name + "</td>";
+			s += "<td>" + date + "</td>";
+			s += "<td>" + time + "</td>";
 			s += "<td>" + dateDiff + "</td></tr>";
 		}
 		else {
-			s += "<tr><td class=\"table-danger\">" + calendar[i].name + "</td>";
-			s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
-			s += "<td class=\"table-danger\">" + dateDiff + "</td></tr>";
+			s += "<tr><td class=\"table-danger\">" + name + "</td>";
+			s += "<td class=\"table-danger\">" + date + "</td>";
+			s += "<td class=\"table-danger\">" + time + "</td>";
+			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td></tr>";}
+			else {s += "<td class=\"table-danger\">" + dateDiff + "</td></tr>";}
 		}
 	}
 
