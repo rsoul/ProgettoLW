@@ -16,9 +16,15 @@ function getToday() {
 
 /* Set date default and max on add_exam html form */
 function setExamDate(today) {
-	exam_date = document.getElementById("inputDate");
+	var exam_date = document.getElementById("inputDate");
 	exam_date.setAttribute("max", today);
 	exam_date.value = today;
+}
+
+function setMiniumEventDate(today) {
+	var date = document.getElementById("inputDateCalendar");
+	date.setAttribute("min", today);
+	date.value = today;
 }
 
 /* Check if exam grade is == 30, then show praise radio buttons */

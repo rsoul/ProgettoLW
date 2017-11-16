@@ -74,6 +74,11 @@ function insertCalendarEvent(){
 	var calendar_name = document.getElementById("inputName").value;
 	var calendar_date = document.getElementById("inputDateCalendar").value;
 
+	if (!checkDate(new Date(calendar_date))) {
+		alert("Data non valida!");
+		return false;
+	}
+
 	var obj={
 		name: calendar_name,
 		date: calendar_date

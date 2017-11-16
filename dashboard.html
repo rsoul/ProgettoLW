@@ -21,7 +21,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
-<body onload="setExamDate(getToday()); initStorageExams(); initStorageCalendar();">
+<body onload="setExamDate(getToday()); setMiniumEventDate(getToday()); initStorageExams(); initStorageCalendar();">
 
   <nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="index.html" style="padding-right: 5px;">
     <img src="img/apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
@@ -139,7 +139,7 @@
               <div class="form-group row">
                 <label for="inputDateCalendar" class="col-sm-2 col-form-label">Data</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control" id="inputDateCalendar" placeholder="Data" min="1900-01-01" required>
+                  <input type="date" class="form-control" id="inputDateCalendar" placeholder="Data" required>
                 </div>
               </div>
 
