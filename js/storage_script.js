@@ -1,3 +1,7 @@
+/* ---------------------------------------- */
+/* FUNZONI PER L'UTILIZZO DI STORAGE        */
+/* ---------------------------------------- */
+
 /* Inizialize the exam storage */
 function initStorageExams(){
 	if (typeof(localStorage.exams) == "undefined") {
@@ -22,6 +26,10 @@ function resetStorageCalendar(){
 	localStorage.calendar="[]";
 }
 
+
+/* ---------------------------------------- */
+/* FUNZIONI DI INSERIMENTO E INPUT VARI     */
+/* ---------------------------------------- */
 
 /* Script insert exam on the local storage, after checking the validity of every field */
 function insertExam(){
@@ -96,24 +104,32 @@ function insertCalendarEvent(){
 	localStorage.calendar=JSON.stringify(calendar);
 }
 
+
+/* ---------------------------------------- */
+/* FUNZIONI PER CONTROLLI O CHECK VARI      */
+/* ---------------------------------------- */
+
+/* Check if exam a == b */
 function sameExam(a,b){
 	if (a.code==b.code)
 		return true;
 	return false;
 }
 
+/* Check if event a == b */
 function sameEvent(a,b) {
 	if (a.name==b.name) 
 		return true;
 	return false;
 }
 
-
+/* Controllo codice esame */
 function checkCode(code) {
 	if (code != "") return true;
 	else return false;
 }
 
+/* Controllo validità data (NON CONTROLLA SE > O < ALLA DATA ODIERNA) */
 function checkDate(date) {
 	var day = date.getDate();
     var month = date.getMonth();
@@ -142,6 +158,7 @@ function checkDate(date) {
 	return true;
 }
 
+/* Controllo sull'input del voto esame */
 function checkGrade(grade, praise) {
 	if (isNaN(grade) || grade < 18 || grade > 30) {return false;}
 	else if ((grade == 30 && praise != "praise_yes" && praise == "praise_no")) {
@@ -150,6 +167,7 @@ function checkGrade(grade, praise) {
 	return true;
 }
 
+/* Controllo sull'input dei cfu dell'esame */
 function checkCFU(cfu) {
 	if (!isNaN(cfu)) {
 		if (cfu >= 1 && cfu <= 24) {
@@ -159,23 +177,29 @@ function checkCFU(cfu) {
 	return false;
 }
 
+/* (UTILE PER OUTPUT DA STORAGE) Restituisce il voto (31 se 30 e lode) */
 function getGrade(grade, praise) {
 	if (grade == 30 && praise == "praise_yes") return 31;
 	else return grade;
 }
 
+
 /* Calcola distanza tra date */
-var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-// a e b sono oggetti Data
 function dateDiffInDays(a, b) {
+	var _MS_PER_DAY = 1000 * 60 * 60 * 24;
 	a = new Date(a);
 	b = new Date(b);
-  // Esclude l'ora ed il fuso orario
-  var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+	// Esclude l'ora ed il fuso orario
+	var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
+
+
+/* ---------------------------------------- */
+/* FUNZIONI PER LA STAMPA O GENERICO OUTPUT */
+/* ---------------------------------------- */
+
 
 /* Print all event on the calendar */
 function printCalendar(){
@@ -246,6 +270,7 @@ function printExams(){
 	document.getElementById("my_exams").innerHTML = s;
 }
 
+/* Output grafico a linee semplice dei voti esame */
 function printChart() {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
