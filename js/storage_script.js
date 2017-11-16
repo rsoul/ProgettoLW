@@ -26,7 +26,7 @@ function resetStorageCalendar(){
 /* Script insert exam on the local storage, after checking the validity of every field */
 function insertExam(){
 	var exam_code = document.getElementById("inputCode").value;
-	var exam_date = new Date(document.getElementById("inputDate").value);
+	var exam_date = document.getElementById("inputDate").value;
 	var exam_grade = document.getElementById("inputGrade").value;
 	var exam_praise = document.getElementById("inputPraise").value;
 	var exam_cfu = document.getElementById("inputCFU").value;
@@ -35,8 +35,7 @@ function insertExam(){
 		alert("Codice esame non valido!");
 		return false;
 	}
-
-	if (!checkDate(exam_date)) {
+	if (!checkDate(new Date(exam_date))) {
 		alert("Data non valida!");
 		return false;
 	}
@@ -52,7 +51,7 @@ function insertExam(){
 	var exams = JSON.parse(localStorage.exams);
 	var where = exams.length;	
 	var obj = { code: exam_code,
-				date: getExamDate(exam_date),
+				date: exam_date,
 				grade: getGrade(exam_grade, exam_praise),
 				cfu: exam_cfu
 			};
@@ -68,20 +67,16 @@ function insertExam(){
 	return true;
 }
 
+/* Inserimento calendario */
 function insertCalendarEvent(){
 	var calendar = JSON.parse(localStorage.calendar);
 	var len=calendar.length;
 	var calendar_name = document.getElementById("inputName").value;
-	var calendar_date = new Date(document.getElementById("inputDateCalendar").value);
-
-	if (!checkDate(calendar_date)) {
-		alert("Data non valida!");
-		return false;
-	}
+	var calendar_date = document.getElementById("inputDateCalendar").value;
 
 	var obj={
 		name: calendar_name,
-		date: getExamDate(calendar_date)
+		date: calendar_date
 	};
 	
 	for (i=0; i<len; i++)
@@ -101,7 +96,7 @@ function sameExam(a,b){
 }
 
 function sameEvent(a,b) {
-	if (a.name == b.name) 
+	if (a.name==b.name) 
 		return true;
 	return false;
 }
@@ -113,7 +108,7 @@ function checkCode(code) {
 }
 
 function checkDate(date) {
-	var day = date.getDay();
+	var day = date.getDate();
     var month = date.getMonth();
     var year = date.getFullYear();
 
@@ -122,13 +117,13 @@ function checkDate(date) {
 	}
 	if (day < 1 || year < 1)
 		return false;
-	if(month>12||month<1)
+	if(month>11||month<0)
    		return false;
-	if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day > 31)
+	if ((month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) && day > 31)
     	return false;
-	if ((month == 4 || month == 6 || month == 9 || month == 11 ) && day > 30)
+	if ((month == 3 || month == 5 || month == 8 || month == 10 ) && day > 30)
     	return false;
-	if (month == 2) {
+	if (month == 1) {
     	if (((year % 4) == 0 && (year % 100) != 0) || ((year % 400) == 0 && (year % 100) == 0)) {
 			if (day > 29)
 				return false;
@@ -162,8 +157,17 @@ function getGrade(grade, praise) {
 	else return grade;
 }
 
-function getExamDate(date) {
-	return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+/* Calcola distanza tra date */
+var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+// a e b sono oggetti Data
+function dateDiffInDays(a, b) {
+	a = new Date(a);
+	b = new Date(b);
+  // Esclude l'ora ed il fuso orario
+  var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
 
 /* Print all event on the calendar */
@@ -172,27 +176,23 @@ function printCalendar(){
 	var len = calendar.length;
 
 	var s = new String("");
-	s += "<div style=\"text-align: center; padding-top:5px;\">"
+	s += "<div style=\"text-align: center; padding-top:5px;\">";
 	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
-	for (i=0; i<len; i++) {
-		s += "<tr><td>" + calendar[i].name + "</td>";
-			s += "<td>" + calendar[i].date + "</td>";
-			s += "<td>rimanenti</td></tr>";
-	}
 
-	/*for (i=0; i<len; i++) {
-		var remaining= Math.abs(calendar[i].date - getToday());
-		if remaining<10{
-			s += "<tr class=\"table-danger\"><td>" + calendar[i].name + "</td>";
-			s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
-			s += "<td class=\"table-danger\">" +remaining+ "</td></tr>";
-		}
-		else{
+	for (i=0; i<len; i++) {
+		var dateDiff = dateDiffInDays(new Date("2017-11-16"), calendar[i].date);
+		if (dateDiff > 10) {
 			s += "<tr><td>" + calendar[i].name + "</td>";
 			s += "<td>" + calendar[i].date + "</td>";
-			s += "<td>" +remaining+ "</td></tr>";
+			s += "<td>" + dateDiff + "</td></tr>";
 		}
-	}*/
+		else {
+			s += "<tr><td class=\"table-danger\">" + calendar[i].name + "</td>";
+			s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
+			s += "<td class=\"table-danger\">" + dateDiff + "</td></tr>";
+		}
+	}
+
 	s += "</table></div>";
 	document.getElementById("my_calendar").innerHTML = s;
 }
@@ -235,7 +235,7 @@ function printChart() {
 		data: {
 			labels: codici,
 			datasets: [{
-				label: "Voti",
+				label: "Voto",
 				data: voti,
 				fill: false,
 				borderColor: "rgb(0, 0, 0)",
