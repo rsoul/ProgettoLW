@@ -16,7 +16,7 @@ function getToday() {
 
 /* Set date default and max on add_exam html form */
 function setExamDate(today) {
-	exam_date = document.getElementById("exam_date");
+	exam_date = document.getElementById("inputDate");
 	exam_date.setAttribute("max", today);
 	exam_date.value = today;
 }
@@ -24,13 +24,15 @@ function setExamDate(today) {
 
 /* Check if exam grade is == 30, then show praise radio buttons */
 function showPraise() {
-	var td_grade = document.getElementById("td_grade");
-	var grade = document.getElementById("exam_grade");
+	var praise = document.getElementById("praiseDiv");
+	var grade = document.getElementById("inputGrade");
 	if(grade.value == "30") {
-		td_grade.style.visibility = "visible";
+		praise.style.visibility = "visible";
+		praise.style.display = "block";
 	}
 	else {
-		td_grade.style.visibility = "collapse";
+		praise.style.visibility = "collapse";
+		praise.style.display = "none";
 	}
 }
 

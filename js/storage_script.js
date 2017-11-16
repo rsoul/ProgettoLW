@@ -6,7 +6,6 @@ function initStorageExams(){
 }
 
 
-
 /* Reset all exams on the storage */
 function resetStorageExams(){ 
 	localStorage.exams="[]";
@@ -18,7 +17,7 @@ function resetStorageExams(){
 function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
-	var s = new String("<div style=\"text-align: center; padding-top:5px;\"<h3>I tuoi esami:</h3>");
+	var s = new String("");
 	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
 	for (i=0; i<len; i++) {
 		s += "<tr><td>" + exams[i].code + "</td>";
@@ -39,11 +38,11 @@ function printExams(){
 
 /* Script insert exam on the local storage, after checking the validity of every field */
 function insertExam(){
-	var exam_code = document.getElementById("exam_code").value;
-	var exam_grade = document.getElementById("exam_grade").value;
-	var exam_date = new Date(document.getElementById("exam_date").value);
-	var exam_praise = document.getElementById("exam_praise").value;
-	var exam_cfu = document.getElementById("exam_cfu").value;
+	var exam_code = document.getElementById("inputCode").value;
+	var exam_date = new Date(document.getElementById("inputDate").value);
+	var exam_grade = document.getElementById("inputGrade").value;
+	var exam_praise = document.getElementById("inputPraise").value;
+	var exam_cfu = document.getElementById("inputCFU").value;
 
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
@@ -73,13 +72,12 @@ function insertExam(){
 	
 	for (i=0; i<where; i++)
 		if(sameExam(exams[i], obj)) {
-			alert("Esame già inserito!");
+			alert("Esame già presente!");
 			return false;
 		}
 
 	exams[where] = obj;
 	localStorage.exams = JSON.stringify(exams);
-	alert("Esame inserito correttamente!");
 	return true;
 }
 
