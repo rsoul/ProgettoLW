@@ -5,6 +5,7 @@ function initStorageExams(){
 	}
 }
 
+/* Inizialize the calendar storage */
 function initStorageCalendar(){
 	if (typeof(localStorage.calendar) == "undefined") {
 		localStorage.calendar="[]";
@@ -16,52 +17,20 @@ function resetStorageExams(){
 	localStorage.exams="[]";
 }
 
-function resetCalendar(){
-
+/* Reset all calendar events */
+function resetStorageCalendar(){
 	localStorage.calendar="[]";
 }
 
 
-
-/* Print all the exam of the user on a div called my_exams */
-function printExams(){
-	var exams = JSON.parse(localStorage.exams);
-	var len = exams.length;
-	var s = new String("");
-	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
-	for (i=0; i<len; i++) {
-		s += "<tr><td>" + exams[i].code + "</td>";
-		s += "<td>" + exams[i].date + "</td>";
-		
-		s += "<td>";
-		if (exams[i].grade == "31") s += "30 e Lode";
-		else s += exams[i].grade;
-		s += "</td>";
-
-		s += "<td>" + exams[i].cfu + "</td></tr>";
-	}
-	s += "</table></div>";
-	document.getElementById("my_exams").innerHTML = s;
-}
-
-
-
 /* Script insert exam on the local storage, after checking the validity of every field */
 function insertExam(){
-<<<<<<< HEAD
 	var exam_code = document.getElementById("inputCode").value;
 	var exam_date = new Date(document.getElementById("inputDate").value);
 	var exam_grade = document.getElementById("inputGrade").value;
 	var exam_praise = document.getElementById("inputPraise").value;
 	var exam_cfu = document.getElementById("inputCFU").value;
 
-=======
-	var exam_code = document.getElementById("exam_code").value;
-	var exam_grade = document.getElementById("exam_grade").value;
-	var exam_date = new Date(document.getElementById("exam_date").value);
-	var exam_praise = document.getElementById("exam_praise").value;
-	var exam_cfu = document.getElementById("exam_cfu").value;
->>>>>>> 0ae8c77cceaca62f8cb847f9a6c635ec4e40e075
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
 		return false;
@@ -100,20 +69,39 @@ function insertExam(){
 }
 
 function insertCalendarEvent(){
-	var exam_name=document.getElementById("calendar_exam_name").value;
-	var exam_date=new Date(document.getElementById("calendar_exam_date").value);
-	var obj={
-		name: exam_name,
-		date: exam_date}
-		var calendar = JSON.parse(localStorage.calendar);
-		var len=calendar.length;
-		calendar[len]=obj;
-		localStorage.calendar=JSON.stringify(calendar);
+	var calendar = JSON.parse(localStorage.calendar);
+	var len=calendar.length;
+	var calendar_name = document.getElementById("inputName").value;
+	var calendar_date = new Date(document.getElementById("inputDateCalendar").value);
+
+	if (!checkDate(calendar_date)) {
+		alert("Data non valida!");
+		return false;
 	}
+
+	var obj={
+		name: calendar_name,
+		date: getExamDate(calendar_date)
+	};
+	
+	for (i=0; i<len; i++)
+		if(sameEvent(calendar[i], obj)) {
+			alert("Evento già presente!");
+			return false;
+		}
+
+	calendar[len]=obj;
+	localStorage.calendar=JSON.stringify(calendar);
 }
 
 function sameExam(a,b){
-	if ((a.code==b.code))
+	if (a.code==b.code)
+		return true;
+	return false;
+}
+
+function sameEvent(a,b) {
+	if (a.name == b.name) 
 		return true;
 	return false;
 }
@@ -178,13 +166,22 @@ function getExamDate(date) {
 	return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
 }
 
+/* Print all event on the calendar */
 function printCalendar(){
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
-	var s = new String("<div style=\"text-align: center; padding-top:5px;\"<h3>Prossimi esami:</h3>");
+
+	var s = new String("");
+	s += "<div style=\"text-align: center; padding-top:5px;\">"
 	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
 	for (i=0; i<len; i++) {
-		var remaining= Math.abs(calendar[i].date - getDate());
+		s += "<tr><td>" + calendar[i].name + "</td>";
+			s += "<td>" + calendar[i].date + "</td>";
+			s += "<td>rimanenti</td></tr>";
+	}
+
+	/*for (i=0; i<len; i++) {
+		var remaining= Math.abs(calendar[i].date - getToday());
 		if remaining<10{
 			s += "<tr class=\"table-danger\"><td>" + calendar[i].name + "</td>";
 			s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
@@ -195,9 +192,30 @@ function printCalendar(){
 			s += "<td>" + calendar[i].date + "</td>";
 			s += "<td>" +remaining+ "</td></tr>";
 		}
-	}
+	}*/
 	s += "</table></div>";
 	document.getElementById("my_calendar").innerHTML = s;
+}
+
+/* Print all the exam of the user on a div called my_exams */
+function printExams(){
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+	var s = new String("");
+	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
+	for (i=0; i<len; i++) {
+		s += "<tr><td>" + exams[i].code + "</td>";
+		s += "<td>" + exams[i].date + "</td>";
+		
+		s += "<td>";
+		if (exams[i].grade == "31") s += "30 e Lode";
+		else s += exams[i].grade;
+		s += "</td>";
+
+		s += "<td>" + exams[i].cfu + "</td></tr>";
+	}
+	s += "</table></div>";
+	document.getElementById("my_exams").innerHTML = s;
 }
 
 function printChart() {

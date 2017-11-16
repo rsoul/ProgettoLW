@@ -21,7 +21,6 @@ function setExamDate(today) {
 	exam_date.value = today;
 }
 
-
 /* Check if exam grade is == 30, then show praise radio buttons */
 function showPraise() {
 	var praise = document.getElementById("praiseDiv");
@@ -36,26 +35,6 @@ function showPraise() {
 	}
 }
 
-/* Reset function for exam fields */
-function resetExamFields() {
-	var today = getToday();
-	setDateDefault(today);
-	var code = document.getElementById("exam_code");
-	code.value = "";
-	var grade = document.getElementById("exam_grade");
-	grade.value = "18";
-	var td_grade = document.getElementById("td_grade");
-	td_grade.style.visibility = "collapse";
-	var exam_cfu = document.getElementById("exam_cfu");
-	exam_cfu.value = "6";
-}
-
-/* Show login or register HTML */
-function showPage(id, page) {
-	if (page == "login") document.getElementById(id).innerHTML = login_page;
-	else if (page == "register") document.getElementById(id).innerHTML = register_page;
-}
-
 /* Function for showing FAQS */
 function showQuestion(id) {
 	var elem = document.getElementById(id);
@@ -67,12 +46,6 @@ function showQuestion(id) {
 		elem.style.visibility = "visible";
 		elem.style.display = "block";
 	}
-}
-
-function checkPassword() {
-	if (document.getElementById("register_password").value != document.getElementById("register_repeat_password").value) {
-		alert("Password non uguali");
-	} 
 }
 
 function showSampleChart() {
