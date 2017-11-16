@@ -216,19 +216,32 @@ function printCalendar(){
 function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
-	var s = new String("");
-	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th></tr>";
-	for (i=0; i<len; i++) {
-		s += "<tr><td>" + exams[i].code + "</td>";
-		s += "<td>" + exams[i].date + "</td>";
-		
-		s += "<td>";
-		if (exams[i].grade == "31") s += "30 e Lode";
-		else s += exams[i].grade;
-		s += "</td>";
 
-		s += "<td>" + exams[i].cfu + "</td></tr>";
+	var s = new String("");
+	s += "<div style=\"text-align: center; padding-top:5px;\">";
+	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Elimina</th></tr>";
+	for (i=0; i<len; i++) {
+		var code = exams[i].code;
+		var date = exams[i].date;
+		var grade = exams[i].grade;
+		var cfu = exams[i].cfu;
+
+		if (grade == "31") {
+			s += "<tr><td class=\"table-success\">" + code + "</td>";
+			s += "<td class=\"table-success\">" + date + "</td>";
+			s += "<td class=\"table-success\">30 e Lode</td>";
+			s += "<td class=\"table-success\">" + cfu + "</td>";
+		} 
+		else {
+			s += "<tr><td>" + code + "</td>";
+			s += "<td>" + date + "</td>";
+			s += "<td>" + grade + "</td>";
+			s += "<td>" + cfu + "</td>";
+		}
+
+		s += "<td><button class=\"btn btn-danger\" onclick=\"removeExam("+code+")\"><span>Remove</span></button></td></tr>";
 	}
+
 	s += "</table></div>";
 	document.getElementById("my_exams").innerHTML = s;
 }
