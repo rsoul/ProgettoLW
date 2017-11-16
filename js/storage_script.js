@@ -177,11 +177,17 @@ function printCalendar(){
 	var s = new String("<div style=\"text-align: center; padding-top:5px;\"<h3>Prossimi esami:</h3>");
 	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
 	for (i=0; i<len; i++) {
-		s += "<tr><td>" + calendar[i].name + "</td>";
+		var remaining= Math.abs(calendar[i].date - getDate());
+		if remaining<10{s += "<tr class=\"table-danger\"><td>" + calendar[i].name + "</td>";
+		s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
+		s += "<td class=\"table-danger\">" +remaining+ "</td></tr>";
+		}
+		else{s += "<tr><td>" + calendar[i].name + "</td>";
 		s += "<td>" + calendar[i].date + "</td>";
-		
-		
-		s += "<td>" + Math.abs(calendar[i].date - getDate())+ "</td></tr>";
+		s += "<td>" +remaining+ "</td></tr>";
+
+
+		}
 	}
 	s += "</table></div>";
 	document.getElementById("my_calendar").innerHTML = s;
