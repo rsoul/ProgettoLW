@@ -5,10 +5,20 @@ function initStorageExams(){
 	}
 }
 
+function initStorageCalendar(){
+	if (typeof(localStorage.calendar) == "undefined") {
+		localStorage.calendar="[]";
+	}
+}
 
 /* Reset all exams on the storage */
 function resetStorageExams(){ 
 	localStorage.exams="[]";
+}
+
+function resetCalendar(){
+
+	localStorage.calendar="[]";
 }
 
 
@@ -38,12 +48,20 @@ function printExams(){
 
 /* Script insert exam on the local storage, after checking the validity of every field */
 function insertExam(){
+<<<<<<< HEAD
 	var exam_code = document.getElementById("inputCode").value;
 	var exam_date = new Date(document.getElementById("inputDate").value);
 	var exam_grade = document.getElementById("inputGrade").value;
 	var exam_praise = document.getElementById("inputPraise").value;
 	var exam_cfu = document.getElementById("inputCFU").value;
 
+=======
+	var exam_code = document.getElementById("exam_code").value;
+	var exam_grade = document.getElementById("exam_grade").value;
+	var exam_date = new Date(document.getElementById("exam_date").value);
+	var exam_praise = document.getElementById("exam_praise").value;
+	var exam_cfu = document.getElementById("exam_cfu").value;
+>>>>>>> 0ae8c77cceaca62f8cb847f9a6c635ec4e40e075
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
 		return false;
@@ -80,7 +98,20 @@ function insertExam(){
 	localStorage.exams = JSON.stringify(exams);
 	return true;
 }
+function insertCalendarEvent(){
+	var exam_name=document.getElementById("calendar_exam_name").value;
+	var exam_date=new Date(document.getElementById("calendar_exam_date").value);
+	var obj={
+		name: exam_name,
+		date: exam_date}
+		var calendar = JSON.parse(localStorage.calendar);
+		var len=calendar.length;
+		calendar[len]=obj;
+		localStorage.calendar=JSON.stringify(calendar);
 
+	}
+
+}
 function sameExam(a,b){
 	if ((a.code==b.code))
 		return true;
@@ -145,6 +176,31 @@ function getGrade(grade, praise) {
 
 function getExamDate(date) {
 	return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+}
+
+function printCalendar(){
+	var calendar = JSON.parse(localStorage.calendar);
+	var len = calendar.length;
+	var s = new String("<div style=\"text-align: center; padding-top:5px;\"<h3>Prossimi esami:</h3>");
+	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
+	for (i=0; i<len; i++) {
+		var remaining= Math.abs(calendar[i].date - getDate());
+		if remaining<10{s += "<tr class=\"table-danger\"><td>" + calendar[i].name + "</td>";
+		s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
+		s += "<td class=\"table-danger\">" +remaining+ "</td></tr>";
+		}
+		else{s += "<tr><td>" + calendar[i].name + "</td>";
+		s += "<td>" + calendar[i].date + "</td>";
+		s += "<td>" +remaining+ "</td></tr>";
+
+
+		}
+	}
+	s += "</table></div>";
+	document.getElementById("my_calendar").innerHTML = s;
+
+
+
 }
 
 function printChart() {
