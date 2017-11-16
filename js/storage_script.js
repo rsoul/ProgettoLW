@@ -5,11 +5,21 @@ function initStorageExams(){
 	}
 }
 
+function initStorageCalendar(){
+	if (typeof(localStorage.calendar) == "undefined") {
+		localStorage.calendar="[]";
+	}
+}
 
 
 /* Reset all exams on the storage */
 function resetStorageExams(){ 
 	localStorage.exams="[]";
+}
+
+function resetCalendar(){
+
+	localStorage.calendar="[]";
 }
 
 
@@ -44,7 +54,6 @@ function insertExam(){
 	var exam_date = new Date(document.getElementById("exam_date").value);
 	var exam_praise = document.getElementById("exam_praise").value;
 	var exam_cfu = document.getElementById("exam_cfu").value;
-
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
 		return false;
@@ -82,7 +91,20 @@ function insertExam(){
 	alert("Esame inserito correttamente!");
 	return true;
 }
+function insertCalendarEvent(){
+	var exam_name=document.getElementById("calendar_exam_name").value;
+	var exam_date=new Date(document.getElementById("calendar_exam_date").value);
+	var obj={
+		name: exam_name,
+		date: exam_date}
+		var calendar = JSON.parse(localStorage.calendar);
+		var len=calendar.length;
+		calendar[len]=obj;
+		localStorage.calendar=JSON.stringify(calendar);
 
+	}
+
+}
 function sameExam(a,b){
 	if ((a.code==b.code))
 		return true;
@@ -147,6 +169,25 @@ function getGrade(grade, praise) {
 
 function getExamDate(date) {
 	return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+}
+
+function printCalendar(){
+	var calendar = JSON.parse(localStorage.calendar);
+	var len = calendar.length;
+	var s = new String("<div style=\"text-align: center; padding-top:5px;\"<h3>Prossimi esami:</h3>");
+	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
+	for (i=0; i<len; i++) {
+		s += "<tr><td>" + calendar[i].name + "</td>";
+		s += "<td>" + calendar[i].date + "</td>";
+		
+		
+		s += "<td>" + Math.abs(calendar[i].date - getDate())+ "</td></tr>";
+	}
+	s += "</table></div>";
+	document.getElementById("my_calendar").innerHTML = s;
+
+
+
 }
 
 function printChart() {
