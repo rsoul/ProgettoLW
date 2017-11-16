@@ -98,6 +98,7 @@ function insertExam(){
 	localStorage.exams = JSON.stringify(exams);
 	return true;
 }
+
 function insertCalendarEvent(){
 	var exam_name=document.getElementById("calendar_exam_name").value;
 	var exam_date=new Date(document.getElementById("calendar_exam_date").value);
@@ -108,10 +109,9 @@ function insertCalendarEvent(){
 		var len=calendar.length;
 		calendar[len]=obj;
 		localStorage.calendar=JSON.stringify(calendar);
-
 	}
-
 }
+
 function sameExam(a,b){
 	if ((a.code==b.code))
 		return true;
@@ -185,22 +185,19 @@ function printCalendar(){
 	s += "<table class=\"table table-striped table-hover table-bordered\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Giorni Mancanti</th></tr>";
 	for (i=0; i<len; i++) {
 		var remaining= Math.abs(calendar[i].date - getDate());
-		if remaining<10{s += "<tr class=\"table-danger\"><td>" + calendar[i].name + "</td>";
-		s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
-		s += "<td class=\"table-danger\">" +remaining+ "</td></tr>";
+		if remaining<10{
+			s += "<tr class=\"table-danger\"><td>" + calendar[i].name + "</td>";
+			s += "<td class=\"table-danger\">" + calendar[i].date + "</td>";
+			s += "<td class=\"table-danger\">" +remaining+ "</td></tr>";
 		}
-		else{s += "<tr><td>" + calendar[i].name + "</td>";
-		s += "<td>" + calendar[i].date + "</td>";
-		s += "<td>" +remaining+ "</td></tr>";
-
-
+		else{
+			s += "<tr><td>" + calendar[i].name + "</td>";
+			s += "<td>" + calendar[i].date + "</td>";
+			s += "<td>" +remaining+ "</td></tr>";
 		}
 	}
 	s += "</table></div>";
 	document.getElementById("my_calendar").innerHTML = s;
-
-
-
 }
 
 function printChart() {
