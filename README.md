@@ -16,13 +16,9 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * redesign aggiunta esami ed eventi calendario nei rispettivi tab tramite bottone che spawna un [pop-over](https://getbootstrap.com/docs/4.0/components/alerts/) under
 * implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5 che necessitano di reload della pagina
 * animare le caselle di input in caso di succesful input
-* implementare eliminazione esame o evento del calendario:
-  * tramite bottone posizionato nella rispettiva tab che spawna [pop-over](https://getbootstrap.com/docs/4.0/components/popovers/) under con form che prende in input id esame/evento da eliminare
-  * tramite creazione di column con icona per eliminare l'esame n
 * implementare visualizzazione a pagine (1,2,3,4...) degli esami/eventi per non andare troppo in basso con la pagina (https://v4-alpha.getbootstrap.com/components/pagination/)
-* implementare select di università e corsi per la registrazione
-* implementare bottone di modifica insieme al remove per calendario e esami
 * implementare inserimento idoneità (esame senza voto)
+* migliorare edit di exam/event inserendo automaticamente i valori dell'elemento da modificare disattivando il codice/nome (NON MODIFICABILI, KEYS)
 
 ### Bugs to squash:
 * Immettere troppi esami fa fare collapse tra la barra di selezione della pagina e il footer
