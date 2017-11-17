@@ -182,6 +182,68 @@
           </div>
         </div>
       </div>
+
+      <!-- POPUP EDIT EXAM -->
+      <div class="modal fade" id="editExamForm" tabindex="-1" role="dialog" aria-labelledby="EditExam" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="editExamFormLabel">Edit Exam</h4>
+            </div>
+            <div class="modal-body">
+              <div>
+
+                <!-- Inserimento codice esame -->
+                <div class="form-group row">
+                  <label for="inputEditCode" class="col-sm-2 col-form-label">Codice Esame</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEditCode" placeholder="Codice Esame" required>
+                  </div>
+                </div>
+
+                <!-- Inserimento data -->
+                <div class="form-group row">
+                  <label for="inputEditDate" class="col-sm-2 col-form-label">Data</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="inputEditDate" placeholder="Data" min="1900-01-01" required>
+                  </div>
+                </div>
+
+                <!-- Inserimento voto -->
+                <div class="form-group row">
+                  <label for="inputEditGrade" class="col-sm-2 col-form-label">Voto</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditPraise()" required>
+                    <div id="praiseEditDiv" style="visibility: hidden; display: none;">
+                      <i>Lode?</i> Si <input type="radio" id="inputEditPraise" name="inputEditPraise" value="praise_yes"> No <input type="radio" id="inputEditPraise" name="inputEditPraise" value="praise_no" checked>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Inserimento CFU -->
+                <div class="form-group row">
+                  <label for="inputEditCFU" class="col-sm-2 col-form-label">CFU</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputEditCFU" placeholder="CFU" min="1" max="24" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" id="editExamButton" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+              <script> $('#editExamButton').on('click', function() {
+                        var exam = document.getElementById("inputEditCode").value;
+                        editExam(exam);
+                      });
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
 

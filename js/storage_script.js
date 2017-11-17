@@ -258,7 +258,7 @@ function printExams(){
 			s += "<td class=\"table-success\">30 e Lode</td>";
 			s += "<td class=\"table-success\">" + cfu + "</td>";
 			s += "<td class=\"table-success\"><a class=\"btn btn-danger btn-sm\" href=\"#\" role=\"button\"  id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
-			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\"  id=\"edit_exam_"+code+"\" onclick=\"editExam(\'"+code+"\')\">Edit</a></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\">Edit</button></td></tr>";
 		} 
 		else {
 			s += "<tr><td>" + code + "</td>";
@@ -266,7 +266,7 @@ function printExams(){
 			s += "<td>" + grade + "</td>";
 			s += "<td>" + cfu + "</td>";
 			s += "<td><a class=\"btn btn-danger btn-sm\" id=\"rmv_"+code+"\" href=\"#\" role=\"button\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
-			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\"  id=\"edit_"+code+"\" onclick=\"editExam(\'"+code+"\')\">Edit</a></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_"+code+"\")\">Edit</button></td></tr>";
 		}		
 	}
 	s += "</table></div>";
@@ -348,17 +348,15 @@ function removeEvent(name) {
 
 /* NON FUNZIONANTI, necessitano di un "form popup" precompilato con i dati dell'esame/evento */
 
-/*
 function editExam(code) {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 
-	var exam_code = document.getElementById("inputCode").value;
-	var exam_date = document.getElementById("inputDate").value;
-	var exam_grade = document.getElementById("inputGrade").value;
-	var exam_praise = $("input[name=inputPraise]:checked").val();
-	var exam_cfu = document.getElementById("inputCFU").value;
-
+	var exam_code = document.getElementById("inputEditCode").value;
+	var exam_date = document.getElementById("inputEditDate").value;
+	var exam_grade = document.getElementById("inputEditGrade").value;
+	var exam_praise = $("input[name=inputEditPraise]:checked").val();
+	var exam_cfu = document.getElementById("inputEditCFU").value;
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
 		return false;
@@ -375,7 +373,6 @@ function editExam(code) {
 		alert("CFU non validi!");
 		return false;
 	}
-
 	for (i=0; i<len; i++) {
 		if(exams[i].code == code) {
 			exams[i].code = exam_code;
@@ -389,8 +386,10 @@ function editExam(code) {
 	localStorage.exams = JSON.stringify(exams);	
 	printExams();
 	printChart();
+	return true;
 }
 
+/*
 function editEvent(name) {
 	var calendar = JSON.parse(localStorage.calendar);
 	var len=calendar.length;
