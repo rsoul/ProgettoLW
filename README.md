@@ -24,6 +24,10 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * implementare bottone di modifica insieme al remove per calendario e esami
 * implementare inserimento idoneità (esame senza voto)
 
+### Bugs to squash:
+* Immettere troppi esami fa fare collapse tra la barra di selezione della pagina e il footer
+* La form  di immissione di esame/evento permette l'inserimento di script malevoli ([XSS](https://www.acunetix.com/websitesecurity/cross-site-scripting/))
+
 ### Raoul:
 - login
 - registrazione
