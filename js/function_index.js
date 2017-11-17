@@ -59,9 +59,9 @@ function showSampleChart() {
 		new Chart(ctx,
 			{"type":"doughnut",
 			"data":{
-				"labels": ["Red","Blue","Yellow"],
+				"labels": ["Esami Passati","Esami Mancanti","Idoneità"],
 				"datasets":[{
-					"label":"My First Dataset",
+					"label":"Dataset",
 					"data":[300,50,100],
 					"backgroundColor":[
 						"rgb(255, 99, 132)",

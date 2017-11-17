@@ -33,19 +33,27 @@
   		</form>
 	</nav>
 
-
-	<!-- Main Container -->
-	<div id="main_container">
-		<h1 style="text-align: center;">FAQ Time</h1>
-		<div>
-			<a href="#question_one" onclick="showQuestion('question_one')">Come nasce CFU Book</a>
-			<p id="question_one" style="visibility: hidden; display: none;"><b>&#9658;</b> Il progetto <i>CFU Book</i> nasce per rendere più comodo e veloce l'inserimento degli esami passati per ottenere valori statistici insieme ad altri insiemi di esami di vari studenti delle università.</p>
-		</div>
+    <div class="container">
+	    <div class="" id="accordion">
+	        <div style="text-align:center;" class="faqHeader"><h1>General questions</h1></div>
+	        <div class="card ">
+	            <div class="card-header">
+	                <h4 class="card-header">
+	                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Come nasce MyBook?</a>
+	                </h4>
+	            </div>
+	            <div id="collapseOne" class="panel-collapse collapse in">
+	                <div class="card-block">
+	                    MyBook nasce per l'utilizzo quotidiano di uno studente universitario, che può trarne utilità dalla velocità con cui si possono inserire, rimuovere esami ed eventi nel calendario, con reminder programmati per non dimenticare gli impegni dell'università. Inoltre è possibile generare fantastici grafici in 2D e controllare le statistiche dei propri esami, confrontati con i risultati degli altri studenti delle università in Italia.
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 
 
 	<!-- Footer -->
-	<div class="footer">
+	<div class="footer panel-footer">
 		<p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a> - <a href="#">FAQ</a></p>
 	</div>
 </body>

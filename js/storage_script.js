@@ -36,7 +36,7 @@ function insertExam(){
 	var exam_code = document.getElementById("inputCode").value;
 	var exam_date = document.getElementById("inputDate").value;
 	var exam_grade = document.getElementById("inputGrade").value;
-	var exam_praise = document.getElementById("inputPraise").value;
+	var exam_praise = $("input[name=inputPraise]:checked").val();
 	var exam_cfu = document.getElementById("inputCFU").value;
 
 	if (!checkCode(exam_code)) {
@@ -47,7 +47,7 @@ function insertExam(){
 		alert("Data non valida!");
 		return false;
 	}
-	if (!checkGrade(exam_grade, exam_praise)) {
+	if (!checkGrade(exam_grade)) {
 		alert("Voto non valido!");
 		return false;
 	}
@@ -103,6 +103,7 @@ function insertCalendarEvent(){
 
 	calendar[len]=event;
 	localStorage.calendar=JSON.stringify(calendar);
+	return true;
 }
 
 
@@ -160,11 +161,8 @@ function checkDate(date) {
 }
 
 /* Controllo sull'input del voto esame */
-function checkGrade(grade, praise) {
+function checkGrade(grade) {
 	if (isNaN(grade) || grade < 18 || grade > 30) {return false;}
-	else if ((grade == 30 && praise != "praise_yes" && praise == "praise_no")) {
-		return false;
-	}
 	return true;
 }
 
@@ -252,19 +250,19 @@ function printExams(){
 		var grade = exams[i].grade;
 		var cfu = exams[i].cfu;
 
-		if (grade == "31") {
+		if (grade == 31) {
 			s += "<tr><td class=\"table-success\">" + code + "</td>";
 			s += "<td class=\"table-success\">" + date + "</td>";
 			s += "<td class=\"table-success\">30 e Lode</td>";
 			s += "<td class=\"table-success\">" + cfu + "</td>";
-			s += "<td class=\"table-success\"><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\"><span>Remove</span></button></td></tr>";
+			s += "<td class=\"table-success\"><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\"></button></td></tr>";
 		} 
 		else {
 			s += "<tr><td>" + code + "</td>";
 			s += "<td>" + date + "</td>";
 			s += "<td>" + grade + "</td>";
 			s += "<td>" + cfu + "</td>";
-			s += "<td><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\"><span>Remove</span></button></td></tr>";
+			s += "<td><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\">Remove</button></td></tr>";
 		}		
 	}
 	s += "</table></div>";
@@ -289,13 +287,16 @@ function printChart() {
 		data: {
 			labels: codici,
 			datasets: [{
-				label: "Voto",
+				label: "Voti",
 				data: voti,
 				fill: false,
 				borderColor: "rgb(0, 0, 0)",
 				lineTension:0.1}
 			]},
-		options: {}
+		options: {
+			yAxisID: "Voti",
+			xAxisID: "Codici"
+		}
 	});
 }
 
@@ -309,7 +310,7 @@ function removeExam(code) {
 	var len = exams.length;
 
 	for (i=0; i<len; i++) {
-		if(parseInt(exams[i].code) == parseInt(code)) {
+		if(exams[i].code == code) {
 			exams.splice(i,1);
 			break;
 		}
@@ -317,6 +318,7 @@ function removeExam(code) {
 
 	localStorage.exams = JSON.stringify(exams);	
 	printExams();
+	printChart();
 }
 
 /* Remove event from calendar local storage */

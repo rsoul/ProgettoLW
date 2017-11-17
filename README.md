@@ -19,7 +19,10 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * animare le caselle di input in caso di succesful input
 * implementare eliminazione esame o evento del calendario:
   * tramite bottone posizionato nella rispettiva tab che spawna [pop-over](https://getbootstrap.com/docs/4.0/components/popovers/) under con form che prende in input id esame/evento da eliminare
-  * tramite creazione di column con icona per eliminare l'esame n 
+  * tramite creazione di column con icona per eliminare l'esame n <<<< EFFETTUATO
+* implementare visualizzazione a pagine (1,2,3,4...) degli esami/eventi per non andare troppo in basso con la pagina (https://v4-alpha.getbootstrap.com/components/pagination/)
+* implementare select di università e corsi per la registrazione
+
 
 
 ### Raoul:
@@ -28,7 +31,6 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 - requisiti per RC: rest,oauth,ecc..
 
 # Notes
-
 
 
 
