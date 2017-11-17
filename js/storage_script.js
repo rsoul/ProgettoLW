@@ -220,7 +220,7 @@ function printCalendar(){
 			s += "<td>" + date + "</td>";
 			s += "<td>" + time + "</td>";
 			s += "<td>" + dateDiff + "</td>";
-			s += "<td><button class=\"btn btn-danger btn-sm\" onclick=\"removeEvent(\'"+name+"\')\"><span>Remove</span></button></td></tr>";
+			s += "<td><a class=\"btn btn-danger btn-sm\" id=\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a></td></tr>";
 		}
 		else {
 			s += "<tr><td class=\"table-danger\">" + name + "</td>";
@@ -228,7 +228,7 @@ function printCalendar(){
 			s += "<td class=\"table-danger\">" + time + "</td>";
 			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
 			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
-			s += "<td class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" onclick=\"removeEvent(\'"+name+"\')\"><span>Remove</span></button></td></tr>";
+			s += "<td class=\"table-danger\"><a class=\"btn btn-danger btn-sm\" id=\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a></td></tr>";
 		}
 	}
 
@@ -255,14 +255,14 @@ function printExams(){
 			s += "<td class=\"table-success\">" + date + "</td>";
 			s += "<td class=\"table-success\">30 e Lode</td>";
 			s += "<td class=\"table-success\">" + cfu + "</td>";
-			s += "<td class=\"table-success\"><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\"></button></td></tr>";
+			s += "<td class=\"table-success\"><a class=\"btn btn-danger btn-sm\" href=\"#\" role=\"button\"  id=\""+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</a></td></tr>";
 		} 
 		else {
 			s += "<tr><td>" + code + "</td>";
 			s += "<td>" + date + "</td>";
 			s += "<td>" + grade + "</td>";
 			s += "<td>" + cfu + "</td>";
-			s += "<td><button class=\"btn btn-danger btn-sm\" onclick=\"removeExam(\'"+code+"\')\">Remove</button></td></tr>";
+			s += "<td><a class=\"btn btn-danger btn-sm\" id=\""+code+"\" href=\"#\" role=\"button\" onclick=\"removeExam(\'"+code+"\')\">Remove</a></td></tr>";
 		}		
 	}
 	s += "</table></div>";

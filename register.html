@@ -3,95 +3,107 @@
 <head>
 	<title>MyBook | Sign Up</title>
 
-	<link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
-	<script type="text/javascript" src="js\storage_script.js"></script>
-	<script type="text/javascript" src="js\function_index.js"></script>
-	<link href="css\main_style.css" rel="stylesheet" type="text/css">
+	<link rel='shortcut icon' type='image/x-icon' href='img/favicon-32x32.png' />
+  <link href="css\main_style.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="js\storage_script.js"></script>
+  <script type="text/javascript" src="js\function_index.js"></script>
+  <script type="text/javascript" src="js\jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js\Chart.bundle.min.js"></script>
+  
 
-	<link rel='shortcut icon' type='image/x-icon' href='favicon-32x32.png' />
+  <!--External CSS and JavaScript-->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
-	<!--External API-->
-	<script type="text/javascript" src="js\Chart.bundle.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-	
-	<link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
 <body>
 	
-	<nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="index.html" style="padding-right: 5px;">
+  <nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="index.html" style="padding-right: 5px;">
     <img src="img/apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
-    </a>
-    <form class="form-inline">
-      <a href="./login.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
-      <button class="btn btn-outline-secondary" type="button">Sign up</button>
-    </form>
-  </nav>
+  </a>
+  <div class="form-inline">
+    <a href="./login.html" class="btn btn-outline-success" role="button" aria-pressed="true">Log In</a>
+    <a href="#" class="btn btn-outline-secondary" role="button" aria-pressed="true">Sign up</a>
+  </div>
+</nav>
 
-	<!-- Main Container -->
-	<div id="main_container">
-		<h1 id="container_title" style="text-align: center">Nuovo utente? Registrati!</h1>
-    	<div class="jumbotron">
-		  <div class="container">
-        	<form action="./dashboard.html" method="POST">
+<!-- Main Container -->
+<div id="main_container">
+  <h1 id="container_title" style="text-align: center">Nuovo utente? Registrati!</h1>
+  <div class="jumbotron">
+    <div class="container">
+      <form action="./dashboard.html" method="POST">
 
-          <!-- Inserimento email -->
-          <div class="form-group row">
-            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
-            </div>
+        <!-- Inserimento email -->
+        <div class="form-group row">
+          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
           </div>
+        </div>
 
-          <!-- Inserimento password -->
-          <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
-            </div>
+        <!-- Inserimento password -->
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
           </div>
+        </div>
 
-          <!-- Ripeti password -->
-          <div class="form-group row">
-            <label for="inputRepeatPassword" class="col-sm-2 col-form-label">Ripeti Password</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Ripeti Password" required>
-            </div>
+        <!-- Ripeti password -->
+        <div class="form-group row">
+          <label for="inputRepeatPassword" class="col-sm-2 col-form-label">Ripeti Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Ripeti Password" required>
           </div>
+        </div>
 
-          <!-- Inserimento university -->
-          <div class="form-group row">
-            <label for="inputUniversity" class="col-sm-2 col-form-label">Università</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputUniversity" placeholder="Università">
-            </div>
+        <!-- Inserimento university -->
+        <div class="form-group row">
+          <label for="inputUniversity" class="col-sm-2 col-form-label">Università</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="inputUniversity">
+              <option value=""></option>
+              <option value="Università degli Studi di Roma La Sapienza">Università degli Studi di Roma "La Sapienza"</option>
+              <option value="Università degli Studi di Roma Roma Tre">Università degli Studi di Roma "Roma Tre"</option>
+              <option value="Università degli Studi di Roma Tor Vergata">Università degli Studi di Roma "Tor Vergata"</option>
+            </select>
           </div>
+        </div>
 
-          <!-- Inserimento indirizzo -->
-          <div class="form-group row">
-            <label for="inputCourse" class="col-sm-2 col-form-label">Corso</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputCourse" placeholder="Corso">
-            </div>
+        <!-- Inserimento indirizzo -->
+        <div class="form-group row">
+          <label for="inputCourse" class="col-sm-2 col-form-label">Corso</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="inputCourse">
+              <option value=""></option>
+              <option value="Ingegneria Informatica e Automatica"">Ingegneria Informatica e Automatica</option>
+              <option value="Informatica">Informatica</option>
+              <option value="Ingegneria delle Telecomunicazioni">Ingegneria delle Telecomunicazioni</option>
+            </select>
           </div>
+        </div>
 
-          <div class="form-group row">
-            <div class="offset-sm-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">Sign up</button>
-            </div>
+        <div class="form-group row">
+          <div class="offset-sm-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Sign up</button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 
-	<!-- Footer -->
-	<div class="footer">
-    <p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./licence.html">MIT</a> - <a href="./faq.html">FAQ</a></p>
-  </div>
+<!-- Footer -->
+<div class="footer">
+  <p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./license.html">MIT</a> - <a href="./faq.html">FAQ</a></p>
+</div>
 </body>
 </html>
