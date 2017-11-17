@@ -8,12 +8,14 @@
 	margin-left: 10%;
 	margin-right: 10%;
 }
+
 body {
 	background: #000000 ; /* Colore e immagine sfondo */
 	background-repeat: no-repeat;	/* Non ripetere */
 	background-attachment: fixed;	/* Fisso */
     background-position: center;	/* Centrale */
 	background-size:100%;			/* 100% dello schermo */
+	height:100%;
 	margin:0px;
 	padding:0px;
 	
@@ -24,6 +26,7 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
+  margin-top: 1rem;
   padding: 1rem;
   background-color: #efefef;
   text-align: center;

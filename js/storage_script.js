@@ -207,7 +207,7 @@ function printCalendar(){
 	var s = new String("");
 	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th><th>Elimina</th></tr>";
+	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th><th>Opzioni</th></tr>";
 	for (i=0; i<len; i++) {
 		var dateDiff = dateDiffInDays(new Date(getToday()), calendar[i].date);
 		var name = calendar[i].name;
@@ -220,7 +220,8 @@ function printCalendar(){
 			s += "<td>" + date + "</td>";
 			s += "<td>" + time + "</td>";
 			s += "<td>" + dateDiff + "</td>";
-			s += "<td><a class=\"btn btn-danger btn-sm\" id=\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a></td></tr>";
+			s += "<td><a class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a>";
+			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\" id=\"edit_event_"+name+"\" onclick=\"editEvent(\'"+name+"\')\">Edit</a></td></tr>";
 		}
 		else {
 			s += "<tr><td class=\"table-danger\">" + name + "</td>";
@@ -228,7 +229,8 @@ function printCalendar(){
 			s += "<td class=\"table-danger\">" + time + "</td>";
 			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
 			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
-			s += "<td class=\"table-danger\"><a class=\"btn btn-danger btn-sm\" id=\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a></td></tr>";
+			s += "<td class=\"table-danger\"><a class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a>";
+			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\"  id=\"edit_event_"+name+"\" onclick=\"editEvent(\'"+name+"\')\">Edit</a></td></tr>";
 		}
 	}
 
@@ -243,7 +245,7 @@ function printExams(){
 	var s = new String("");
 	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Elimina</th></tr>";
+	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Opzioni</th></tr>";
 	for (i=0; i<len; i++) {
 		var code = exams[i].code;
 		var date = exams[i].date;
@@ -255,14 +257,16 @@ function printExams(){
 			s += "<td class=\"table-success\">" + date + "</td>";
 			s += "<td class=\"table-success\">30 e Lode</td>";
 			s += "<td class=\"table-success\">" + cfu + "</td>";
-			s += "<td class=\"table-success\"><a class=\"btn btn-danger btn-sm\" href=\"#\" role=\"button\"  id=\""+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</a></td></tr>";
+			s += "<td class=\"table-success\"><a class=\"btn btn-danger btn-sm\" href=\"#\" role=\"button\"  id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
+			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\"  id=\"edit_exam_"+code+"\" onclick=\"editExam(\'"+code+"\')\">Edit</a></td></tr>";
 		} 
 		else {
 			s += "<tr><td>" + code + "</td>";
 			s += "<td>" + date + "</td>";
 			s += "<td>" + grade + "</td>";
 			s += "<td>" + cfu + "</td>";
-			s += "<td><a class=\"btn btn-danger btn-sm\" id=\""+code+"\" href=\"#\" role=\"button\" onclick=\"removeExam(\'"+code+"\')\">Remove</a></td></tr>";
+			s += "<td><a class=\"btn btn-danger btn-sm\" id=\"rmv_"+code+"\" href=\"#\" role=\"button\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
+			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\"  id=\"edit_"+code+"\" onclick=\"editExam(\'"+code+"\')\">Edit</a></td></tr>";
 		}		
 	}
 	s += "</table></div>";
@@ -300,6 +304,7 @@ function printChart() {
 	});
 }
 
+
 /* ---------------------------------------- */
 /* FUNZIONI PER LA RIMOZIONE                */
 /* ---------------------------------------- */
@@ -336,3 +341,77 @@ function removeEvent(name) {
 	localStorage.calendar = JSON.stringify(calendar);	
 	printCalendar();
 }
+
+/* ---------------------------------------- */
+/* FUNZIONI PER LA MODIFICA                 */
+/* ---------------------------------------- */
+
+/* NON FUNZIONANTI, necessitano di un "form popup" precompilato con i dati dell'esame/evento */
+
+/*
+function editExam(code) {
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+
+	var exam_code = document.getElementById("inputCode").value;
+	var exam_date = document.getElementById("inputDate").value;
+	var exam_grade = document.getElementById("inputGrade").value;
+	var exam_praise = $("input[name=inputPraise]:checked").val();
+	var exam_cfu = document.getElementById("inputCFU").value;
+
+	if (!checkCode(exam_code)) {
+		alert("Codice esame non valido!");
+		return false;
+	}
+	if (!checkDate(new Date(exam_date))) {
+		alert("Data non valida!");
+		return false;
+	}
+	if (!checkGrade(exam_grade)) {
+		alert("Voto non valido!");
+		return false;
+	}
+	if (!checkCFU(exam_cfu)) {
+		alert("CFU non validi!");
+		return false;
+	}
+
+	for (i=0; i<len; i++) {
+		if(exams[i].code == code) {
+			exams[i].code = exam_code;
+			exams[i].date = exam_date;
+			exams[i].grade = getGrade(exam_grade, exam_praise);
+			exams[i].cfu = exam_cfu;
+			break;
+		}
+	}
+
+	localStorage.exams = JSON.stringify(exams);	
+	printExams();
+	printChart();
+}
+
+function editEvent(name) {
+	var calendar = JSON.parse(localStorage.calendar);
+	var len=calendar.length;
+	var calendar_name = document.getElementById("inputName").value;
+	var calendar_date = document.getElementById("inputDateCalendar").value;
+	var calendar_time = document.getElementById("inputTime").value;
+
+	if (!checkDate(new Date(calendar_date))) {
+		alert("Data non valida!");
+		return false;
+	}
+
+	for (i=0; i<len; i++)
+		if(calenda[i].name == name) {
+			calendar[i].name = calendar_name;
+			calendar[i].date = calendar_date;
+			calendar[i].time = calendar_time;
+			break; 
+		}
+
+	localStorage.calendar = JSON.stringify(calendar);
+	return true;
+}
+*/
