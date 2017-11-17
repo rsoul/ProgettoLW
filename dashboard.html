@@ -143,6 +143,7 @@
         </div> <!-- Chiusura Jummbotron -->
       </div> <!-- Chiusura AddExam -->
 
+
       <!-- Aggiungi evento -->
       <div class="tab-pane fade" id="addcalendar" role="tabpanel">
         <div class="jumbotron">
@@ -183,6 +184,7 @@
         </div>
       </div>
 
+
       <!-- POPUP EDIT EXAM -->
       <div class="modal fade" id="editExamForm" tabindex="-1" role="dialog" aria-labelledby="EditExam" aria-hidden="true">
         <div class="modal-dialog">
@@ -194,7 +196,7 @@
             <div class="modal-body">
               <div>
 
-                <!-- Inserimento codice esame -->
+                <!-- Inserimento nome evento -->
                 <div class="form-group row">
                   <label for="inputEditCode" class="col-sm-2 col-form-label">Codice Esame</label>
                   <div class="col-sm-10">
@@ -228,14 +230,65 @@
                     <input type="number" class="form-control" id="inputEditCFU" placeholder="CFU" min="1" max="24" required>
                   </div>
                 </div>
+
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="button" id="editExamButton" class="btn btn-primary" data-dismiss="modal">Save changes</button>
               <script> $('#editExamButton').on('click', function() {
-                        var exam = document.getElementById("inputEditCode").value;
+                        var exam = $('#inputEditCode').val();
                         editExam(exam);
+                      });
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- POPUP EDIT EVENT CALENDAR -->
+      <div class="modal fade" id="editCalendarForm" tabindex="-1" role="dialog" aria-labelledby="EditEvent" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="editCalendarFormLabel">Edit Event</h4>
+            </div>
+            <div class="modal-body">
+              <div>
+                <!-- Inserimento nome evento -->
+                <div class="form-group row">
+                  <label for="inputEditName" class="col-sm-2 col-form-label">Nome</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEditName" placeholder="Nome" required>
+                  </div>
+                </div>
+
+                <!-- Inserimento data -->
+                <div class="form-group row">
+                  <label for="inputEditDateCalendar" class="col-sm-2 col-form-label">Data</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="inputEditDateCalendar" placeholder="Data" required>
+                  </div>
+                </div>
+
+                <!-- Inserimento orario -->
+                <div class="form-group row">
+                  <label for="inputEditTime" class="col-sm-2 col-form-label">Ora</label>
+                  <div class="col-sm-10">
+                    <input type="time" class="form-control" id="inputEditTime" placeholder="Ora">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="editCalendarButton" data-dismiss="modal">Save changes</button>
+              <script> $('#editCalendarButton').on('click', function() {
+                        var evento = $('#inputEditName').val();
+                        editCalendar(evento);
                       });
               </script>
             </div>

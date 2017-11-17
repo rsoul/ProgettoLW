@@ -140,6 +140,7 @@ function checkDate(date) {
 	if (isNaN(day) || isNaN(month) || isNaN(year)) {
 		return false;
 	}
+
 	if (day < 1 || year < 1)
 		return false;
 	if(month>11||month<0)
@@ -157,6 +158,7 @@ function checkDate(date) {
 				return false;
 		}      
 	}
+
 	return true;
 }
 
@@ -221,7 +223,7 @@ function printCalendar(){
 			s += "<td>" + time + "</td>";
 			s += "<td>" + dateDiff + "</td>";
 			s += "<td><a class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a>";
-			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\" id=\"edit_event_"+name+"\" onclick=\"editEvent(\'"+name+"\')\">Edit</a></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\">Edit</button></td></tr>";
 		}
 		else {
 			s += "<tr><td class=\"table-danger\">" + name + "</td>";
@@ -230,12 +232,13 @@ function printCalendar(){
 			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
 			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
 			s += "<td class=\"table-danger\"><a class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a>";
-			s += "<a class=\"btn btn-secondary btn-sm\" href=\"#\" role=\"button\"  id=\"edit_event_"+name+"\" onclick=\"editEvent(\'"+name+"\')\">Edit</a></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\">Edit</button></td></tr>";
 		}
 	}
 
 	s += "</table></div>";
 	document.getElementById("my_calendar").innerHTML = s;
+	return true;
 }
 
 /* Print all the exam of the user on a div called my_exams */
@@ -253,24 +256,25 @@ function printExams(){
 		var cfu = exams[i].cfu;
 
 		if (grade == 31) {
-			s += "<tr><td class=\"table-success\">" + code + "</td>";
-			s += "<td class=\"table-success\">" + date + "</td>";
-			s += "<td class=\"table-success\">30 e Lode</td>";
-			s += "<td class=\"table-success\">" + cfu + "</td>";
+			s += "<tr><td class=\"table-success\" id=\"tableExamCode"+code+"\">" + code + "</td>";
+			s += "<td class=\"table-success\" id=\"tableExamDate"+code+"\">" + date + "</td>";
+			s += "<td class=\"table-success\" id=\"tableExamGrade"+code+"\">30 e Lode</td>";
+			s += "<td class=\"table-success\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 			s += "<td class=\"table-success\"><a class=\"btn btn-danger btn-sm\" href=\"#\" role=\"button\"  id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\">Edit</button></td></tr>";
 		} 
 		else {
-			s += "<tr><td>" + code + "</td>";
-			s += "<td>" + date + "</td>";
-			s += "<td>" + grade + "</td>";
-			s += "<td>" + cfu + "</td>";
+			s += "<tr><td id=\"tableExamCode"+code+"\">" + code + "</td>";
+			s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
+			s += "<td id=\"tableExamGrae"+code+"\">" + grade + "</td>";
+			s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 			s += "<td><a class=\"btn btn-danger btn-sm\" id=\"rmv_"+code+"\" href=\"#\" role=\"button\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_"+code+"\")\">Edit</button></td></tr>";
 		}		
 	}
 	s += "</table></div>";
 	document.getElementById("my_exams").innerHTML = s;
+	return true;
 }
 
 /* Output grafico a linee semplice dei voti esame */
@@ -302,6 +306,7 @@ function printChart() {
 			xAxisID: "Codici"
 		}
 	});
+	return true;
 }
 
 
@@ -324,6 +329,7 @@ function removeExam(code) {
 	localStorage.exams = JSON.stringify(exams);	
 	printExams();
 	printChart();
+	return true;
 }
 
 /* Remove event from calendar local storage */
@@ -340,6 +346,7 @@ function removeEvent(name) {
 
 	localStorage.calendar = JSON.stringify(calendar);	
 	printCalendar();
+	return true;
 }
 
 /* ---------------------------------------- */
@@ -389,28 +396,30 @@ function editExam(code) {
 	return true;
 }
 
-/*
-function editEvent(name) {
+
+function editCalendar(name) {
 	var calendar = JSON.parse(localStorage.calendar);
-	var len=calendar.length;
-	var calendar_name = document.getElementById("inputName").value;
-	var calendar_date = document.getElementById("inputDateCalendar").value;
-	var calendar_time = document.getElementById("inputTime").value;
+	var len = calendar.length;
+
+	var calendar_name = document.getElementById("inputEditName").value;
+	var calendar_date = document.getElementById("inputEditDateCalendar").value;
+	var calendar_time = document.getElementById("inputEditTime").value;
 
 	if (!checkDate(new Date(calendar_date))) {
 		alert("Data non valida!");
 		return false;
 	}
 
-	for (i=0; i<len; i++)
-		if(calenda[i].name == name) {
+	for (i=0; i<len; i++) {
+		if(calendar[i].name == name) {
 			calendar[i].name = calendar_name;
 			calendar[i].date = calendar_date;
 			calendar[i].time = calendar_time;
 			break; 
 		}
+	}
 
 	localStorage.calendar = JSON.stringify(calendar);
+	printCalendar();
 	return true;
 }
-*/

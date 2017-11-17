@@ -24,9 +24,11 @@ function setExamDate(today) {
 }
 
 function setMiniumEventDate(today) {
-	var date = document.getElementById("inputDateCalendar");
-	date.setAttribute("min", today);
-	date.value = today;
+	var calendar_date = document.getElementById("inputDateCalendar");
+	var calendar_edit_date = document.getElementById("inputEditDateCalendar");
+	calendar_date.setAttribute("min", today);
+	calendar_edit_date.setAttribute("min", today);
+	calendar_date.value = today;
 }
 
 /* Check if exam grade is == 30, then show praise radio buttons */

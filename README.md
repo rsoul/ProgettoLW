@@ -19,11 +19,11 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * implementare eliminazione esame o evento del calendario:
   * tramite bottone posizionato nella rispettiva tab che spawna [pop-over](https://getbootstrap.com/docs/4.0/components/popovers/) under con form che prende in input id esame/evento da eliminare
   * tramite creazione di column con icona per eliminare l'esame n
-* implementare visualizzazione a pagine (1,2,3,4...) degli esami/eventi per non andare troppo in basso con la pagina (https://v4-alpha.getbootstrap.com/components/pagination/) per evitare di sovrapporrere il footer
-* implementare select di università e corsi per la registrazione
-* implementare bottone di modifica insieme al remove per calendario e esami
+* implementare visualizzazione a pagine (1,2,3,4...) degli esami/eventi per non andare troppo in basso con la pagina (https://v4-alpha.getbootstrap.com/components/pagination/) per evitare di sovrapporrere il footer (oppure mandare giù il footer per non collidere con la tabella)
+* implementare select di università e corsi per la registrazione !!!!!!
+* implementare bottone di modifica insieme al remove per calendario e esami !!!!!!
 * implementare inserimento idoneità (esame senza voto)
-
+* migliorare edit in modo da avere campi precompilati con i valori dell'esame da modificare (CODICE esame NON MODIFICABILE E NOME evento NON MODIFICABILE)
 
 
 ### Raoul:
