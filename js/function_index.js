@@ -84,6 +84,32 @@ function showSampleChart() {
 	return true;
 }
 
+/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
+function editingExam(code, date, grade, cfu) {
+	document.getElementById("inputEditCode").value = code;
+	document.getElementById("inputEditDate").value = date;
+	if (grade == 31) {
+		document.getElementById("inputEditGrade").value = "30";
+		document.getElementById("inputEditPraiseYes").checked = true;
+		document.getElementById("praiseEditDiv").style.visibility = "visible";
+		document.getElementById("praiseEditDiv").style.display = "block";
+	}
+	else {
+		document.getElementById("inputEditGrade").value = grade;
+		document.getElementById("inputEditPraiseNo").checked = true;
+		document.getElementById("praiseEditDiv").style.visibility = "collapse";
+		document.getElementById("praiseEditDiv").style.display = "none";
+	}
+	document.getElementById("inputEditCFU").value = cfu;
+}
+
+/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
+function editingEvent(name, date, time) {
+	document.getElementById("inputEditName").value = name;
+	document.getElementById("inputEditDateCalendar").value = date;
+	document.getElementById("inputEditTime").value = time;
+}
+
 
 /* ---------------------------------------- */
 /* FUNZIONI PER CONTROLLI O CHECK VARI      */

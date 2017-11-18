@@ -54,7 +54,7 @@ function printCalendar(){
 			s += "<td>" + time + "</td>";
 			s += "<td>" + dateDiff + "</td>";
 			s += "<td><button class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" onclick=\"removeEvent(\'"+name+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\">Edit</button></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\');\">Edit</button></td></tr>";
 		}
 		/* ELSE (<=10) SHOW RED BACKGROUND TD */
 		else {
@@ -64,7 +64,7 @@ function printCalendar(){
 			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
 			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
 			s += "<td class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\">Edit</button></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\">Edit</button></td></tr>";
 		}
 	}
 
@@ -94,7 +94,7 @@ function printExams(){
 			s += "<td class=\"table-success\" id=\"tableExamGrade"+code+"\">30 e Lode</td>";
 			s += "<td class=\"table-success\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 			s += "<td class=\"table-success\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\">Edit</button></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"editingExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\">Edit</button></td></tr>";
 		} 
 		/* ELSE A NORMAL TD */
 		else {
@@ -103,7 +103,7 @@ function printExams(){
 			s += "<td id=\"tableExamGrae"+code+"\">" + grade + "</td>";
 			s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 			s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_exam_"+code+"\")\">Edit</button></td></tr>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_exam_"+code+"\")\" onclick=\"editingExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\">Edit</button></td></tr>";
 		}		
 	}
 	s += "</table></div>";
