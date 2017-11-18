@@ -308,9 +308,9 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" class="btn btn-primary" id="editCalendarButton" data-dismiss="modal">Salva</button>
               <script> $('#editCalendarButton').on('click', function() {
-                        var name = $('#inputEditCode').val();
-                        var date = $('#inputEditDate').val();
-                        var time = $('#inputEditGrade').val();
+                        var name = $('#inputEditName').val();
+                        var date = $('#inputEditDateCalendar').val();
+                        var time = $('#inputEditTime').val();
                         editCalendarEvent(name, date, time);
                       });
               </script>
