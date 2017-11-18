@@ -12,6 +12,7 @@
   <script type="text/javascript" src="js\jquery-3.2.1.js"></script>
 
 	<!-- EXTERNAL CSS/JS/FONTS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <!-- RALEWAY FONT -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
   <!-- COMFORTAA FONT -->
@@ -61,14 +62,14 @@
       <div class="tab-pane fade show active" id="exams" role="tabpanel">
         <div id="my_exams"></div>
         <script> printExams(); </script>
-        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addExamForm">Aggiungi Esame</button>
+        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addExamForm">Aggiungi Esame</button> </div>
       </div>
 
       <!-- CALENDAR TABLE -->
       <div class="tab-pane fade" id="calendar" role="tabpanel">
         <div id="my_calendar"></div>
         <script> printCalendar(); </script>
-         <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addEventForm">Aggiungi Evento</button>
+         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addEventForm">Aggiungi Evento</button> </div>
       </div>
 
       <!-- EXAMS CHART -->
@@ -178,7 +179,7 @@
                 <div class="form-group row">
                   <label for="inputEditGrade" class="col-sm-2 col-form-label">Voto</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="inputEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditPraise()" required>
+                    <input type="number" class="form-control" id="inputEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditPraise()" onclick="showEditPraise()" required>
                     <div id="praiseEditDiv" style="visibility: hidden; display: none;">
                       <i>Lode?</i> Si <input type="radio" id="inputEditPraiseYes" name="inputEditPraise" value="praise_yes"> No <input type="radio" id="inputEditPraiseNo" name="inputEditPraise" value="praise_no" checked>
                     </div>

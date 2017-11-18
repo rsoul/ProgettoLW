@@ -49,23 +49,23 @@ function printCalendar(){
 		if(time == "") time = "N.D.";
 		/* IF DISTANCE FROM A DATE IS >10 -> SHOW NORMAL TD */
 		if (dateDiff > 10) {
-			s += "<tr><td>" + name + "</td>";
-			s += "<td>" + date + "</td>";
-			s += "<td>" + time + "</td>";
-			s += "<td>" + dateDiff + "</td>";
-			s += "<td><button class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" onclick=\"removeEvent(\'"+name+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\');\">Edit</button></td></tr>";
+			s += "<tr><td style=\"vertical-align: middle;\" >" + name + "</td>";
+			s += "<td style=\"vertical-align: middle;\" >" + date + "</td>";
+			s += "<td style=\"vertical-align: middle;\" >" + time + "</td>";
+			s += "<td style=\"vertical-align: middle;\" >" + dateDiff + "</td>";
+			s += "<td style=\"vertical-align: middle;\" ><button class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\');\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		/* ELSE (<=10) SHOW RED BACKGROUND TD */
 		else {
-			s += "<tr><td class=\"table-danger\">" + name + "</td>";
-			s += "<td class=\"table-danger\">" + date + "</td>";
-			s += "<td class=\"table-danger\">" + time + "</td>";
-			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
-			else if (dateDiff == 1) {s += "<td class=\"table-danger\">Domani</td>";}
-			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
-			s += "<td class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\">Edit</button></td></tr>";
+			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-danger\">" + name + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + date + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + time + "</td>";
+			if (dateDiff == 0) {s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Oggi</td>";}
+			else if (dateDiff == 1) {s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Domani</td>";}
+			else {s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + dateDiff + "</td>";}
+			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 	}
 
@@ -90,21 +90,21 @@ function printExams(){
 
 		/* IF 30 WITH PRAISE -> SHOW GREEN BACKGROUND TR */
 		if (grade == 31) {
-			s += "<tr><td class=\"table-success\" id=\"tableExamCode"+code+"\">" + code + "</td>";
-			s += "<td class=\"table-success\" id=\"tableExamDate"+code+"\">" + date + "</td>";
-			s += "<td class=\"table-success\" id=\"tableExamGrade"+code+"\">30 e Lode</td>";
-			s += "<td class=\"table-success\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			s += "<td class=\"table-success\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"editingExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\">Edit</button></td></tr>";
+			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamCode"+code+"\">" + code + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamDate"+code+"\">" + date + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamGrade"+code+"\">30 e Lode</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-success\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"editingExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		} 
 		/* ELSE A NORMAL TD */
 		else {
-			s += "<tr><td id=\"tableExamCode"+code+"\">" + code + "</td>";
-			s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
-			s += "<td id=\"tableExamGrae"+code+"\">" + grade + "</td>";
-			s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_exam_"+code+"\")\" onclick=\"editingExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\">Edit</button></td></tr>";
+			s += "<tr><td style=\"vertical-align: middle;\" id=\"tableExamCode"+code+"\">" + code + "</td>";
+			s += "<td style=\"vertical-align: middle;\" id=\"tableExamDate"+code+"\">" + date + "</td>";
+			s += "<td style=\"vertical-align: middle;\" id=\"tableExamGrae"+code+"\">" + grade + "</td>";
+			s += "<td style=\"vertical-align: middle;\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
+			s += "<td style=\"vertical-align: middle;\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_exam_"+code+"\")\" onclick=\"editingExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}		
 	}
 	s += "</table></div>";
