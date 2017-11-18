@@ -3,27 +3,34 @@
 <head>
 	<title>MyBook | Dashboard</title>
 
+  <!-- CSS/JS/ICONS -->
   <link rel='shortcut icon' type='image/x-icon' href='img/favicon-32x32.png' />
   <link href="css\main_style.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="js\storage_script.js"></script>
 	<script type="text/javascript" src="js\function_index.js"></script>
   <script type="text/javascript" src="js\Chart.bundle.min.js"></script>
-	
-
-	<!--External CSS and JavaScript-->
-  <link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-	
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
   <script type="text/javascript" src="js\jquery-3.2.1.js"></script>
 
+	<!-- EXTERNAL CSS/JS/FONTS -->
+  <!-- RALEWAY FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">
+  <!-- COMFORTAA FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
+  <!-- BOOTSTRAP CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <!-- JQUERY -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- POPPER JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <!-- BOOTSTRAP JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+  <!-- META -->
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
-<body onload="setExamDate(getToday()); setMiniumEventDate(getToday()); initStorageExams(); initStorageCalendar();">
+<body onload="initDashboard(); initStorageExams(); initStorageCalendar();">
 
+  <!-- UPPER NAVBAR -->
   <nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="index.html" style="padding-right: 5px;">
     <img src="img/apple-icon-120x120.png" height="25%" width="25%" alt=""><b style="font-family: 'Raleway', sans-serif;font-size:25px;padding-left: 10px;">MyBook</b>
     </a>
@@ -32,9 +39,11 @@
     </form>
   </nav>
 
+  <!-- MAIN DIV CONTAINER -->
 	<div id="main_container">
 		<h1 style="text-align: center;">Dashboard</h1>
 
+    <!-- NAVIGATION BAR -->
     <ul class="nav nav-tabs" >
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#exams">Esami Sostenuti</a>
@@ -45,158 +54,113 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#trend">Trend Esami</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#addexam">Aggiungi Esami Dati</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#addcalendar">Aggiungi Esami al Calendario</a>
-      </li>
     </ul>
 
-    <!-- Container -->
+    <!-- CONTAINER -->
     <div id="myTabContent" class="tab-content">
-      <!-- Esami -->
+
+      <!-- EXAMS TABLE -->
       <div class="tab-pane fade show active" id="exams" role="tabpanel">
         <div id="my_exams"></div>
         <script> printExams(); </script>
-        <!-- SAMPLE -->
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active in"><a class="page-link" href="#">1</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
+        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addExamForm">Add Exam</button>
       </div>
 
-      <!-- Calendario esami -->
+      <!-- CALENDAR TABLE -->
       <div class="tab-pane fade" id="calendar" role="tabpanel">
         <div id="my_calendar"></div>
         <script> printCalendar(); </script>
-        <!-- SAMPLE -->
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active in"><a class="page-link" href="#">1</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
+         <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addEventForm">Add Event</button>
       </div>
-      <!-- Chart esami -->
+
+      <!-- EXAMS CHART -->
       <div class="tab-pane fade" id="trend" role="tabpanel">
         <canvas id="user_chart" style="display: block; width: 100px; height: 30px;"></canvas>
         <script> printChart(); </script>
       </div>
-      
-      <!-- Aggiunta esami -->
-      <div class="tab-pane fade" id="addexam" role="tabpanel">
-        <div class="jumbotron">
-          <div class="container">
-            <form action="#addexam" method="POST" onsubmit="insertExam()" >
 
-              <!-- Inserimento codice esame -->
-              <div class="form-group row">
-                <label for="inputCode" class="col-sm-2 col-form-label">Codice Esame</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputCode" placeholder="Codice Esame" required>
-                </div>
-              </div>
 
-              <!-- Inserimento data -->
-              <div class="form-group row">
-                <label for="inputDate" class="col-sm-2 col-form-label">Data</label>
-                <div class="col-sm-10">
-                  <input type="date" class="form-control" id="inputDate" placeholder="Data" min="1900-01-01" required>
-                </div>
-              </div>
+      <!-- EXAMS -->
 
-              <!-- Inserimento voto -->
-              <div class="form-group row">
-                <label for="inputGrade" class="col-sm-2 col-form-label">Voto</label>
-                <div class="col-sm-10">
-                  <input type="number" class="form-control" id="inputGrade" placeholder="Voto"  min="18" max="30" onchange="showPraise()" required>
-                  <div id="praiseDiv" style="visibility: hidden; display: none;">
-                    <i>Lode?</i> Si <input type="radio" id="inputPraise" name="inputPraise" value="praise_yes"> No <input type="radio" id="inputPraise" name="inputPraise" value="praise_no" checked>
+      <!-- POPUP ADD EXAM -->
+      <div class="modal fade" id="addExamForm" tabindex="-1" role="dialog" aria-labelledby="AddExam" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- POPUP ADD EXAM HEADER -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+            </div>
+            <!-- POPUP ADD EXAM BODY -->
+            <div class="modal-body">
+              <div>
+
+                <!-- INSERT EXAM CODE -->
+                <div class="form-group row">
+                  <label for="inputAddCode" class="col-sm-2 col-form-label">Codice Esame</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputAddCode" placeholder="Codice Esame" required>
                   </div>
                 </div>
-              </div>
 
-              <!-- Inserimento CFU -->
-              <div class="form-group row">
-                <label for="inputCFU" class="col-sm-2 col-form-label">CFU</label>
-                <div class="col-sm-10">
-                  <input type="number" class="form-control" id="inputCFU" placeholder="CFU" min="1" max="24" required>
+                <!-- INSERT EXAM DATE -->
+                <div class="form-group row">
+                  <label for="inputAddDate" class="col-sm-2 col-form-label">Data</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="inputAddDate" placeholder="Data" min="1900-01-01" required>
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group row">
-                <div class="offset-sm-2 col-sm-10">
-                  <input type="submit" class="btn btn-primary" value="Insert Exam">
+                <!-- INSERT EXAM GRADE (WITH PRAISE) -->
+                <div class="form-group row">
+                  <label for="inputAddGrade" class="col-sm-2 col-form-label">Voto</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddPraise()" required>
+                    <div id="praiseAddDiv" style="visibility: hidden; display: none;">
+                      <i>Lode?</i> Si <input type="radio" name="inputAddPraise" value="praise_yes"> No <input type="radio" name="inputAddPraise" value="praise_no" checked>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div> <!-- Chiusura container -->
-        </div> <!-- Chiusura Jummbotron -->
-      </div> <!-- Chiusura AddExam -->
 
-
-      <!-- Aggiungi evento -->
-      <div class="tab-pane fade" id="addcalendar" role="tabpanel">
-        <div class="jumbotron">
-          <div class="container">
-            <form action="#addcalendar" method="POST" onsubmit="insertCalendarEvent()" >
-
-              <!-- Inserimento codice esame -->
-              <div class="form-group row">
-                <label for="inputName" class="col-sm-2 col-form-label">Nome</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputName" placeholder="Nome" required>
+                <!-- INSERT EXAM CFU -->
+                <div class="form-group row">
+                  <label for="inputAddCFU" class="col-sm-2 col-form-label">CFU</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputAddCFU" placeholder="CFU" min="1" max="24" required>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Inserimento data -->
-              <div class="form-group row">
-                <label for="inputDateCalendar" class="col-sm-2 col-form-label">Data</label>
-                <div class="col-sm-10">
-                  <input type="date" class="form-control" id="inputDateCalendar" placeholder="Data" required>
-                </div>
               </div>
-
-              <!-- Inserimento orario -->
-              <div class="form-group row">
-                <label for="inputTime" class="col-sm-2 col-form-label">Ora</label>
-                <div class="col-sm-10">
-                  <input type="time" class="form-control" id="inputTime" placeholder="Ora">
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <div class="offset-sm-2 col-sm-10">
-                  <input type="submit" class="btn btn-primary" value="Insert Event">
-                </div>
-              </div>
-            </form>
+            </div>
+            <!-- POPUP ADD EXAM FOOTER -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              <button type="button" id="addExamButton" class="btn btn-primary" data-dismiss="modal">Inserisci Esame</button>
+              <script> $('#addExamButton').on('click', function() {
+                        var code = $('#inputAddCode').val();
+                        var date = $('#inputAddDate').val();
+                        var grade = $('#inputAddGrade').val();
+                        var praise = $("input[name=inputAddPraise]:checked").val();
+                        var cfu = $('#inputAddCFU').val();
+                        addExam(code, date, grade, praise, cfu);
+                      });
+              </script>
+            </div>
           </div>
         </div>
       </div>
-
 
       <!-- POPUP EDIT EXAM -->
       <div class="modal fade" id="editExamForm" tabindex="-1" role="dialog" aria-labelledby="EditExam" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
+            <!-- POPUP EDIT EXAM HEADER -->
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="editExamFormLabel">Edit Exam</h4>
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
             </div>
             <div class="modal-body">
               <div>
 
-                <!-- Inserimento nome evento -->
+                <!-- INSERT EXAM CODE (EDIT) -->
                 <div class="form-group row">
                   <label for="inputEditCode" class="col-sm-2 col-form-label">Codice Esame</label>
                   <div class="col-sm-10">
@@ -204,7 +168,7 @@
                   </div>
                 </div>
 
-                <!-- Inserimento data -->
+                <!-- INSERT EXAM DATE (EDIT) -->
                 <div class="form-group row">
                   <label for="inputEditDate" class="col-sm-2 col-form-label">Data</label>
                   <div class="col-sm-10">
@@ -212,7 +176,7 @@
                   </div>
                 </div>
 
-                <!-- Inserimento voto -->
+                <!-- INSERT EXAM GRADE (EDIT) (WITH PRAISE) -->
                 <div class="form-group row">
                   <label for="inputEditGrade" class="col-sm-2 col-form-label">Voto</label>
                   <div class="col-sm-10">
@@ -223,7 +187,7 @@
                   </div>
                 </div>
 
-                <!-- Inserimento CFU -->
+                <!-- INSER EXAM CFU (EDIT) -->
                 <div class="form-group row">
                   <label for="inputEditCFU" class="col-sm-2 col-form-label">CFU</label>
                   <div class="col-sm-10">
@@ -233,12 +197,17 @@
 
               </div>
             </div>
+            <!-- POPUP EDIT EXAM FOOTER -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" id="editExamButton" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              <button type="button" id="editExamButton" class="btn btn-primary" data-dismiss="modal">Salva</button>
               <script> $('#editExamButton').on('click', function() {
-                        var exam = $('#inputEditCode').val();
-                        editExam(exam);
+                        var code = $('#inputEditCode').val();
+                        var date = $('#inputEditDate').val();
+                        var grade = $('#inputEditGrade').val();
+                        var praise = $("input[name=inputEditPraise]:checked").val();
+                        var cfu = $('#inputEditCFU').val();
+                        editExam(code, date, grade, praise, cfu);
                       });
               </script>
             </div>
@@ -247,18 +216,71 @@
       </div>
 
 
+      <!-- CALENDAR -->
+
+      <!-- POPUP ADD CALENDAR EVENT -->
+      <div class="modal fade" id="addEventForm" tabindex="-1" role="dialog" aria-labelledby="AddEvent" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="addEventFormLabel">Edit Event</h4>
+            </div>
+            <div class="modal-body">
+              <div>
+
+                <!-- INSERT EVENT NAME -->
+                <div class="form-group row">
+                  <label for="inputAddName" class="col-sm-2 col-form-label">Nome</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputAddName" placeholder="Nome" required>
+                  </div>
+                </div>
+
+                <!-- INSERT EVENT DATE -->
+                <div class="form-group row">
+                  <label for="inputAddDateCalendar" class="col-sm-2 col-form-label">Data</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="inputAddDateCalendar" placeholder="Data" required>
+                  </div>
+                </div>
+
+                <!-- INSERT EVENT TIME -->
+                <div class="form-group row">
+                  <label for="inputAddTime" class="col-sm-2 col-form-label">Ora</label>
+                  <div class="col-sm-10">
+                    <input type="time" class="form-control" id="inputAddTime" placeholder="Ora">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" id="addEventButton" class="btn btn-primary" data-dismiss="modal">Insert Exam</button>
+              <script> $('#addEventButton').on('click', function() {
+                        var name = $('#inputAddName').val();
+                        var date = $('#inputAddDateCalendar').val();
+                        var time = $('#inputAddTime').val();
+                        addCalendarEvent(name, date, time);
+                      });
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- POPUP EDIT EVENT CALENDAR -->
       <div class="modal fade" id="editCalendarForm" tabindex="-1" role="dialog" aria-labelledby="EditEvent" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
+            <!-- POPUP EDIT EVENT CALENDAR HEADER -->
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="editCalendarFormLabel">Edit Event</h4>
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
             </div>
             <div class="modal-body">
               <div>
-                <!-- Inserimento nome evento -->
+                <!-- INSERT EVENT NAME (EDIT) -->
                 <div class="form-group row">
                   <label for="inputEditName" class="col-sm-2 col-form-label">Nome</label>
                   <div class="col-sm-10">
@@ -266,7 +288,7 @@
                   </div>
                 </div>
 
-                <!-- Inserimento data -->
+                <!-- INSERT EVENT DATE (EDIT) -->
                 <div class="form-group row">
                   <label for="inputEditDateCalendar" class="col-sm-2 col-form-label">Data</label>
                   <div class="col-sm-10">
@@ -274,7 +296,7 @@
                   </div>
                 </div>
 
-                <!-- Inserimento orario -->
+                <!-- INSERT EVENT TIME (EDIT) -->
                 <div class="form-group row">
                   <label for="inputEditTime" class="col-sm-2 col-form-label">Ora</label>
                   <div class="col-sm-10">
@@ -283,12 +305,15 @@
                 </div>
               </div>
             </div>
+            <!-- POPUP EDIT EVENT CALENDAR FOOTER -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="editCalendarButton" data-dismiss="modal">Save changes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              <button type="button" class="btn btn-primary" id="editCalendarButton" data-dismiss="modal">Salva</button>
               <script> $('#editCalendarButton').on('click', function() {
-                        var evento = $('#inputEditName').val();
-                        editCalendar(evento);
+                        var name = $('#inputEditCode').val();
+                        var date = $('#inputEditDate').val();
+                        var time = $('#inputEditGrade').val();
+                        editCalendarEvent(name, date, time);
                       });
               </script>
             </div>
@@ -296,10 +321,10 @@
         </div>
       </div>
 
-
     </div>
   </div>
 
+<!-- PAGE FOOTER -->
 <div class="footer">
   <p>Copyright © 2017 CFU Book - M. Anselmi / R. Nuccetelli / A. Federico - <a href="./license.html">MIT</a> - <a href="./faq.html">FAQ</a></p>
 </div>

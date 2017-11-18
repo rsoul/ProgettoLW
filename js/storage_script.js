@@ -2,207 +2,37 @@
 /* FUNZONI PER L'UTILIZZO DI STORAGE        */
 /* ---------------------------------------- */
 
-/* Inizialize the exam storage */
+/* INIZIALIZE EXAMS STORAGE (EMPTY) IF NOT ALREADY DEFINED */
 function initStorageExams(){
 	if (typeof(localStorage.exams) == "undefined") {
 		localStorage.exams="[]";
 	}
 }
 
-/* Inizialize the calendar storage */
+/* INIZIALIZE CALENDAR STORAGE (EMPTY) IF NOT ALREADY DEFINED */
 function initStorageCalendar(){
 	if (typeof(localStorage.calendar) == "undefined") {
 		localStorage.calendar="[]";
 	}
 }
 
-/* Reset all exams on the storage */
+/* REMOVE ALL EXEMENTS FROM EXAMS STORAGE (NOT USED) */
 function resetStorageExams(){ 
 	localStorage.exams="[]";
 }
 
-/* Reset all calendar events */
+/* REMOVE ALL EXEMENTS FROM CALENDAR STORAGE (NOT USED) */
 function resetStorageCalendar(){
 	localStorage.calendar="[]";
 }
 
-
-/* ---------------------------------------- */
-/* FUNZIONI DI INSERIMENTO E INPUT VARI     */
-/* ---------------------------------------- */
-
-/* Script insert exam on the local storage, after checking the validity of every field */
-function insertExam(){
-	var exam_code = document.getElementById("inputCode").value;
-	var exam_date = document.getElementById("inputDate").value;
-	var exam_grade = document.getElementById("inputGrade").value;
-	var exam_praise = $("input[name=inputPraise]:checked").val();
-	var exam_cfu = document.getElementById("inputCFU").value;
-
-	if (!checkCode(exam_code)) {
-		alert("Codice esame non valido!");
-		return false;
-	}
-	if (!checkDate(new Date(exam_date))) {
-		alert("Data non valida!");
-		return false;
-	}
-	if (!checkGrade(exam_grade)) {
-		alert("Voto non valido!");
-		return false;
-	}
-	if (!checkCFU(exam_cfu)) {
-		alert("CFU non validi!");
-		return false;
-	}
-
-	var exams = JSON.parse(localStorage.exams);
-	var where = exams.length;	
-	var exam = { 
-				code: exam_code,
-				date: exam_date,
-				grade: getGrade(exam_grade, exam_praise),
-				cfu: exam_cfu
-			};
-	
-	for (i=0; i<where; i++)
-		if(sameExam(exams[i], exam)) {
-			alert("Esame già presente!");
-			return false;
-		}
-
-	exams[where] = exam;
-	localStorage.exams = JSON.stringify(exams);
-	return true;
-}
-
-/* Inserimento calendario */
-function insertCalendarEvent(){
-	var calendar = JSON.parse(localStorage.calendar);
-	var len=calendar.length;
-	var calendar_name = document.getElementById("inputName").value;
-	var calendar_date = document.getElementById("inputDateCalendar").value;
-	var calendar_time = document.getElementById("inputTime").value;
-
-	if (!checkDate(new Date(calendar_date))) {
-		alert("Data non valida!");
-		return false;
-	}
-
-	var event ={
-		name: calendar_name,
-		date: calendar_date,
-		time: calendar_time
-	};
-	
-	for (i=0; i<len; i++)
-		if(sameEvent(calendar[i], event)) {
-			alert("Evento già presente!");
-			return false;
-		}
-
-	calendar[len]=event;
-	localStorage.calendar=JSON.stringify(calendar);
-	return true;
-}
-
-
-/* ---------------------------------------- */
-/* FUNZIONI PER CONTROLLI O CHECK VARI      */
-/* ---------------------------------------- */
-
-/* Check if exam a == b */
-function sameExam(a,b){
-	if (a.code==b.code)
-		return true;
-	return false;
-}
-
-/* Check if event a == b */
-function sameEvent(a,b) {
-	if (a.name==b.name) 
-		return true;
-	return false;
-}
-
-/* Controllo codice esame */
-function checkCode(code) {
-	if (code != "") return true;
-	else return false;
-}
-
-/* Controllo validità data (NON CONTROLLA SE > O < ALLA DATA ODIERNA) */
-function checkDate(date) {
-	var day = date.getDate();
-    var month = date.getMonth();
-    var year = date.getFullYear();
-
-	if (isNaN(day) || isNaN(month) || isNaN(year)) {
-		return false;
-	}
-
-	if (day < 1 || year < 1)
-		return false;
-	if(month>11||month<0)
-   		return false;
-	if ((month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) && day > 31)
-    	return false;
-	if ((month == 3 || month == 5 || month == 8 || month == 10 ) && day > 30)
-    	return false;
-	if (month == 1) {
-    	if (((year % 4) == 0 && (year % 100) != 0) || ((year % 400) == 0 && (year % 100) == 0)) {
-			if (day > 29)
-				return false;
-		} else {
-			if (day > 28)
-				return false;
-		}      
-	}
-
-	return true;
-}
-
-/* Controllo sull'input del voto esame */
-function checkGrade(grade) {
-	if (isNaN(grade) || grade < 18 || grade > 30) {return false;}
-	return true;
-}
-
-/* Controllo sull'input dei cfu dell'esame */
-function checkCFU(cfu) {
-	if (!isNaN(cfu)) {
-		if (cfu >= 1 && cfu <= 24) {
-			return true;
-		}
-	}
-	return false;
-}
-
-/* (UTILE PER OUTPUT DA STORAGE) Restituisce il voto (31 se 30 e lode) */
-function getGrade(grade, praise) {
-	if (grade == 30 && praise == "praise_yes") return 31;
-	else return grade;
-}
-
-
-/* Calcola distanza tra date */
-function dateDiffInDays(a, b) {
-	var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-	a = new Date(a);
-	b = new Date(b);
-	// Esclude l'ora ed il fuso orario
-	var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-}
 
 
 /* ---------------------------------------- */
 /* FUNZIONI PER LA STAMPA O GENERICO OUTPUT */
 /* ---------------------------------------- */
 
-
-/* Print all event on the calendar */
+/* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
@@ -217,6 +47,7 @@ function printCalendar(){
 		var time = calendar[i].time;
 
 		if(time == "") time = "Not Defined";
+		/* IF DISTANCE FROM A DATE IS >10 -> SHOW NORMAL TD */
 		if (dateDiff > 10) {
 			s += "<tr><td>" + name + "</td>";
 			s += "<td>" + date + "</td>";
@@ -225,6 +56,7 @@ function printCalendar(){
 			s += "<td><a class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" href=\"#\" role=\"button\" onclick=\"removeEvent(\'"+name+"\')\">Remove</a>";
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\">Edit</button></td></tr>";
 		}
+		/* ELSE (<=10) SHOW RED BACKGROUND TD */
 		else {
 			s += "<tr><td class=\"table-danger\">" + name + "</td>";
 			s += "<td class=\"table-danger\">" + date + "</td>";
@@ -241,7 +73,7 @@ function printCalendar(){
 	return true;
 }
 
-/* Print all the exam of the user on a div called my_exams */
+/* PRINT A TABLE WITH ALL EXAMS FROM EXAMS STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
@@ -255,6 +87,7 @@ function printExams(){
 		var grade = exams[i].grade;
 		var cfu = exams[i].cfu;
 
+		/* IF 30 WITH PRAISE -> SHOW GREEN BACKGROUND TR */
 		if (grade == 31) {
 			s += "<tr><td class=\"table-success\" id=\"tableExamCode"+code+"\">" + code + "</td>";
 			s += "<td class=\"table-success\" id=\"tableExamDate"+code+"\">" + date + "</td>";
@@ -263,6 +96,7 @@ function printExams(){
 			s += "<td class=\"table-success\"><a class=\"btn btn-danger btn-sm\" href=\"#\" role=\"button\"  id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</a>";
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\">Edit</button></td></tr>";
 		} 
+		/* ELSE A NORMAL TD */
 		else {
 			s += "<tr><td id=\"tableExamCode"+code+"\">" + code + "</td>";
 			s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
@@ -277,7 +111,7 @@ function printExams(){
 	return true;
 }
 
-/* Output grafico a linee semplice dei voti esame */
+/* PRINT CHART OF EXAMS VOTES FROM EXAMS STORAGE (USING CHARTJS) */
 function printChart() {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
@@ -310,11 +144,12 @@ function printChart() {
 }
 
 
+
 /* ---------------------------------------- */
 /* FUNZIONI PER LA RIMOZIONE                */
 /* ---------------------------------------- */
 
-/* Remove exam from exams local storage */
+/* REMOVE A SELECTED EXAM FROM THE EXAMS STORAGE BY KEY (code) */
 function removeExam(code) {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
@@ -332,7 +167,7 @@ function removeExam(code) {
 	return true;
 }
 
-/* Remove event from calendar local storage */
+/* REMOVE A SELECTED EVENT FROM THE CALENDAR STORAGE BY KEY (name) */
 function removeEvent(name) {
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
@@ -349,21 +184,17 @@ function removeEvent(name) {
 	return true;
 }
 
+
+
 /* ---------------------------------------- */
 /* FUNZIONI PER LA MODIFICA                 */
 /* ---------------------------------------- */
 
-/* NON FUNZIONANTI, necessitano di un "form popup" precompilato con i dati dell'esame/evento */
-
-function editExam(code) {
+/* EDIT A SELECTED EXAM (FROM BUTTON) FROM THE EXAMS STORAGE */
+function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 
-	var exam_code = document.getElementById("inputEditCode").value;
-	var exam_date = document.getElementById("inputEditDate").value;
-	var exam_grade = document.getElementById("inputEditGrade").value;
-	var exam_praise = $("input[name=inputEditPraise]:checked").val();
-	var exam_cfu = document.getElementById("inputEditCFU").value;
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
 		return false;
@@ -380,9 +211,9 @@ function editExam(code) {
 		alert("CFU non validi!");
 		return false;
 	}
+
 	for (i=0; i<len; i++) {
-		if(exams[i].code == code) {
-			exams[i].code = exam_code;
+		if(exams[i].code == exam_code) {
 			exams[i].date = exam_date;
 			exams[i].grade = getGrade(exam_grade, exam_praise);
 			exams[i].cfu = exam_cfu;
@@ -396,14 +227,10 @@ function editExam(code) {
 	return true;
 }
 
-
-function editCalendar(name) {
+/* EDIT A SELECTED (FROM BUTTON) EVENT FROM THE CALENDAR STORAGE */
+function editCalendarEvent(calendar_name, calendar_date, calendar_time) {
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
-
-	var calendar_name = document.getElementById("inputEditName").value;
-	var calendar_date = document.getElementById("inputEditDateCalendar").value;
-	var calendar_time = document.getElementById("inputEditTime").value;
 
 	if (!checkDate(new Date(calendar_date))) {
 		alert("Data non valida!");
@@ -411,8 +238,7 @@ function editCalendar(name) {
 	}
 
 	for (i=0; i<len; i++) {
-		if(calendar[i].name == name) {
-			calendar[i].name = calendar_name;
+		if(calendar[i].name == calendar_name) {
 			calendar[i].date = calendar_date;
 			calendar[i].time = calendar_time;
 			break; 
@@ -420,6 +246,81 @@ function editCalendar(name) {
 	}
 
 	localStorage.calendar = JSON.stringify(calendar);
+	printCalendar();
+	return true;
+}
+
+
+
+/* ---------------------------------------- */
+/* FUNZIONI DI INSERIMENTO E INPUT VARI     */
+/* ---------------------------------------- */
+
+/* INSERT NEW EXAM ON EXAMS STORAGE (CHECK ALL FIELDS) */
+function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
+	if (!checkCode(exam_code)) {
+		alert("Codice esame non valido!");
+		return false;
+	}
+	if (!checkDate(new Date(exam_date))) {
+		alert("Data non valida!");
+		return false;
+	}
+	if (!checkGrade(exam_grade)) {
+		alert("Voto non valido!");
+		return false;
+	}
+	if (!checkCFU(exam_cfu)) {
+		alert("CFU non validi!");
+		return false;
+	}
+
+	var exams = JSON.parse(localStorage.exams);
+	var where = exams.length;	
+	var exam = { 
+		code: exam_code,
+		date: exam_date,
+		grade: getGrade(exam_grade, exam_praise),
+		cfu: exam_cfu
+	};
+	
+	for (i=0; i<where; i++)
+		if(sameExam(exams[i], exam)) {
+			alert("Esame già presente!");
+			return false;
+		}
+
+	exams[where] = exam;
+	localStorage.exams = JSON.stringify(exams);
+	printExams();
+	printChart();
+	return true;
+}
+
+/* INSERT NEW EVENT ON CALENDAR STORAGE (CHECK ALL FIELDS) */
+function addCalendarEvent(calendar_name, calendar_date, calendar_time){
+	var calendar = JSON.parse(localStorage.calendar);
+	var len=calendar.length;
+
+	if (!checkDate(new Date(calendar_date))) {
+		alert("Data non valida!");
+		return false;
+	}
+
+	var event = {
+		name: calendar_name,
+		date: calendar_date,
+		time: calendar_time
+	};
+	
+	for (i=0; i<len; i++)
+		if(sameEvent(calendar[i], event)) {
+			alert("Evento già presente!");
+			return false;
+		}
+
+	calendar[len]=event;
+	localStorage.calendar=JSON.stringify(calendar);
 	printCalendar();
 	return true;
 }

@@ -1,3 +1,4 @@
+/* GET TODAY DATE YYYY-MM-DD */
 function getToday() {
 	var today = new Date();
 	var dd = today.getDate();
@@ -14,64 +15,55 @@ function getToday() {
 	return today;
 }
 
-/* Set date default and max on add_exam html form */
-function setExamDate(today) {
-	var exam_date = document.getElementById("inputDate");
-	var exam_edit_date = document.getElementById("inputEditDate");
-	exam_date.setAttribute("max", today);
-	exam_edit_date.setAttribute("max", today);
-	exam_date.value = today;
+/* INITIALIZE DASHBOARD SETTING ADDEXAM, EDITEXAM, ADDCALENDAREVENT AND EDITCALENDAREVENT (date default, max, min) */
+function initDashboard() {
+	var today = getToday();
+	var add_exam_date = document.getElementById("inputAddDate");
+	var edit_exam_date = document.getElementById("inputEditDate");
+	add_exam_date.setAttribute("max", today);
+	add_exam_date.value = today;
+	edit_exam_date.setAttribute("max", today);
+
+	var add_calendar_date = document.getElementById("inputAddDateCalendar");
+	var edit_calendar_date = document.getElementById("inputEditDateCalendar");
+	add_calendar_date.setAttribute("min", today);
+	edit_calendar_date.setAttribute("min", today);
+	add_calendar_date.value = today;
+
+	return true;
 }
 
-function setMiniumEventDate(today) {
-	var calendar_date = document.getElementById("inputDateCalendar");
-	var calendar_edit_date = document.getElementById("inputEditDateCalendar");
-	calendar_date.setAttribute("min", today);
-	calendar_edit_date.setAttribute("min", today);
-	calendar_date.value = today;
-}
-
-/* Check if exam grade is == 30, then show praise radio buttons */
-function showPraise() {
-	var praise = document.getElementById("praiseDiv");
-	var grade = document.getElementById("inputGrade");
-	if(grade.value == "30") {
-		praise.style.visibility = "visible";
-		praise.style.display = "block";
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON ADDEXAM */
+function showAddPraise() {
+	var add_exam_grade = document.getElementById("inputAddGrade").value;
+	var add_exam_praise_div = document.getElementById("praiseAddDiv");
+	if(add_exam_grade == "30") {
+		add_exam_praise_div.style.visibility = "visible";
+		add_exam_praise_div.style.display = "block";
 	}
 	else {
-		praise.style.visibility = "collapse";
-		praise.style.display = "none";
+		add_exam_praise_div.style.visibility = "collapse";
+		add_exam_praise_div.style.display = "none";
 	}
+	return true;
 }
 
-/* Check if exam in editing grade is == 30, then show praise radio buttons */
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON EDITEXAM */
 function showEditPraise() {
-	var praise = document.getElementById("praiseEditDiv");
-	var grade = document.getElementById("inputEditGrade");
-	if(grade.value == "30") {
-		praise.style.visibility = "visible";
-		praise.style.display = "block";
+	var edit_exam_grade = document.getElementById("inputEditGrade");
+	var edit_exam_praise_div = document.getElementById("praiseEditDiv");
+	if(edit_exam_grade.value == "30") {
+		edit_exam_praise_div.style.visibility = "visible";
+		edit_exam_praise_div.style.display = "block";
 	}
 	else {
-		praise.style.visibility = "collapse";
-		praise.style.display = "none";
+		edit_exam_praise_div.style.visibility = "collapse";
+		edit_exam_praise_div.style.display = "none";
 	}
+	return true;
 }
 
-/* Function for showing FAQS */
-function showQuestion(id) {
-	var elem = document.getElementById(id);
-	if (elem.style.visibility == "visible") {
-		elem.style.visibility = "collapse";
-		elem.style.display = "none";
-	}
-	else {
-		elem.style.visibility = "visible";
-		elem.style.display = "block";
-	}
-}
-
+/* CREATE AND SHOW A SAMPLCE CHART ON THE INDEX HTML */
 function showSampleChart() {
 	var ctx = document.getElementById("user_chart");
 		new Chart(ctx,
@@ -89,4 +81,92 @@ function showSampleChart() {
 				}]
 			}
 		});
+	return true;
+}
+
+
+/* ---------------------------------------- */
+/* FUNZIONI PER CONTROLLI O CHECK VARI      */
+/* ---------------------------------------- */
+
+/* CHECK FOR EXAM (KEY code) */
+function sameExam(a,b){
+	if (a.code==b.code)
+		return true;
+	return false;
+}
+
+/* CHECK FOR EVENT (KEY name) */
+function sameEvent(a,b) {
+	if (a.name==b.name) 
+		return true;
+	return false;
+}
+
+/* CHECK EXAM CODE */
+function checkCode(code) {
+	if (code != "") return true;
+	else return false;
+}
+
+/* CHECK IF INPUT DATE IS VALID (DON'T CHECK IF IS > OR < OF TODAY!) */
+function checkDate(date) {
+	var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+
+	if (isNaN(day) || isNaN(month) || isNaN(year)) {
+		return false;
+	}
+
+	if (day < 1 || year < 1)
+		return false;
+	if(month>11||month<0)
+   		return false;
+	if ((month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) && day > 31)
+    	return false;
+	if ((month == 3 || month == 5 || month == 8 || month == 10 ) && day > 30)
+    	return false;
+	if (month == 1) {
+    	if (((year % 4) == 0 && (year % 100) != 0) || ((year % 400) == 0 && (year % 100) == 0)) {
+			if (day > 29)
+				return false;
+		} else {
+			if (day > 28)
+				return false;
+		}      
+	}
+	return true;
+}
+
+/* CHECK IF EXAM GRADE IS VALID */
+function checkGrade(grade) {
+	if (isNaN(grade) || grade < 18 || grade > 30) {return false;}
+	return true;
+}
+
+/* CHECK IF EXAM CFU IS VALID */
+function checkCFU(cfu) {
+	if (!isNaN(cfu)) {
+		if (cfu >= 1 && cfu <= 24) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/* (FOR INPUT STORAGE) RETURN GRADE VALUE (IF 30 WITH PRAISE -> 31) */
+function getGrade(grade, praise) {
+	if (grade == 30 && praise == "praise_yes") return 31;
+	else return grade;
+}
+
+/* CALCULATE DATE DISTANCE (<0 IF B COME BEFORE A) */
+function dateDiffInDays(a, b) {
+	var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+	a = new Date(a);
+	b = new Date(b);
+	var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
