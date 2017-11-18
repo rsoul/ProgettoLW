@@ -102,8 +102,8 @@ function printExams(){
 			s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
 			s += "<td id=\"tableExamGrae"+code+"\">" + grade + "</td>";
 			s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_"+code+"\")\">Edit</button></td></tr>";
+			s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\">Remove</button>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_exam_"+code+"\")\">Edit</button></td></tr>";
 		}		
 	}
 	s += "</table></div>";
