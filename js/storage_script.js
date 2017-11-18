@@ -132,7 +132,7 @@ function printChart() {
 			datasets: [{
 				label: "Voti",
 				data: voti,
-				fill: false,
+				pointStyle: "circle",
 				borderColor: "rgb(0, 0, 0)",
 				lineTension:0.1}
 			]},
