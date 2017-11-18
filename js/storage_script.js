@@ -46,7 +46,7 @@ function printCalendar(){
 		var date = calendar[i].date;
 		var time = calendar[i].time;
 
-		if(time == "") time = "Not Defined";
+		if(time == "") time = "N.D.";
 		/* IF DISTANCE FROM A DATE IS >10 -> SHOW NORMAL TD */
 		if (dateDiff > 10) {
 			s += "<tr><td>" + name + "</td>";
@@ -62,6 +62,7 @@ function printCalendar(){
 			s += "<td class=\"table-danger\">" + date + "</td>";
 			s += "<td class=\"table-danger\">" + time + "</td>";
 			if (dateDiff == 0) {s += "<td class=\"table-danger\">Oggi</td>";}
+			else if (dateDiff == 1) {s += "<td class=\"table-danger\">Domani</td>";}
 			else {s += "<td class=\"table-danger\">" + dateDiff + "</td>";}
 			s += "<td class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\">Remove</button>";
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"editingEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\">Edit</button></td></tr>";
