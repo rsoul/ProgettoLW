@@ -216,6 +216,6 @@ function resetAddExamFields() {
 
 function resetAddEventFields() {
 	document.getElementById("inputAddName").value = "";
-	document.getElementById("inputAddDate").value = getToday();
+	document.getElementById("inputAddDateCalendar").value = getToday();
 	document.getElementById("inputAddTime").value = "";
 }
