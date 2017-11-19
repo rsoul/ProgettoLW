@@ -18,25 +18,28 @@ function getToday() {
 /* INITIALIZE DASHBOARD SETTING ADDEXAM, EDITEXAM, ADDCALENDAREVENT AND EDITCALENDAREVENT (date default, max, min) */
 function initDashboard() {
 	var today = getToday();
-	var add_exam_date = document.getElementById("inputAddDate");
-	var edit_exam_date = document.getElementById("inputEditDate");
+	var add_exam_date = document.getElementById("examAddDate");
+	var edit_exam_date = document.getElementById("examEditDate");
 	add_exam_date.setAttribute("max", today);
 	add_exam_date.value = today;
 	edit_exam_date.setAttribute("max", today);
 
-	var add_calendar_date = document.getElementById("inputAddDateCalendar");
-	var edit_calendar_date = document.getElementById("inputEditDateCalendar");
+	var add_calendar_date = document.getElementById("calendarAddDate");
+	var edit_calendar_date = document.getElementById("calendarEditDate");
 	add_calendar_date.setAttribute("min", today);
 	edit_calendar_date.setAttribute("min", today);
 	add_calendar_date.value = today;
+
+	initStorageCalendar();
+	initStorageExams();
 
 	return true;
 }
 
 /* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON ADDEXAM */
-function showAddPraise() {
-	var add_exam_grade = document.getElementById("inputAddGrade").value;
-	var add_exam_praise_div = document.getElementById("praiseAddDiv");
+function showAddExamPraise() {
+	var add_exam_grade = document.getElementById("examAddGrade").value;
+	var add_exam_praise_div = document.getElementById("examAddPraiseDiv");
 	if(add_exam_grade == "30") {
 		add_exam_praise_div.style.visibility = "visible";
 		add_exam_praise_div.style.display = "block";
@@ -49,9 +52,9 @@ function showAddPraise() {
 }
 
 /* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON EDITEXAM */
-function showEditPraise() {
-	var edit_exam_grade = document.getElementById("inputEditGrade");
-	var edit_exam_praise_div = document.getElementById("praiseEditDiv");
+function showEditExamPraise() {
+	var edit_exam_grade = document.getElementById("examEditGrade");
+	var edit_exam_praise_div = document.getElementById("examEditPraiseDiv");
 	if(edit_exam_grade.value == "30") {
 		edit_exam_praise_div.style.visibility = "visible";
 		edit_exam_praise_div.style.display = "block";
@@ -72,7 +75,7 @@ function showSampleChart() {
 				"labels": ["Esami Passati","Esami Mancanti","Idoneità"],
 				"datasets":[{
 					"label":"Dataset",
-					"data":[300,50,100],
+					"data":[18,3,2],
 					"backgroundColor":[
 						"rgb(255, 99, 132)",
 						"rgb(54, 162, 235)",
@@ -85,29 +88,29 @@ function showSampleChart() {
 }
 
 /* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
-function editingExam(code, date, grade, cfu) {
-	document.getElementById("inputEditCode").value = code;
-	document.getElementById("inputEditDate").value = date;
+function initEditExam(code, date, grade, cfu) {
+	document.getElementById("examEditCode").value = code;
+	document.getElementById("examEditDate").value = date;
 	if (grade == 31) {
-		document.getElementById("inputEditGrade").value = "30";
-		document.getElementById("inputEditPraiseYes").checked = true;
-		document.getElementById("praiseEditDiv").style.visibility = "visible";
-		document.getElementById("praiseEditDiv").style.display = "block";
+		document.getElementById("examEditGrade").value = "30";
+		document.getElementById("examEditPraiseYes").checked = true;
+		document.getElementById("examEditPraiseDiv").style.visibility = "visible";
+		document.getElementById("examEditPraiseDiv").style.display = "block";
 	}
 	else {
-		document.getElementById("inputEditGrade").value = grade;
-		document.getElementById("inputEditPraiseNo").checked = true;
-		document.getElementById("praiseEditDiv").style.visibility = "collapse";
-		document.getElementById("praiseEditDiv").style.display = "none";
+		document.getElementById("examEditGrade").value = grade;
+		document.getElementById("examEditPraiseNo").checked = true;
+		document.getElementById("examEditPraiseDiv").style.visibility = "collapse";
+		document.getElementById("examEditPraiseDiv").style.display = "none";
 	}
-	document.getElementById("inputEditCFU").value = cfu;
+	document.getElementById("examEditCFU").value = cfu;
 }
 
 /* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
-function editingEvent(name, date, time) {
-	document.getElementById("inputEditName").value = name;
-	document.getElementById("inputEditDateCalendar").value = date;
-	document.getElementById("inputEditTime").value = time;
+function initEditEvent(name, date, time) {
+	document.getElementById("calendarEditName").value = name;
+	document.getElementById("calendarEditDate").value = date;
+	document.getElementById("calendarEditTime").value = time;
 }
 
 
@@ -197,25 +200,72 @@ function dateDiffInDays(a, b) {
 	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
 
+/* CHECK IF DATE EVENT IS VALID */
 function checkDateMin(date) {
 	if (dateDiffInDays(new Date(getToday()), date) < 0) return false;
 	return true;
 }
 
+/* CHECK IF DATE EXAM IS VALID */
 function checkDateMax(date) {
 	if (dateDiffInDays(new Date(getToday()), date) > 0) return false;
 	return true;
 }
 
+/* RESET ADD EXAM FIELDS (NOT EDIT EXAM FIELDS) */
 function resetAddExamFields() {
-	document.getElementById("inputAddCode").value = "";
-	document.getElementById("inputAddDate").value = getToday();
-	document.getElementById("inputAddGrade").value = "";
-	document.getElementById("inputAddCFU").value = "";
+	document.getElementById("examAddCode").value = "";
+	document.getElementById("examAddDate").value = getToday();
+	document.getElementById("examAddGrade").value = "";
+	document.getElementById("examAddCFU").value = "";
 }
 
+/* RESET ADD EVENT FIELDS (NOT EDIT EVENT FIELDS) */
 function resetAddEventFields() {
-	document.getElementById("inputAddName").value = "";
-	document.getElementById("inputAddDateCalendar").value = getToday();
-	document.getElementById("inputAddTime").value = "";
+	document.getElementById("calendarAddName").value = "";
+	document.getElementById("calendarAddDate").value = getToday();
+	document.getElementById("calendarAddTime").value = "";
+}
+
+/* CHECK IF ALL FIELDS ON REGISTER FORM ARE VALID */
+function checkRegister() {
+	var email = document.getElementById("registerEmail");
+	var password = document.getElementById("registerPassword");
+	var repeat_password = document.getElementById("registerRepeatPassword");
+	var university = document.getElementById("registerUniversity");
+	var course = document.getElementById("registerCourse");
+
+	var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if (!email_regex.test(email.value)) {
+		alert("Email non valida!");
+		email.focus;
+		return false;
+	}
+
+	var password_regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+	if (!password_regex.test(password.value)) {
+		alert("Password non valida!");
+		password.focus;
+		return false;
+	}
+
+	if (password.value != repeat_password.value) {
+		alert("Passowrd differenti");
+		repeat_password.focus;
+		return false;
+	}
+	
+	if (university.value == "") {
+		alert("Inserisci l'università!");
+		university.focus;
+		return false;
+	}
+
+	if (course.value == "") {
+		alert("Inserisci il corso");
+		course.focus;
+		return false;
+	}
+
+	return true;
 }

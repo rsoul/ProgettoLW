@@ -27,7 +27,7 @@
   <!-- META -->
 	<meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
 </head>
-<body onload="initDashboard(); initStorageExams(); initStorageCalendar();">
+<body onload="initDashboard();">
 
   <!-- UPPER NAVBAR -->
   <nav class="navbar navbar-light bg-faded">  <a class="navbar-brand" href="index.html" style="padding-right: 5px;">
@@ -95,36 +95,36 @@
 
                 <!-- INSERT EXAM CODE -->
                 <div class="form-group row">
-                  <label for="inputAddCode" class="col-sm-2 col-form-label">Codice Esame</label>
+                  <label for="examAddCode" class="col-sm-2 col-form-label">Codice Esame</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputAddCode" placeholder="Codice Esame" required>
+                    <input type="text" class="form-control" id="examAddCode" placeholder="Codice Esame" required>
                   </div>
                 </div>
 
                 <!-- INSERT EXAM DATE -->
                 <div class="form-group row">
-                  <label for="inputAddDate" class="col-sm-2 col-form-label">Data</label>
+                  <label for="examAddDate" class="col-sm-2 col-form-label">Data</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" id="inputAddDate" placeholder="Data" min="1900-01-01" required>
+                    <input type="date" class="form-control" id="examAddDate" placeholder="Data" min="1900-01-01" required>
                   </div>
                 </div>
 
                 <!-- INSERT EXAM GRADE (WITH PRAISE) -->
                 <div class="form-group row">
-                  <label for="inputAddGrade" class="col-sm-2 col-form-label">Voto</label>
+                  <label for="examAddGrade" class="col-sm-2 col-form-label">Voto</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="inputAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddPraise()" required>
-                    <div id="praiseAddDiv" style="visibility: hidden; display: none;">
-                      <i>Lode?</i> Si <input type="radio" name="inputAddPraise" value="praise_yes"> No <input type="radio" name="inputAddPraise" value="praise_no" checked>
+                    <input type="number" class="form-control" id="examAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddExamPraise()" required>
+                    <div id="examAddPraiseDiv" style="visibility: hidden; display: none;">
+                      <i>Lode?</i> Si <input type="radio" name="examAddPraise" value="praise_yes"> No <input type="radio" name="examAddPraise" value="praise_no" checked>
                     </div>
                   </div>
                 </div>
 
                 <!-- INSERT EXAM CFU -->
                 <div class="form-group row">
-                  <label for="inputAddCFU" class="col-sm-2 col-form-label">CFU</label>
+                  <label for="examAddCFU" class="col-sm-2 col-form-label">CFU</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="inputAddCFU" placeholder="CFU" min="1" max="24" required>
+                    <input type="number" class="form-control" id="examAddCFU" placeholder="CFU" min="1" max="24" required>
                   </div>
                 </div>
 
@@ -135,11 +135,11 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" id="addExamButton" class="btn btn-primary" data-dismiss="modal">Inserisci Esame</button>
               <script> $('#addExamButton').on('click', function() {
-                        var code = $('#inputAddCode').val();
-                        var date = $('#inputAddDate').val();
-                        var grade = $('#inputAddGrade').val();
-                        var praise = $("input[name=inputAddPraise]:checked").val();
-                        var cfu = $('#inputAddCFU').val();
+                        var code = $('#examAddCode').val();
+                        var date = $('#examAddDate').val();
+                        var grade = $('#examAddGrade').val();
+                        var praise = $("input[name=examAddPraise]:checked").val();
+                        var cfu = $('#examAddCFU').val();
                         addExam(code, date, grade, praise, cfu);
                       });
               </script>
@@ -161,36 +161,36 @@
 
                 <!-- INSERT EXAM CODE (EDIT) -->
                 <div class="form-group row">
-                  <label for="inputEditCode" class="col-sm-2 col-form-label">Codice Esame</label>
+                  <label for="examEditCode" class="col-sm-2 col-form-label">Codice Esame</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputEditCode" placeholder="Codice Esame" required readonly>
+                    <input type="text" class="form-control" id="examEditCode" placeholder="Codice Esame" required readonly>
                   </div>
                 </div>
 
                 <!-- INSERT EXAM DATE (EDIT) -->
                 <div class="form-group row">
-                  <label for="inputEditDate" class="col-sm-2 col-form-label">Data</label>
+                  <label for="examEditDate" class="col-sm-2 col-form-label">Data</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" id="inputEditDate" placeholder="Data" min="1900-01-01" required>
+                    <input type="date" class="form-control" id="examEditDate" placeholder="Data" min="1900-01-01" required>
                   </div>
                 </div>
 
                 <!-- INSERT EXAM GRADE (EDIT) (WITH PRAISE) -->
                 <div class="form-group row">
-                  <label for="inputEditGrade" class="col-sm-2 col-form-label">Voto</label>
+                  <label for="examEditGrade" class="col-sm-2 col-form-label">Voto</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="inputEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditPraise()" onclick="showEditPraise()" required>
-                    <div id="praiseEditDiv" style="visibility: hidden; display: none;">
-                      <i>Lode?</i> Si <input type="radio" id="inputEditPraiseYes" name="inputEditPraise" value="praise_yes"> No <input type="radio" id="inputEditPraiseNo" name="inputEditPraise" value="praise_no" checked>
+                    <input type="number" class="form-control" id="examEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditExamPraise()" onclick="showEditExamPraise()" required>
+                    <div id="examEditPraiseDiv" style="visibility: hidden; display: none;">
+                      <i>Lode?</i> Si <input type="radio" id="examEditPraiseYes" name="inputEditPraise" value="praise_yes"> No <input type="radio" id="examEditPraiseNo" name="inputEditPraise" value="praise_no" checked>
                     </div>
                   </div>
                 </div>
 
                 <!-- INSER EXAM CFU (EDIT) -->
                 <div class="form-group row">
-                  <label for="inputEditCFU" class="col-sm-2 col-form-label">CFU</label>
+                  <label for="examEditCFU" class="col-sm-2 col-form-label">CFU</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="inputEditCFU" placeholder="CFU" min="1" max="24" required>
+                    <input type="number" class="form-control" id="examEditCFU" placeholder="CFU" min="1" max="24" required>
                   </div>
                 </div>
 
@@ -201,11 +201,11 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" id="editExamButton" class="btn btn-primary" data-dismiss="modal">Salva</button>
               <script> $('#editExamButton').on('click', function() {
-                        var code = $('#inputEditCode').val();
-                        var date = $('#inputEditDate').val();
-                        var grade = $('#inputEditGrade').val();
+                        var code = $('#examEditCode').val();
+                        var date = $('#examEditDate').val();
+                        var grade = $('#examEditGrade').val();
                         var praise = $("input[name=inputEditPraise]:checked").val();
-                        var cfu = $('#inputEditCFU').val();
+                        var cfu = $('#examEditCFU').val();
                         editExam(code, date, grade, praise, cfu);
                       });
               </script>
@@ -223,44 +223,41 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="addEventFormLabel">Edit Event</h4>
             </div>
             <div class="modal-body">
-              <div>
 
                 <!-- INSERT EVENT NAME -->
                 <div class="form-group row">
-                  <label for="inputAddName" class="col-sm-2 col-form-label">Nome</label>
+                  <label for="calendarAddName" class="col-sm-2 col-form-label">Nome</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputAddName" placeholder="Nome" required>
+                    <input type="text" class="form-control" id="calendarAddName" placeholder="Nome" required>
                   </div>
                 </div>
 
                 <!-- INSERT EVENT DATE -->
                 <div class="form-group row">
-                  <label for="inputAddDateCalendar" class="col-sm-2 col-form-label">Data</label>
+                  <label for="calendarAddDate" class="col-sm-2 col-form-label">Data</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" id="inputAddDateCalendar" placeholder="Data" required>
+                    <input type="date" class="form-control" id="calendarAddDate" placeholder="Data" required>
                   </div>
                 </div>
 
                 <!-- INSERT EVENT TIME -->
                 <div class="form-group row">
-                  <label for="inputAddTime" class="col-sm-2 col-form-label">Ora</label>
+                  <label for="calendarAddTime" class="col-sm-2 col-form-label">Ora</label>
                   <div class="col-sm-10">
-                    <input type="time" class="form-control" id="inputAddTime" placeholder="Ora">
+                    <input type="time" class="form-control" id="calendarAddTime" placeholder="Ora">
                   </div>
                 </div>
 
-              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="button" id="addEventButton" class="btn btn-primary" data-dismiss="modal">Insert Exam</button>
               <script> $('#addEventButton').on('click', function() {
-                        var name = $('#inputAddName').val();
-                        var date = $('#inputAddDateCalendar').val();
-                        var time = $('#inputAddTime').val();
+                        var name = $('#calendarAddName').val();
+                        var date = $('#calendarAddDate').val();
+                        var time = $('#calendarAddTime').val();
                         addCalendarEvent(name, date, time);
                       });
               </script>
@@ -281,25 +278,25 @@
               <div>
                 <!-- INSERT EVENT NAME (EDIT) -->
                 <div class="form-group row">
-                  <label for="inputEditName" class="col-sm-2 col-form-label">Nome</label>
+                  <label for="calendarEditName" class="col-sm-2 col-form-label">Nome</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputEditName" placeholder="Nome" required readonly>
+                    <input type="text" class="form-control" id="calendarEditName" placeholder="Nome" required readonly>
                   </div>
                 </div>
 
                 <!-- INSERT EVENT DATE (EDIT) -->
                 <div class="form-group row">
-                  <label for="inputEditDateCalendar" class="col-sm-2 col-form-label">Data</label>
+                  <label for="calendarEditDate" class="col-sm-2 col-form-label">Data</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" id="inputEditDateCalendar" placeholder="Data" required>
+                    <input type="date" class="form-control" id="calendarEditDate" placeholder="Data" required>
                   </div>
                 </div>
 
                 <!-- INSERT EVENT TIME (EDIT) -->
                 <div class="form-group row">
-                  <label for="inputEditTime" class="col-sm-2 col-form-label">Ora</label>
+                  <label for="calendarEditTime" class="col-sm-2 col-form-label">Ora</label>
                   <div class="col-sm-10">
-                    <input type="time" class="form-control" id="inputEditTime" placeholder="Ora">
+                    <input type="time" class="form-control" id="calendarEditTime" placeholder="Ora">
                   </div>
                 </div>
               </div>
@@ -309,9 +306,9 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" class="btn btn-primary" id="editCalendarButton" data-dismiss="modal">Salva</button>
               <script> $('#editCalendarButton').on('click', function() {
-                        var name = $('#inputEditName').val();
-                        var date = $('#inputEditDateCalendar').val();
-                        var time = $('#inputEditTime').val();
+                        var name = $('#calendarEditName').val();
+                        var date = $('#calendarEditDate').val();
+                        var time = $('#calendarEditTime').val();
                         editCalendarEvent(name, date, time);
                       });
               </script>

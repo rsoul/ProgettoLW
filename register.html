@@ -42,37 +42,40 @@
   <h1 id="container_title" style="text-align: center">Nuovo utente? Registrati!</h1>
   <div class="jumbotron">
     <div class="container">
-      <form action="./dashboard.html" method="POST">
+      <form action="./dashboard.html" method="POST" onsubmit="return checkRegister()">
 
         <!-- Inserimento email -->
         <div class="form-group row">
-          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+          <label for="registerEmail" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+            <input type="email" class="form-control" id="registerEmail" placeholder="Email" required>
           </div>
         </div>
 
         <!-- Inserimento password -->
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+          <label for="registerPassword" class="col-sm-2 col-form-label">Password</label>
           <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+            <input type="password" class="form-control" id="registerPassword" placeholder="Password" aria-describedby="registerPasswordHelp" required>
+            <small id="passwordHelpInline" class="text-muted">
+              Da 6 a 16 caratteri (1 maiusc, 1 minusc, 1 num, 1 @#$%^)
+            </small>
           </div>
         </div>
 
         <!-- Ripeti password -->
         <div class="form-group row">
-          <label for="inputRepeatPassword" class="col-sm-2 col-form-label">Ripeti Password</label>
+          <label for="registerRepeatPassword" class="col-sm-2 col-form-label">Ripeti Password</label>
           <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Ripeti Password" required>
+            <input type="password" class="form-control" id="registerRepeatPassword" placeholder="Ripeti Password" required>
           </div>
         </div>
 
         <!-- Inserimento university -->
         <div class="form-group row">
-          <label for="inputUniversity" class="col-sm-2 col-form-label">Università</label>
+          <label for="registerUniversity" class="col-sm-2 col-form-label">Università</label>
           <div class="col-sm-10">
-            <select class="form-control" id="inputUniversity">
+            <select class="form-control" id="registerUniversity" required>
               <option value=""></option>
               <option value="Università degli Studi di Roma La Sapienza">Università degli Studi di Roma "La Sapienza"</option>
               <option value="Università degli Studi di Roma Roma Tre">Università degli Studi di Roma "Roma Tre"</option>
@@ -83,9 +86,9 @@
 
         <!-- Inserimento indirizzo -->
         <div class="form-group row">
-          <label for="inputCourse" class="col-sm-2 col-form-label">Corso</label>
+          <label for="registerCourse" class="col-sm-2 col-form-label">Corso</label>
           <div class="col-sm-10">
-            <select class="form-control" id="inputCourse">
+            <select class="form-control" id="registerCourse" required>
               <option value=""></option>
               <option value="Ingegneria Informatica e Automatica"">Ingegneria Informatica e Automatica</option>
               <option value="Informatica">Informatica</option>
@@ -96,7 +99,7 @@
 
         <div class="form-group row">
           <div class="offset-sm-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Sign up</button>
+            <button type="submit" class="btn btn-primary">Registrati</button>
           </div>
         </div>
       </form>
