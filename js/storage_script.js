@@ -112,23 +112,33 @@ function printExams(){
 	return true;
 }
 
+
 /* PRINT CHART OF EXAMS VOTES FROM EXAMS STORAGE (USING CHARTJS) */
 function printChart() {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var voti = [];
-	var codici = [];
+	var date = [];
 
 	for (i=0; i<len; i++) {
 		voti[i] = exams[i].grade;
-		codici[i] = exams[i].code;
+		date[i] = exams[i].date;
 	}
+
+	/* SORT DATE */
+	var date_sort_asc = function (date1, date2) {
+	  if (date1 > date2) return 1;
+	  if (date1 < date2) return -1;
+	  return 0;
+	};
+
+	date.sort(date_sort_asc);
 
 	var ctx = document.getElementById("user_chart").getContext('2d');
 	new Chart(ctx,{
 		type: "line",
 		data: {
-			labels: codici,
+			labels: date,
 			datasets: [{
 				label: "Voti",
 				data: voti,
@@ -137,8 +147,8 @@ function printChart() {
 				lineTension:0.1}
 			]},
 		options: {
-			yAxisID: "Voti",
-			xAxisID: "Codici"
+			yAxisID: "Voto",
+			xAxisID: "Data"
 		}
 	});
 	return true;
