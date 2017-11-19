@@ -26,8 +26,37 @@ function resetStorageCalendar(){
 	localStorage.calendar="[]";
 }
 
+/* GENERATES RANDOM DATA FOR PRESENTATION INSTEAD OF MANUALLY INPUTTING IT*/
+/*
+int n = number of data you want to generate
+bool ex = true if you want to generate exams
+bool ev= true if you want to generate calendar events*/
+function generateRandomData(n,ex,ev){
+	if(ex){
+		for(i=0;i<n;i++){
+			addExam(i+1 ,"2001/01/01",Math.floor(Math.random() * (30 - 18) ) + 18,"no",Math.floor(Math.random() * (24 - 2) ) + 2);
+		}
+	}
+	if(ev){
+		for(i=0;i<n;i++){
+			addCalendarEvent(i+1,getToday(),"21:00");
+		}
 
+	}
+	/*lo so che la generazione della data e dell'ora fanno schifo ma è davvero lavoro sprecato*/
 
+}
+
+function getProgress(){
+	var exams = JSON.parse(localStorage.exams);
+	var progress=0;
+	for (var i =0; i < exams.length-1; i++) {
+		progress+=exams[i].cfu;
+		
+	}
+	return progress;
+
+}
 /* ---------------------------------------- */
 /* FUNZIONI PER LA STAMPA O GENERICO OUTPUT */
 /* ---------------------------------------- */
