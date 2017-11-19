@@ -196,3 +196,13 @@ function dateDiffInDays(a, b) {
 	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
+
+function checkDateMin(date) {
+	if (dateDiffInDays(new Date(getToday()), date) < 0) return false;
+	return true;
+}
+
+function checkDateMax(date) {
+	if (dateDiffInDays(new Date(getToday()), date) > 0) return false;
+	return true;
+}

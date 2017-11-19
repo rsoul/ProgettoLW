@@ -204,6 +204,10 @@ function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
 		alert("Data non valida!");
 		return false;
 	}
+	if (!checkDateMax(new Date(exam_date))) {
+		alert("Data futura non valida!");
+		return false;
+	}
 	if (!checkGrade(exam_grade)) {
 		alert("Voto non valido!");
 		return false;
@@ -237,6 +241,10 @@ function editCalendarEvent(calendar_name, calendar_date, calendar_time) {
 		alert("Data non valida!");
 		return false;
 	}
+	if (!checkDateMin(new Date(calendar_date))) {
+		alert("Data passata non valida!");
+		return false;
+	}
 
 	for (i=0; i<len; i++) {
 		if(calendar[i].name == calendar_name) {
@@ -265,6 +273,10 @@ function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 	}
 	if (!checkDate(new Date(exam_date))) {
 		alert("Data non valida!");
+		return false;
+	}
+	if (!checkDateMax(new Date(exam_date))) {
+		alert("Data futura non valida!");
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
@@ -305,6 +317,10 @@ function addCalendarEvent(calendar_name, calendar_date, calendar_time){
 
 	if (!checkDate(new Date(calendar_date))) {
 		alert("Data non valida!");
+		return false;
+	}
+	if (!checkDateMin(new Date(calendar_date))) {
+		alert("Data passata non valida!");
 		return false;
 	}
 
