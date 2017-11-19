@@ -206,3 +206,16 @@ function checkDateMax(date) {
 	if (dateDiffInDays(new Date(getToday()), date) > 0) return false;
 	return true;
 }
+
+function resetAddExamFields() {
+	document.getElementById("inputAddCode").value = "";
+	document.getElementById("inputAddDate").value = getToday();
+	document.getElementById("inputAddGrade").value = "";
+	document.getElementById("inputAddCFU").value = "";
+}
+
+function resetAddEventFields() {
+	document.getElementById("inputAddName").value = "";
+	document.getElementById("inputAddDate").value = getToday();
+	document.getElementById("inputAddTime").value = "";
+}

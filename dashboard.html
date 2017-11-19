@@ -62,14 +62,14 @@
       <div class="tab-pane fade show active" id="exams" role="tabpanel">
         <div id="my_exams"></div>
         <script> printExams(); </script>
-        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addExamForm">Aggiungi Esame</button> </div>
+        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addExamForm" onclick="resetAddExamFields()">Aggiungi Esame</button> </div>
       </div>
 
       <!-- CALENDAR TABLE -->
       <div class="tab-pane fade" id="calendar" role="tabpanel">
         <div id="my_calendar"></div>
         <script> printCalendar(); </script>
-         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addEventForm">Aggiungi Evento</button> </div>
+         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addEventForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
       </div>
 
       <!-- EXAMS CHART -->
