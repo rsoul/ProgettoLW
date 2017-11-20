@@ -144,7 +144,35 @@ function printExams(){
 		}		
 	}
 	s += "</table></div>";
+
 	document.getElementById("my_exams").innerHTML = s;
+	return true;
+}
+
+/* PRINT STATISTICS FOR EXAMS */
+function printStatistics() {
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+	var s = new String("");
+
+	var media = 0.0;
+	var media_ponderata = 0.0;
+	var cfu_totali = 0.0;
+
+	for (i=0; i<len; i++) {
+		media += parseFloat(exams[i].grade);
+		media_ponderata += parseFloat(exams[i].grade)*parseFloat(exams[i].cfu);
+		cfu_totali += parseFloat(exams[i].cfu);
+	}
+
+	media = (media/len).toFixed(2);
+	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
+
+	s += "<div id=\"mediaDiv\">";
+	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th></tr>";
+	s += "<tr><td style=\"vertical-align: middle;\">" + media + "</td><td style=\"vertical-align: middle;\">" + media_ponderata + "</td></tr></table></div>";
+
+	document.getElementById("my_statistics").innerHTML = s;
 	return true;
 }
 

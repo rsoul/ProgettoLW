@@ -53,6 +53,9 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#trend">Trend Esami</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#statistics">Statistiche</a>
+      </li>
     </ul>
 
     <!-- CONTAINER -->
@@ -79,6 +82,12 @@
       <div class="tab-pane fade" id="trend" role="tabpanel">
         <canvas id="user_chart" style="display: block; width: 100px; height: 30px;"></canvas>
         <script> printChart(); </script>
+      </div>
+
+      <!-- EXAMS CHART -->
+      <div class="tab-pane fade" id="statistics" role="tabpanel">
+        <div id="my_statistics" style="text-align: center;"></div>
+        <script> printStatistics(); </script>
       </div>
 
 
