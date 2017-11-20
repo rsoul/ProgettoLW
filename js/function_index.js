@@ -30,6 +30,7 @@ function initDashboard() {
 	edit_calendar_date.setAttribute("min", today);
 	add_calendar_date.value = today;
 
+	initStorageCFU();
 	initStorageCalendar();
 	initStorageExams();
 
@@ -112,6 +113,61 @@ function initEditEvent(name, date, time) {
 	document.getElementById("calendarEditDate").value = date;
 	document.getElementById("calendarEditTime").value = time;
 }
+
+/* GENERATES RANDOM DATA FOR PRESENTATION INSTEAD OF MANUALLY INPUTTING IT*/
+function generateRandomData(n,ex,ev){
+	/*
+	int n = number of data you want to generate
+	bool ex = true if you want to generate exams
+	bool ev = true if you want to generate calendar events*/
+	if(ex){
+		for(i=0;i<n;i++){
+			addExam(i+1 ,"2001/01/01",Math.floor(Math.random() * (30 - 18) ) + 18,"no",Math.floor(Math.random() * (24 - 2) ) + 2);
+		}
+	}
+	if(ev){
+		for(i=0;i<n;i++){
+			addCalendarEvent(i+1,getToday(),"21:00");
+		}
+	}
+	/*lo so che la generazione della data e dell'ora fanno schifo ma è davvero lavoro sprecato*/
+}
+
+/* GET A SUM OF ALL CFU TAKEN */
+function getProgress(){
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+	var progress = 0;
+	for (i=0; i<len; i++) progress += parseInt(exams[i].cfu);
+	return progress;
+}
+
+function getPercentageCFU(){
+	var takenCFU = getProgress();
+	var totalCFU = parseInt(localStorage.getItem("CFU"));
+	var percentageCFU = Math.floor((takenCFU * 100)/totalCFU);
+	var progressBar = document.getElementById("progressBar");
+	if(percentageCFU > 100) percentageCFU = 100;
+	progressBar.style.width = percentageCFU + "%";
+	progressBar.innerHTML = percentageCFU + "%";
+	return true;
+}
+
+/* RESET ADD EXAM FIELDS (NOT EDIT EXAM FIELDS) */
+function resetAddExamFields() {
+	document.getElementById("examAddCode").value = "";
+	document.getElementById("examAddDate").value = getToday();
+	document.getElementById("examAddGrade").value = "";
+	document.getElementById("examAddCFU").value = "";
+}
+
+/* RESET ADD EVENT FIELDS (NOT EDIT EVENT FIELDS) */
+function resetAddEventFields() {
+	document.getElementById("calendarAddName").value = "";
+	document.getElementById("calendarAddDate").value = getToday();
+	document.getElementById("calendarAddTime").value = "";
+}
+
 
 
 /* ---------------------------------------- */
@@ -210,21 +266,6 @@ function checkDateMin(date) {
 function checkDateMax(date) {
 	if (dateDiffInDays(new Date(getToday()), date) > 0) return false;
 	return true;
-}
-
-/* RESET ADD EXAM FIELDS (NOT EDIT EXAM FIELDS) */
-function resetAddExamFields() {
-	document.getElementById("examAddCode").value = "";
-	document.getElementById("examAddDate").value = getToday();
-	document.getElementById("examAddGrade").value = "";
-	document.getElementById("examAddCFU").value = "";
-}
-
-/* RESET ADD EVENT FIELDS (NOT EDIT EVENT FIELDS) */
-function resetAddEventFields() {
-	document.getElementById("calendarAddName").value = "";
-	document.getElementById("calendarAddDate").value = getToday();
-	document.getElementById("calendarAddTime").value = "";
 }
 
 /* CHECK IF ALL FIELDS ON REGISTER FORM ARE VALID */

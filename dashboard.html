@@ -40,7 +40,7 @@
 
   <!-- MAIN DIV CONTAINER -->
 	<div id="main_container">
-		<h1 style="text-align: center;">Dashboard</h1>
+		<h1 style="text-align: center;">Dashboard</h1> <div id="initCourseCFUDiv" style="text-align: center;"><button class="btn btn-primary btn-md" data-toggle="modal" data-target="#initCourseCFUForm">Inserisci CFU Corso</button></div>
 
     <!-- NAVIGATION BAR -->
     <ul class="nav nav-tabs" >
@@ -61,8 +61,8 @@
       <!-- EXAMS TABLE -->
       <div class="tab-pane fade show active" id="exams" role="tabpanel">
         <div class="progress" style="margin-top: 5px">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:45%">Hai completato il 45% del tuo percorso formativo</div>
-         </div>
+          <div class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar" role="progressbar" style="width:1%">0%</div>
+        </div>
         <div id="my_exams"></div>
         <script> printExams(); </script>
         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addExamForm" onclick="resetAddExamFields()">Aggiungi Esame</button> </div>
@@ -315,6 +315,32 @@
                         editCalendarEvent(name, date, time);
                       });
               </script>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POPUP INIT COURSE CFU -->
+      <div class="modal fade" id="initCourseCFUForm" tabindex="-1" role="dialog" aria-labelledby="InitCourseCFU" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- INSERT EVENT DATE (EDIT) -->
+                <div class="form-group row">
+                  <label for="courseCFU" class="col-sm-2 col-form-label">CFU Totali</label>
+                  <div class="col-sm-10">
+                    <input type="numeric" class="form-control" id="courseCFU" min="60" max="220" placeholder="CFU Richiesti del corso" required>
+                  </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+              <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal"  onclick="initCourseCFU()">Vai al tuo libretto</button>
             </div>
           </div>
         </div>

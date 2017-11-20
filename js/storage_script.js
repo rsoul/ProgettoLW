@@ -17,46 +17,36 @@ function initStorageCalendar(){
 }
 
 /* REMOVE ALL EXEMENTS FROM EXAMS STORAGE (NOT USED) */
-function resetStorageExams(){ 
-	localStorage.exams="[]";
-}
+function resetStorageExams(){localStorage.exams="[]";}
 
 /* REMOVE ALL EXEMENTS FROM CALENDAR STORAGE (NOT USED) */
-function resetStorageCalendar(){
-	localStorage.calendar="[]";
+function resetStorageCalendar(){localStorage.calendar="[]";}
+
+/* REMOVE ALL EXEMENTS FROM EXAMS STORAGE (NOT USED) */
+function resetStorageCFU(){ if(localStorage.getItem("CFU") != null) localStorage.setItem('CFU', null);}
+
+function initStorageCFU(){
+	if(localStorage.getItem("CFU") == null) document.getElementById("initCourseCFUDiv").style.visibility = "visible";
+	else {
+		document.getElementById("initCourseCFUDiv").style.visibility = "hidden";
+		getPercentageCFU();
+	}
 }
 
-/* GENERATES RANDOM DATA FOR PRESENTATION INSTEAD OF MANUALLY INPUTTING IT*/
-/*
-int n = number of data you want to generate
-bool ex = true if you want to generate exams
-bool ev= true if you want to generate calendar events*/
-function generateRandomData(n,ex,ev){
-	if(ex){
-		for(i=0;i<n;i++){
-			addExam(i+1 ,"2001/01/01",Math.floor(Math.random() * (30 - 18) ) + 18,"no",Math.floor(Math.random() * (24 - 2) ) + 2);
-		}
+function initCourseCFU() {
+	if(localStorage.getItem("CFU") == null) { 
+		localStorage.setItem('CFU', document.getElementById("courseCFU").value);
+		document.getElementById("initCourseCFUDiv").style.visibility = "hidden";
+		getPercentageCFU();
 	}
-	if(ev){
-		for(i=0;i<n;i++){
-			addCalendarEvent(i+1,getToday(),"21:00");
-		}
-
+	else {
+		alert("CFU già inseriti!");
+		return false;
 	}
-	/*lo so che la generazione della data e dell'ora fanno schifo ma è davvero lavoro sprecato*/
-
+	return true;
 }
 
-function getProgress(){
-	var exams = JSON.parse(localStorage.exams);
-	var progress=0;
-	for (var i =0; i < exams.length-1; i++) {
-		progress+=exams[i].cfu;
-		
-	}
-	return progress;
 
-}
 /* ---------------------------------------- */
 /* FUNZIONI PER LA STAMPA O GENERICO OUTPUT */
 /* ---------------------------------------- */
@@ -66,6 +56,10 @@ function printCalendar(){
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
 	var s = new String("");
+
+	calendar.sort(function(a,b) { 
+	    return new Date(a.date) - new Date(b.date); 
+	});
 	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
 	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th><th>Opzioni</th></tr>";
@@ -86,15 +80,24 @@ function printCalendar(){
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\');\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		/* ELSE (<=10) SHOW RED BACKGROUND TD */
+		else if (dateDiff > 5) {
+			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-warning\">" + name + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\">" + date + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\">" + time + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\">" + dateDiff + "</td>";
+			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
+			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+		}
 		else {
 			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-danger\">" + name + "</td>";
 			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + date + "</td>";
 			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + time + "</td>";
-			if (dateDiff == 0) {s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Oggi</td>";}
-			else if (dateDiff == 1) {s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Domani</td>";}
-			else {s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + dateDiff + "</td>";}
+			if (dateDiff == 1) s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Domani</td>";	
+			else if (dateDiff == 0) s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Oggi</td>";
+			else s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + dateDiff + "</td>";
 			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
 			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+
 		}
 	}
 
@@ -108,6 +111,10 @@ function printExams(){
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
+
+	exams.sort(function(a,b) { 
+	    return new Date(a.date) - new Date(b.date); 
+	});
 	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
 	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Opzioni</th></tr>";
@@ -196,7 +203,8 @@ function removeExam(code) {
 		}
 	}
 
-	localStorage.exams = JSON.stringify(exams);	
+	localStorage.exams = JSON.stringify(exams);
+	getPercentageCFU();
 	printExams();
 	printChart();
 	return true;
@@ -260,7 +268,8 @@ function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
 		}
 	}
 
-	localStorage.exams = JSON.stringify(exams);	
+	localStorage.exams = JSON.stringify(exams);
+	getPercentageCFU();	
 	printExams();
 	printChart();
 	return true;
@@ -339,6 +348,7 @@ function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 
 	exams[where] = exam;
 	localStorage.exams = JSON.stringify(exams);
+	getPercentageCFU();
 	printExams();
 	printChart();
 	return true;
