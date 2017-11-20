@@ -233,6 +233,7 @@ function removeExam(code) {
 
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
+	printStatistics();
 	printExams();
 	printChart();
 	return true;
@@ -298,6 +299,7 @@ function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
 
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();	
+	printStatistics();
 	printExams();
 	printChart();
 	return true;
@@ -377,6 +379,7 @@ function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 	exams[where] = exam;
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
+	printStatistics();
 	printExams();
 	printChart();
 	return true;

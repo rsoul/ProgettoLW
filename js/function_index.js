@@ -150,6 +150,7 @@ function getPercentageCFU(){
 	if(percentageCFU > 100) percentageCFU = 100;
 	progressBar.style.width = percentageCFU + "%";
 	progressBar.innerHTML = percentageCFU + "%";
+	progressBar.setAttribute("aria-valuenow", percentageCFU);
 	return true;
 }
 
