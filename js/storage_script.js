@@ -341,7 +341,7 @@ function editCalendarEvent(calendar_name, calendar_date, calendar_time) {
 /* INSERT NEW EXAM ON EXAMS STORAGE (CHECK ALL FIELDS) */
 function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 	if (!checkCode(exam_code)) {
-		alert("Codice esame non valido!");
+		alert("Codice non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
@@ -390,6 +390,10 @@ function addCalendarEvent(calendar_name, calendar_date, calendar_time){
 	var calendar = JSON.parse(localStorage.calendar);
 	var len=calendar.length;
 
+	if(!checkName(calendar_name)) {
+		alert("Nome non valido!");
+		return false;
+	}
 	if (!checkDate(new Date(calendar_date))) {
 		alert("Data non valida!");
 		return false;

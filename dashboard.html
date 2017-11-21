@@ -75,7 +75,7 @@
       <div class="tab-pane fade" id="calendar" role="tabpanel">
         <div id="my_calendar"></div>
         <script> printCalendar(); </script>
-         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addEventForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
+         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addCalendarForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
       </div>
 
       <!-- EXAMS CHART -->
@@ -104,7 +104,7 @@
             </div>
             <!-- POPUP ADD EXAM BODY -->
             <div class="modal-body">
-              <div>
+              <form class="was-validated">
 
                 <!-- INSERT EXAM CODE -->
                 <div class="form-group row">
@@ -141,19 +141,19 @@
                   </div>
                 </div>
 
-              </div>
+              </form>
             </div>
             <!-- POPUP ADD EXAM FOOTER -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" id="addExamButton" class="btn btn-primary" data-dismiss="modal">Inserisci Esame</button>
+              <button type="button" id="addExamButton" class="btn btn-primary">Inserisci Esame</button>
               <script> $('#addExamButton').on('click', function() {
                         var code = $('#examAddCode').val();
                         var date = $('#examAddDate').val();
                         var grade = $('#examAddGrade').val();
                         var praise = $("input[name=examAddPraise]:checked").val();
                         var cfu = $('#examAddCFU').val();
-                        addExam(code, date, grade, praise, cfu);
+                        if(addExam(code, date, grade, praise, cfu)) $("#addExamForm").modal("hide");
                       });
               </script>
             </div>
@@ -170,7 +170,7 @@
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
             </div>
             <div class="modal-body">
-              <div>
+              <form class="was-validated">
 
                 <!-- INSERT EXAM CODE (EDIT) -->
                 <div class="form-group row">
@@ -207,19 +207,19 @@
                   </div>
                 </div>
 
-              </div>
+              </form>
             </div>
             <!-- POPUP EDIT EXAM FOOTER -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" id="editExamButton" class="btn btn-primary" data-dismiss="modal">Salva</button>
+              <button type="button" id="editExamButton" class="btn btn-primary">Salva</button>
               <script> $('#editExamButton').on('click', function() {
                         var code = $('#examEditCode').val();
                         var date = $('#examEditDate').val();
                         var grade = $('#examEditGrade').val();
                         var praise = $("input[name=inputEditPraise]:checked").val();
                         var cfu = $('#examEditCFU').val();
-                        editExam(code, date, grade, praise, cfu);
+                        if(editExam(code, date, grade, praise, cfu)) $("#editExamForm").modal("hide");
                       });
               </script>
             </div>
@@ -231,14 +231,14 @@
       <!-- CALENDAR -->
 
       <!-- POPUP ADD CALENDAR EVENT -->
-      <div class="modal fade" id="addEventForm" tabindex="-1" role="dialog" aria-labelledby="AddEvent" aria-hidden="true">
+      <div class="modal fade" id="addCalendarForm" tabindex="-1" role="dialog" aria-labelledby="AddEvent" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
             </div>
             <div class="modal-body">
-
+              <form class="was-validated">
                 <!-- INSERT EVENT NAME -->
                 <div class="form-group row">
                   <label for="calendarAddName" class="col-sm-2 col-form-label">Nome</label>
@@ -262,16 +262,16 @@
                     <input type="time" class="form-control" id="calendarAddTime" placeholder="Ora">
                   </div>
                 </div>
-
+              </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" id="addEventButton" class="btn btn-primary" data-dismiss="modal">Insert Exam</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              <button type="button" id="addEventButton" class="btn btn-primary">Inserisci Evento</button>
               <script> $('#addEventButton').on('click', function() {
                         var name = $('#calendarAddName').val();
                         var date = $('#calendarAddDate').val();
                         var time = $('#calendarAddTime').val();
-                        addCalendarEvent(name, date, time);
+                        if(addCalendarEvent(name, date, time)) $("#addCalendarForm").modal("hide");
                       });
               </script>
             </div>
@@ -288,7 +288,7 @@
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
             </div>
             <div class="modal-body">
-              <div>
+              <form class="was-validated">
                 <!-- INSERT EVENT NAME (EDIT) -->
                 <div class="form-group row">
                   <label for="calendarEditName" class="col-sm-2 col-form-label">Nome</label>
@@ -312,17 +312,17 @@
                     <input type="time" class="form-control" id="calendarEditTime" placeholder="Ora">
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
             <!-- POPUP EDIT EVENT CALENDAR FOOTER -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" class="btn btn-primary" id="editCalendarButton" data-dismiss="modal">Salva</button>
+              <button type="button" class="btn btn-primary" id="editCalendarButton">Salva</button>
               <script> $('#editCalendarButton').on('click', function() {
                         var name = $('#calendarEditName').val();
                         var date = $('#calendarEditDate').val();
                         var time = $('#calendarEditTime').val();
-                        editCalendarEvent(name, date, time);
+                        if(editCalendarEvent(name, date, time)) $("#editCalendarForm").modal("hide");
                       });
               </script>
             </div>
@@ -335,22 +335,22 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
             </div>
             <div class="modal-body">
-
+              <form class="was-validated">
                 <!-- INSERT EVENT DATE (EDIT) -->
                 <div class="form-group row">
                   <label for="courseCFU" class="col-sm-2 col-form-label">CFU Totali</label>
                   <div class="col-sm-10">
-                    <input type="numeric" class="form-control" id="courseCFU" min="60" max="220" placeholder="CFU Richiesti del corso" required>
+                    <input type="numeric" class="form-control" id="courseCFU" min="50" max="300" placeholder="CFU Richiesti del corso" required>
                   </div>
                 </div>
-
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-              <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal"  onclick="initCourseCFU()">Vai al tuo libretto</button>
+              <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal" onclick="initCourseCFU()">Vai al tuo libretto</button>
             </div>
           </div>
         </div>

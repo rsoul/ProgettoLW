@@ -195,6 +195,12 @@ function checkCode(code) {
 	else return false;
 }
 
+/* CHECK EVENT NAME */
+function checkName(name) {
+	if (name != "") return true;
+	else return false;
+}
+
 /* CHECK IF INPUT DATE IS VALID (DON'T CHECK IF IS > OR < OF TODAY!) */
 function checkDate(date) {
 	var day = date.getDate();
