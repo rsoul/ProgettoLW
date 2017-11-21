@@ -284,7 +284,7 @@ function checkRegister() {
 		return false;
 	}
 
-	var password_regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+	var password_regex = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/;
 	if (!password_regex.test(password.value)) {
 		alert("Password non valida!");
 		password.focus;
@@ -306,6 +306,24 @@ function checkRegister() {
 	if (course.value == "") {
 		alert("Inserisci il corso");
 		course.focus;
+		return false;
+	}
+
+	return true;
+}
+
+/* SMALL CHECK FOR LOGIN FIELDS */
+function checkLogin() {
+	var email = document.getElementById("loginEmail");
+	var password = document.getElementById("loginPassword");
+
+	if (email.value == "") {
+		alert("Inserisci l'email!");
+		return false;
+	}
+
+	if (password.value == "") {
+		alert("Inserisci la password!");
 		return false;
 	}
 

@@ -1,4 +1,3 @@
-
 #main_container {
 	background-color:#FFFFFF;
 	overflow: hidden;
@@ -11,10 +10,6 @@
 
 body {
 	background: #000000 ; /* Colore e immagine sfondo */
-	background-repeat: no-repeat;	/* Non ripetere */
-	background-attachment: fixed;	/* Fisso */
-    background-position: center;	/* Centrale */
-	background-size:100%;			/* 100% dello schermo */
 	height:100%;
 	margin:0px;
 	padding:0px;
