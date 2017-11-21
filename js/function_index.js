@@ -30,10 +30,9 @@ function initDashboard() {
 	edit_calendar_date.setAttribute("min", today);
 	add_calendar_date.value = today;
 
-	initStorageCFU();
-	initStorageCalendar();
+	checkStorageCFU();
 	initStorageExams();
-
+	initStorageCalendar();
 	return true;
 }
 

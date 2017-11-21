@@ -22,6 +22,8 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>migliorare edit di exam/event inserendo automaticamente i valori dell'elemento da modificare disattivando il codice/nome (NON MODIFICABILI, KEYS)</del>
 * Una volta rilasciata la versione stabile e finale, ricordarsi di minify tutti i file per un piccolo boost nella performance della web app
 * <del>Animare la progress bar ed il testo di esso attraverso la funzione getProgress()</del>
+* modificare il grafico con valore massimo 31 e valore minimo 18 (fisso, non variabile dai valori inseriti)
+* se non si hanno inizializzati i local storage si verifica un "bug" se non si aggiorna la pagina
 
 ### Bugs to squash:
 

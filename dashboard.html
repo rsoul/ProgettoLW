@@ -59,6 +59,7 @@
     </ul>
 
     <!-- CONTAINER -->
+    <div class="jumbotron" style="background-color: #FFFFFF; padding-top: 0px;">
     <div id="myTabContent" class="tab-content">
 
       <!-- EXAMS TABLE -->
@@ -67,27 +68,27 @@
           <div class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar" role="progressbar" style="width:0%">0%</div>
         </div>
         <div id="my_exams"></div>
-        <script> printExams(); </script>
-        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addExamForm" onclick="resetAddExamFields()">Aggiungi Esame</button> </div>
+        <script> $(document).ready(printExams()); </script>
+        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddExamButton" data-target="#addExamForm" onclick="resetAddExamFields()">Aggiungi Esame</button> </div>
       </div>
 
       <!-- CALENDAR TABLE -->
       <div class="tab-pane fade" id="calendar" role="tabpanel">
         <div id="my_calendar"></div>
-        <script> printCalendar(); </script>
-         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#addCalendarForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
+        <script> $(document).ready(printCalendar()); </script>
+         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddCalendarEventButton" data-target="#addCalendarForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
       </div>
 
       <!-- EXAMS CHART -->
       <div class="tab-pane fade" id="trend" role="tabpanel">
         <canvas id="user_chart" style="display: block; width: 100px; height: 30px;"></canvas>
-        <script> printChart(); </script>
+        <script> $(document).ready(printChart()); </script>
       </div>
 
       <!-- EXAMS CHART -->
       <div class="tab-pane fade" id="statistics" role="tabpanel">
         <div id="my_statistics" style="text-align: center;"></div>
-        <script> printStatistics(); </script>
+        <script> $(document).ready(printStatistics()); </script>
       </div>
 
 
@@ -148,12 +149,12 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" id="addExamButton" class="btn btn-primary">Inserisci Esame</button>
               <script> $('#addExamButton').on('click', function() {
-                        var code = $('#examAddCode').val();
-                        var date = $('#examAddDate').val();
-                        var grade = $('#examAddGrade').val();
-                        var praise = $("input[name=examAddPraise]:checked").val();
-                        var cfu = $('#examAddCFU').val();
-                        if(addExam(code, date, grade, praise, cfu)) $("#addExamForm").modal("hide");
+                        if(addExam()) $("#addExamForm").modal("hide");
+                      });
+                      $(document).keypress(function(e) {
+                        if(e.which == 13 && $("#addExamForm").is(':visible')) {
+                          if(addExam()) $("#addExamForm").modal("hide");
+                        }
                       });
               </script>
             </div>
@@ -214,12 +215,12 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" id="editExamButton" class="btn btn-primary">Salva</button>
               <script> $('#editExamButton').on('click', function() {
-                        var code = $('#examEditCode').val();
-                        var date = $('#examEditDate').val();
-                        var grade = $('#examEditGrade').val();
-                        var praise = $("input[name=inputEditPraise]:checked").val();
-                        var cfu = $('#examEditCFU').val();
-                        if(editExam(code, date, grade, praise, cfu)) $("#editExamForm").modal("hide");
+                        if(editExam()) $("#editExamForm").modal("hide");
+                      });
+                      $(document).keypress(function(e) {
+                        if(e.which == 13 && $('#editExamForm').is(':visible')) {
+                          if(editExam()) $("#editExamForm").modal("hide");
+                        }
                       });
               </script>
             </div>
@@ -268,10 +269,12 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" id="addEventButton" class="btn btn-primary">Inserisci Evento</button>
               <script> $('#addEventButton').on('click', function() {
-                        var name = $('#calendarAddName').val();
-                        var date = $('#calendarAddDate').val();
-                        var time = $('#calendarAddTime').val();
-                        if(addCalendarEvent(name, date, time)) $("#addCalendarForm").modal("hide");
+                        if(addCalendarEvent()) $("#addCalendarForm").modal("hide");
+                      });
+                      $(document).keypress(function(e) {
+                        if(e.which == 13 && $('#addCalendarForm').is(':visible')) {
+                          if(addCalendarEvent()) $("#addCalendarForm").modal("hide");
+                        }
                       });
               </script>
             </div>
@@ -319,10 +322,12 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
               <button type="button" class="btn btn-primary" id="editCalendarButton">Salva</button>
               <script> $('#editCalendarButton').on('click', function() {
-                        var name = $('#calendarEditName').val();
-                        var date = $('#calendarEditDate').val();
-                        var time = $('#calendarEditTime').val();
-                        if(editCalendarEvent(name, date, time)) $("#editCalendarForm").modal("hide");
+                        if(editCalendarEvent()) $("#editCalendarForm").modal("hide");
+                      });
+                      $(document).keypress(function(e) {
+                        if(e.which == 13 && $('#editCalendarForm').is(':visible')) {
+                          if(editCalendarEvent()) $("#editCalendarForm").modal("hide");
+                        }
                       });
               </script>
             </div>
@@ -350,12 +355,31 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-              <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal" onclick="initCourseCFU()">Vai al tuo libretto</button>
+              <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal">Vai al tuo libretto</button>
+              <script>$('#initCourseCFUButton').on('click', function() {
+                        if(localStorage.getItem("CFU") == null) {
+                          localStorage.setItem('CFU', $("#courseCFU").val()); 
+                          $("#initCourseCFUDiv").hide();
+                          checkStorageCFU();
+                          getPercentageCFU();
+                        }
+                      });
+                      $(document).keypress(function(e) {
+                        if(e.which == 13 && $('#initCourseCFUButton').is(':visible')) {
+                          if(localStorage.getItem("CFU") == null) {
+                          localStorage.setItem('CFU', $("#courseCFU").val()); 
+                          $("#initCourseCFUDiv").hide();
+                          checkStorageCFU();
+                          getPercentageCFU();
+                        }
+                        }
+                      });
+              </script>
             </div>
           </div>
         </div>
       </div>
-
+    </div>
     </div>
   </div>
 

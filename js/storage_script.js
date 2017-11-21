@@ -25,25 +25,18 @@ function resetStorageCalendar(){localStorage.calendar="[]";}
 /* REMOVE ALL EXEMENTS FROM EXAMS STORAGE (NOT USED) */
 function resetStorageCFU(){ if(localStorage.getItem("CFU") != null) localStorage.setItem('CFU', null);}
 
-function initStorageCFU(){
-	if(localStorage.getItem("CFU") == null) document.getElementById("initCourseCFUDiv").style.visibility = "visible";
-	else {
-		document.getElementById("initCourseCFUDiv").style.visibility = "hidden";
-		getPercentageCFU();
-	}
-}
 
-function initCourseCFU() {
-	if(localStorage.getItem("CFU") == null) { 
-		localStorage.setItem('CFU', document.getElementById("courseCFU").value);
-		document.getElementById("initCourseCFUDiv").style.visibility = "hidden";
-		getPercentageCFU();
+function checkStorageCFU() {
+	if(localStorage.getItem("CFU") != null) {
+		$("#initCourseCFUDiv").hide();
+		$("#mainAddExamButton").show();
+		$("#progressBar").show();
 	}
 	else {
-		alert("CFU già inseriti!");
-		return false;
+		$("#initCourseCFUDiv").show();
+		$("#mainAddExamButton").hide();	
+		$("#progressBar").hide();
 	}
-	return true;
 }
 
 
@@ -53,6 +46,7 @@ function initCourseCFU() {
 
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
+	if (typeof(localStorage.calendar) == "undefined") return false;
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
 	var s = new String("");
@@ -69,7 +63,9 @@ function printCalendar(){
 		var date = calendar[i].date;
 		var time = calendar[i].time;
 
-		if(time == "") time = "N.D.";
+		var time_for_print = time;
+
+		if(time == "") time_for_print = "N.D.";
 
 		/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
 		if (dateDiff > 10) s += "<tr>";
@@ -86,7 +82,7 @@ function printCalendar(){
 		
 		s += "<td>" + name + "</td>";
 		s += "<td>" + date + "</td>";
-		s += "<td>" + time + "</td>";
+		s += "<td>" + time_for_print + "</td>";
 		s += "<td>" + dateDiff_for_print + "</td>";
 
 		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
@@ -100,6 +96,7 @@ function printCalendar(){
 
 /* PRINT A TABLE WITH ALL EXAMS FROM EXAMS STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printExams(){
+	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
@@ -139,6 +136,7 @@ function printExams(){
 
 /* PRINT STATISTICS FOR EXAMS */
 function printStatistics() {
+	if (typeof(localStorage.calendar) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
@@ -167,6 +165,7 @@ function printStatistics() {
 
 /* PRINT CHART OF EXAMS VOTES FROM EXAMS STORAGE (USING CHARTJS) */
 function printChart() {
+	if (typeof(localStorage.calendar) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var voti = [];
@@ -251,9 +250,12 @@ function removeEvent(name) {
 /* ---------------------------------------- */
 
 /* EDIT A SELECTED EXAM (FROM BUTTON) FROM THE EXAMS STORAGE */
-function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
-	var exams = JSON.parse(localStorage.exams);
-	var len = exams.length;
+function editExam() {
+	var exam_code = $('#examEditCode').val();
+    var exam_date = $('#examEditDate').val();
+    var exam_grade = $('#examEditGrade').val();
+    var exam_praise = $("input[name=inputEditPraise]:checked").val();
+    var exam_cfu = $('#examEditCFU').val();
 
 	if (!checkCode(exam_code)) {
 		alert("Codice esame non valido!");
@@ -276,6 +278,9 @@ function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
 		return false;
 	}
 
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+
 	for (i=0; i<len; i++) {
 		if(exams[i].code == exam_code) {
 			exams[i].date = exam_date;
@@ -294,9 +299,10 @@ function editExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu) {
 }
 
 /* EDIT A SELECTED (FROM BUTTON) EVENT FROM THE CALENDAR STORAGE */
-function editCalendarEvent(calendar_name, calendar_date, calendar_time) {
-	var calendar = JSON.parse(localStorage.calendar);
-	var len = calendar.length;
+function editCalendarEvent() {
+	var calendar_name = $('#calendarEditName').val();
+	var calendar_date = $('#calendarEditDate').val();
+	var calendar_time = $('#calendarEditTime').val();
 
 	if (!checkDate(new Date(calendar_date))) {
 		alert("Data non valida!");
@@ -306,6 +312,9 @@ function editCalendarEvent(calendar_name, calendar_date, calendar_time) {
 		alert("Data passata non valida!");
 		return false;
 	}
+
+	var calendar = JSON.parse(localStorage.calendar);
+	var len = calendar.length;
 
 	for (i=0; i<len; i++) {
 		if(calendar[i].name == calendar_name) {
@@ -327,7 +336,14 @@ function editCalendarEvent(calendar_name, calendar_date, calendar_time) {
 /* ---------------------------------------- */
 
 /* INSERT NEW EXAM ON EXAMS STORAGE (CHECK ALL FIELDS) */
-function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
+function addExam(){
+	var exam_code = $('#examAddCode').val();
+	var exam_date = $('#examAddDate').val();
+    var exam_grade = $('#examAddGrade').val();
+    var exam_praise = $("input[name=examAddPraise]:checked").val();
+    var exam_cfu = $('#examAddCFU').val();
+	
+
 	if (!checkCode(exam_code)) {
 		alert("Codice non valido!");
 		return false;
@@ -350,7 +366,8 @@ function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 	}
 
 	var exams = JSON.parse(localStorage.exams);
-	var where = exams.length;	
+	var len = exams.length;	
+
 	var exam = { 
 		code: exam_code,
 		date: exam_date,
@@ -358,13 +375,14 @@ function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 		cfu: exam_cfu
 	};
 	
-	for (i=0; i<where; i++)
+	for (i=0; i<len; i++) {
 		if(sameExam(exams[i], exam)) {
 			alert("Esame già presente!");
 			return false;
 		}
+	}
 
-	exams[where] = exam;
+	exams[len] = exam;
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
 	printStatistics();
@@ -374,9 +392,10 @@ function addExam(exam_code, exam_date, exam_grade, exam_praise, exam_cfu){
 }
 
 /* INSERT NEW EVENT ON CALENDAR STORAGE (CHECK ALL FIELDS) */
-function addCalendarEvent(calendar_name, calendar_date, calendar_time){
-	var calendar = JSON.parse(localStorage.calendar);
-	var len=calendar.length;
+function addCalendarEvent(){
+	var calendar_name = $('#calendarAddName').val();
+	var calendar_date = $('#calendarAddDate').val();
+	var calendar_time = $('#calendarAddTime').val();
 
 	if(!checkName(calendar_name)) {
 		alert("Nome non valido!");
@@ -391,20 +410,26 @@ function addCalendarEvent(calendar_name, calendar_date, calendar_time){
 		return false;
 	}
 
+	if(calendar_time == "") alert("A");
+
+	var calendar = JSON.parse(localStorage.calendar);
+	var len = calendar.length;
+
 	var event = {
 		name: calendar_name,
 		date: calendar_date,
 		time: calendar_time
 	};
 	
-	for (i=0; i<len; i++)
+	for (i=0; i<len; i++) {
 		if(sameEvent(calendar[i], event)) {
 			alert("Evento già presente!");
 			return false;
 		}
+	}
 
-	calendar[len]=event;
-	localStorage.calendar=JSON.stringify(calendar);
+	calendar[len] = event;
+	localStorage.calendar = JSON.stringify(calendar);
 	printCalendar();
 	return true;
 }
