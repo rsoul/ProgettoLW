@@ -62,7 +62,7 @@ function printCalendar(){
 	});
 	
 	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Giorni Mancanti</th><th>Opzioni</th></tr>";
+	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Scadenza</th><th>Opzioni</th></tr>";
 	for (i=0; i<len; i++) {
 		var dateDiff = dateDiffInDays(new Date(getToday()), calendar[i].date);
 		var name = calendar[i].name;
@@ -70,35 +70,27 @@ function printCalendar(){
 		var time = calendar[i].time;
 
 		if(time == "") time = "N.D.";
-		/* IF DISTANCE FROM A DATE IS >10 -> SHOW NORMAL TD */
-		if (dateDiff > 10) {
-			s += "<tr><td style=\"vertical-align: middle;\" >" + name + "</td>";
-			s += "<td style=\"vertical-align: middle;\" >" + date + "</td>";
-			s += "<td style=\"vertical-align: middle;\" >" + time + "</td>";
-			s += "<td style=\"vertical-align: middle;\" >" + dateDiff + "</td>";
-			s += "<td style=\"vertical-align: middle;\" ><button class=\"btn btn-danger btn-sm\" id=rmv_event_\""+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\" id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\');\"><i class=\"material-icons\">create</i></button></td></tr>";
-		}
-		/* ELSE (<=10) SHOW RED BACKGROUND TD */
-		else if (dateDiff > 5) {
-			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-warning\">" + name + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\">" + date + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\">" + time + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\">" + dateDiff + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-warning\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
-		}
-		else {
-			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-danger\">" + name + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + date + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + time + "</td>";
-			if (dateDiff == 1) s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Domani</td>";	
-			else if (dateDiff == 0) s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">Oggi</td>";
-			else s += "<td style=\"vertical-align: middle;\" class=\"table-danger\">" + dateDiff + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-danger\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 
-		}
+		/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
+		if (dateDiff > 10) s += "<tr>";
+		else if (dateDiff > 5) s += "<tr class=\"table-warning\">";
+		else if (dateDiff >= 0) s += "<tr class=\"table table-danger\">";
+		else s += "<tr class=\"table table-success\">";
+
+		var dateDiff_for_print = dateDiff;
+
+		/* CHECK FOR DISTANCE FROM TODAY (TODAY, TOMORROW, ...) */
+		if(dateDiff == 1) dateDiff_for_print = "Domani";
+		else if(dateDiff == 0) dateDiff_for_print = "Oggi";
+		else if(dateDiff == -1) dateDiff_for_print = "Ieri";
+		
+		s += "<td>" + name + "</td>";
+		s += "<td>" + date + "</td>";
+		s += "<td>" + time + "</td>";
+		s += "<td>" + dateDiff_for_print + "</td>";
+
+		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 	}
 
 	s += "</table></div>";
@@ -123,25 +115,21 @@ function printExams(){
 		var date = exams[i].date;
 		var grade = exams[i].grade;
 		var cfu = exams[i].cfu;
+		var grade_for_print = grade;
 
-		/* IF 30 WITH PRAISE -> SHOW GREEN BACKGROUND TR */
+		/* IF 30 WITH PRAISE -> SHOW GREEN BACKGROUND ROW */
 		if (grade == 31) {
-			s += "<tr><td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamCode"+code+"\">" + code + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamDate"+code+"\">" + date + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamGrade"+code+"\">30 e Lode</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-success\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			s += "<td style=\"vertical-align: middle;\" class=\"table-success\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
-		} 
-		/* ELSE A NORMAL TD */
-		else {
-			s += "<tr><td style=\"vertical-align: middle;\" id=\"tableExamCode"+code+"\">" + code + "</td>";
-			s += "<td style=\"vertical-align: middle;\" id=\"tableExamDate"+code+"\">" + date + "</td>";
-			s += "<td style=\"vertical-align: middle;\" id=\"tableExamGrae"+code+"\">" + grade + "</td>";
-			s += "<td style=\"vertical-align: middle;\" id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			s += "<td style=\"vertical-align: middle;\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-			s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\" id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
-		}		
+			grade_for_print = "30 e Lode";
+			s += "<tr class=\"table table-success\">";
+		}
+		/* ELSE A NORMAL ROW */
+		else s += "<tr>";
+		s += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
+		s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
+		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
+		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
+		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";		
 	}
 	s += "</table></div>";
 

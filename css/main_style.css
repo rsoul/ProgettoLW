@@ -32,3 +32,7 @@ html,body {
   background-color: #efefef;
   text-align: center;
 }
+
+td {
+	vertical-align: middle !important;
+}

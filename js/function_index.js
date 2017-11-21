@@ -101,8 +101,14 @@ function initEditExam(code, date, grade, cfu) {
 	else {
 		document.getElementById("examEditGrade").value = grade;
 		document.getElementById("examEditPraiseNo").checked = true;
-		document.getElementById("examEditPraiseDiv").style.visibility = "collapse";
-		document.getElementById("examEditPraiseDiv").style.display = "none";
+		if (grade == 30) {
+			document.getElementById("examEditPraiseDiv").style.visibility = "visible";
+		document.getElementById("examEditPraiseDiv").style.display = "block";
+		}
+		else {
+			document.getElementById("examEditPraiseDiv").style.visibility = "collapse";
+			document.getElementById("examEditPraiseDiv").style.display = "none";
+		}
 	}
 	document.getElementById("examEditCFU").value = cfu;
 }
