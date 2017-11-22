@@ -192,21 +192,20 @@ function printChart() {
 				data: voti,
 				pointStyle: "circle",
 				borderColor: "rgb(0, 0, 0)",
-				lineTension:1}
+				lineTension:0.1}
 			]},
 		options: {
 			yAxisID: "Voto",
-			xAxisID: "Data"
-		},
-
-		scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 18,
-                            max: 31
-                        }
-                    }]
-                }
+			xAxisID: "Data",
+			scales: {
+            	yAxes: [{
+            		ticks: {
+						min: 18,
+						max: 31
+					}
+				}]
+            }
+        }
 	});
 	return true;
 }
