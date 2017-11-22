@@ -268,23 +268,23 @@ function editExam() {
     var exam_cfu = $('#examEditCFU').val();
 
 	if (!checkCode(exam_code)) {
-		alert("Codice esame non valido!");
+		showAlert("examEditAlert", "examEditAlertText", "Codice esame non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
-		alert("Data non valida!");
+		showAlert("examEditAlert", "examEditAlertText", "Data non valida!");
 		return false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		alert("Data futura non valida!");
+		showAlert("examEditAlert", "examEditAlertText", "Data futura non valida!");
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
-		alert("Voto non valido!");
+		showAlert("examEditAlert", "examEditAlertText", "Voto non valido!");
 		return false;
 	}
 	if (!checkCFU(exam_cfu)) {
-		alert("CFU non validi!");
+		showAlert("examEditAlert", "examEditAlertText", "CFU non validi!");
 		return false;
 	}
 
@@ -315,11 +315,11 @@ function editCalendarEvent() {
 	var calendar_time = $('#calendarEditTime').val();
 
 	if (!checkDate(new Date(calendar_date))) {
-		alert("Data non valida!");
+		showAlert("calendarEditAlert", "calendarEditAlertText", "Data non valida!");
 		return false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		alert("Data passata non valida!");
+		showAlert("calendarEditAlert", "calendarEditAlertText", "Data passata non valida!");
 		return false;
 	}
 
@@ -355,23 +355,23 @@ function addExam(){
 	
 
 	if (!checkCode(exam_code)) {
-		alert("Codice non valido!");
+		showAlert("examAddAlert", "examAddAlertText", "Codice non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
-		alert("Data non valida!");
+		showAlert("examAddAlert", "examAddAlertText", "Data non valida!");
 		return false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		alert("Data futura non valida!");
+		showAlert("examAddAlert", "examAddAlertText", "Data futura non valida!");
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
-		alert("Voto non valido!");
+		showAlert("examAddAlert", "examAddAlertText", "Voto non valido!");
 		return false;
 	}
 	if (!checkCFU(exam_cfu)) {
-		alert("CFU non validi!");
+		showAlert("examAddAlert", "examAddAlertText", "CFU non validi!");
 		return false;
 	}
 
@@ -387,7 +387,7 @@ function addExam(){
 	
 	for (i=0; i<len; i++) {
 		if(sameExam(exams[i], exam)) {
-			alert("Esame già presente!");
+			showAlert("examAddAlert", "examAddAlertText", "Esame già presente!");
 			return false;
 		}
 	}
@@ -408,15 +408,15 @@ function addCalendarEvent(){
 	var calendar_time = $('#calendarAddTime').val();
 
 	if(!checkName(calendar_name)) {
-		alert("Nome non valido!");
+		showAlert("calendarAddAlert", "calendarAddAlertText", "Nome non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(calendar_date))) {
-		alert("Data non valida!");
+		showAlert("calendarAddAlert", "calendarAddAlertText", "Data non valida!");
 		return false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		alert("Data passata non valida!");
+		showAlert("calendarAddAlert", "calendarAddAlertText", "Data passata non valida!");
 		return false;
 	}
 
@@ -431,7 +431,7 @@ function addCalendarEvent(){
 	
 	for (i=0; i<len; i++) {
 		if(sameEvent(calendar[i], event)) {
-			alert("Evento già presente!");
+			showAlert("calendarAddAlert", "calendarAddAlertText", "Evento già presente!");
 			return false;
 		}
 	}
