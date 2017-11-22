@@ -185,7 +185,7 @@ function printChart() {
 	new Chart(ctx,{
 		type: "line",
 		
-		/*data: {
+		data: {
 			labels: date,
 			datasets: [{
 				label: "Voto",
@@ -197,7 +197,7 @@ function printChart() {
 		options: {
 			yAxisID: "Voto",
 			xAxisID: "Data"
-		},*/
+		},
 
 		scales: {
                     yAxes: [{
