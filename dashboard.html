@@ -72,14 +72,14 @@
         </div>
         <div id="my_exams"></div>
         <script> $(document).ready(printExams()); </script>
-        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddExamButton" data-target="#addExamForm" onclick="resetAddExamFields()">Aggiungi Esame</button> </div>
+        <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddExamButton" data-target="#examAddForm" onclick="resetAddExamFields()">Aggiungi Esame</button> </div>
       </div>
 
       <!-- CALENDAR TABLE -->
       <div class="tab-pane fade" id="calendar" role="tabpanel">
         <div id="my_calendar"></div>
         <script> $(document).ready(printCalendar()); </script>
-         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddCalendarEventButton" data-target="#addCalendarForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
+         <div class="text-center"> <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddCalendarEventButton" data-target="#calendarAddForm" onclick="resetAddEventFields()">Aggiungi Evento</button> </div>
       </div>
 
       <!-- EXAMS CHART -->
@@ -96,7 +96,7 @@
       <!-- EXAMS -->
 
       <!-- POPUP ADD EXAM -->
-      <div class="modal fade" id="addExamForm" tabindex="-1" role="dialog" aria-labelledby="AddExam" aria-hidden="true">
+      <div class="modal fade" id="examAddForm" tabindex="-1" role="dialog" aria-labelledby="ExamAdd" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <!-- POPUP ADD EXAM HEADER -->
@@ -129,7 +129,7 @@
                   <div class="col-sm-10">
                     <input type="number" class="form-control" id="examAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddExamPraise()" required>
                     <div id="examAddPraiseDiv" style="visibility: hidden; display: none;">
-                      <i>Lode?</i> Si <input type="radio" name="examAddPraise" value="praise_yes"> No <input type="radio" name="examAddPraise" value="praise_no" checked>
+                      <i>Lode?</i> Si <input type="radio" id="examAddPraiseYes" name="examAddPraise" value="praise_yes"> No <input type="radio" id="examAddPraiseNo" name="examAddPraise" value="praise_no" checked>
                     </div>
                   </div>
                 </div>
@@ -147,13 +147,13 @@
             <!-- POPUP ADD EXAM FOOTER -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" id="addExamButton" class="btn btn-primary">Inserisci Esame</button>
-              <script> $('#addExamButton').on('click', function() {
-                        if(addExam()) $("#addExamForm").modal("hide");
+              <button type="button" id="examAddButton" class="btn btn-primary">Inserisci Esame</button>
+              <script> $('#examAddButton').on('click', function() {
+                        if(addExam()) $("#examAddForm").modal("hide");
                       });
                       $(document).keypress(function(e) {
-                        if(e.which == 13 && $("#addExamForm").is(':visible')) {
-                          if(addExam()) $("#addExamForm").modal("hide");
+                        if(e.which == 13 && $("#examAddForm").is(':visible')) {
+                          if(addExam()) $("#examAddForm").modal("hide");
                         }
                       });
               </script>
@@ -163,7 +163,7 @@
       </div>
 
       <!-- POPUP EDIT EXAM -->
-      <div class="modal fade" id="editExamForm" tabindex="-1" role="dialog" aria-labelledby="EditExam" aria-hidden="true">
+      <div class="modal fade" id="examEditForm" tabindex="-1" role="dialog" aria-labelledby="ExamEdit" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <!-- POPUP EDIT EXAM HEADER -->
@@ -195,7 +195,7 @@
                   <div class="col-sm-10">
                     <input type="number" class="form-control" id="examEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditExamPraise()" onclick="showEditExamPraise()" required>
                     <div id="examEditPraiseDiv" style="visibility: hidden; display: none;">
-                      <i>Lode?</i> Si <input type="radio" id="examEditPraiseYes" name="inputEditPraise" value="praise_yes"> No <input type="radio" id="examEditPraiseNo" name="inputEditPraise" value="praise_no" checked>
+                      <i>Lode?</i> Si <input type="radio" id="examEditPraiseYes" name="examEditPraise" value="praise_yes"> No <input type="radio" id="examEditPraiseNo" name="examEditPraise" value="praise_no" checked>
                     </div>
                   </div>
                 </div>
@@ -213,13 +213,13 @@
             <!-- POPUP EDIT EXAM FOOTER -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" id="editExamButton" class="btn btn-primary">Salva</button>
-              <script> $('#editExamButton').on('click', function() {
-                        if(editExam()) $("#editExamForm").modal("hide");
+              <button type="button" id="examEditButton" class="btn btn-primary">Salva</button>
+              <script> $('#examEditButton').on('click', function() {
+                        if(editExam()) $("#examEditForm").modal("hide");
                       });
                       $(document).keypress(function(e) {
-                        if(e.which == 13 && $('#editExamForm').is(':visible')) {
-                          if(editExam()) $("#editExamForm").modal("hide");
+                        if(e.which == 13 && $('#examEditForm').is(':visible')) {
+                          if(editExam()) $("#examEditForm").modal("hide");
                         }
                       });
               </script>
@@ -232,7 +232,7 @@
       <!-- CALENDAR -->
 
       <!-- POPUP ADD CALENDAR EVENT -->
-      <div class="modal fade" id="addCalendarForm" tabindex="-1" role="dialog" aria-labelledby="AddEvent" aria-hidden="true">
+      <div class="modal fade" id="calendarAddForm" tabindex="-1" role="dialog" aria-labelledby="CalendarAdd" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -267,13 +267,13 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" id="addEventButton" class="btn btn-primary">Inserisci Evento</button>
-              <script> $('#addEventButton').on('click', function() {
-                        if(addCalendarEvent()) $("#addCalendarForm").modal("hide");
+              <button type="button" id="calendarAddButton" class="btn btn-primary">Inserisci Evento</button>
+              <script> $('#calendarAddButton').on('click', function() {
+                        if(addCalendarEvent()) $("#calendarAddForm").modal("hide");
                       });
                       $(document).keypress(function(e) {
-                        if(e.which == 13 && $('#addCalendarForm').is(':visible')) {
-                          if(addCalendarEvent()) $("#addCalendarForm").modal("hide");
+                        if(e.which == 13 && $('#calendarAddForm').is(':visible')) {
+                          if(addCalendarEvent()) $("#calendarAddForm").modal("hide");
                         }
                       });
               </script>
@@ -283,7 +283,7 @@
       </div>
 
       <!-- POPUP EDIT EVENT CALENDAR -->
-      <div class="modal fade" id="editCalendarForm" tabindex="-1" role="dialog" aria-labelledby="EditEvent" aria-hidden="true">
+      <div class="modal fade" id="calendarEditForm" tabindex="-1" role="dialog" aria-labelledby="EditEvent" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <!-- POPUP EDIT EVENT CALENDAR HEADER -->
@@ -320,13 +320,13 @@
             <!-- POPUP EDIT EVENT CALENDAR FOOTER -->
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-              <button type="button" class="btn btn-primary" id="editCalendarButton">Salva</button>
-              <script> $('#editCalendarButton').on('click', function() {
-                        if(editCalendarEvent()) $("#editCalendarForm").modal("hide");
+              <button type="button" class="btn btn-primary" id="calendarEditButton">Salva</button>
+              <script> $('#calendarEditButton').on('click', function() {
+                        if(editCalendarEvent()) $("#calendarEditForm").modal("hide");
                       });
                       $(document).keypress(function(e) {
-                        if(e.which == 13 && $('#editCalendarForm').is(':visible')) {
-                          if(editCalendarEvent()) $("#editCalendarForm").modal("hide");
+                        if(e.which == 13 && $('#calendarEditForm').is(':visible')) {
+                          if(editCalendarEvent()) $("#calendarEditForm").modal("hide");
                         }
                       });
               </script>

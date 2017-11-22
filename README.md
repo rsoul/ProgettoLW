@@ -36,6 +36,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 - <del>Immettere troppi esami fa fare collapse tra la barra di selezione della pagina e il footer</del>
 - **Priority** Immettere troppi esami (n>20) fa formattare male il graph
 * La form  di immissione di esame/evento permette l'inserimento di script malevoli ([XSS](https://www.acunetix.com/websitesecurity/cross-site-scripting/))
+* (NON SEMPRE) Se si aggiunge un evento con time vuoto la pagina si aggiorna automaticamente
 
 ### Raoul:
 - login

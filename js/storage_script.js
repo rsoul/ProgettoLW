@@ -87,7 +87,7 @@ function printCalendar(){
 		s += "<td>" + dateDiff_for_print + "</td>";
 
 		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editCalendarForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#calendarEditForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 	}
 
 	s += "</table></div>";
@@ -127,7 +127,7 @@ function printExams(){
 		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
 		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#editExamForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";		
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";		
 	}
 	s += "</table></div>";
 
@@ -264,7 +264,7 @@ function editExam() {
 	var exam_code = $('#examEditCode').val();
     var exam_date = $('#examEditDate').val();
     var exam_grade = $('#examEditGrade').val();
-    var exam_praise = $("input[name=inputEditPraise]:checked").val();
+    var exam_praise = $("input[name=examEditPraise]:checked").val();
     var exam_cfu = $('#examEditCFU').val();
 
 	if (!checkCode(exam_code)) {
