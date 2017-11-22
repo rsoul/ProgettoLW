@@ -336,6 +336,7 @@ function checkLogin() {
 	return true;
 }
 
+/* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
 function showAlert(elem_alert, elem_alert_text, s){
 	$('#' + elem_alert).css("visibility", "visible");
 	$('#'+ elem_alert_text).text(s);
