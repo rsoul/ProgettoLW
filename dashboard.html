@@ -53,9 +53,6 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#trend">Trend Esami</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#statistics">Statistiche</a>
-      </li>
     </ul>
 
     <!-- CONTAINER -->
@@ -82,15 +79,12 @@
       <!-- EXAMS CHART -->
       <div class="tab-pane fade" id="trend" role="tabpanel">
         <canvas id="user_chart" style="display: block; width: 100px; height: 30px;"></canvas>
-        <script> $(document).ready(printChart()); </script>
-      </div>
-
-      <!-- EXAMS CHART -->
-      <div class="tab-pane fade" id="statistics" role="tabpanel">
         <div id="my_statistics" style="text-align: center;"></div>
-        <script> $(document).ready(printStatistics()); </script>
+        <script> 
+          $(document).ready(printChart()); 
+          $(document).ready(printStatistics()); 
+        </script>
       </div>
-
 
 
       <!-- EXAMS -->
@@ -344,7 +338,7 @@
             </div>
             <div class="modal-body">
               <form class="was-validated">
-                <!-- INSERT EVENT DATE (EDIT) -->
+                <!-- INSERT TOTAL CFU -->
                 <div class="form-group row">
                   <label for="courseCFU" class="col-sm-2 col-form-label">CFU Totali</label>
                   <div class="col-sm-10">
@@ -367,11 +361,11 @@
                       $(document).keypress(function(e) {
                         if(e.which == 13 && $('#initCourseCFUButton').is(':visible')) {
                           if(localStorage.getItem("CFU") == null) {
-                          localStorage.setItem('CFU', $("#courseCFU").val()); 
-                          $("#initCourseCFUDiv").hide();
-                          checkStorageCFU();
-                          getPercentageCFU();
-                        }
+                            localStorage.setItem('CFU', $("#courseCFU").val()); 
+                            $("#initCourseCFUDiv").hide();
+                            checkStorageCFU();
+                            getPercentageCFU();
+                          } 
                         }
                       });
               </script>

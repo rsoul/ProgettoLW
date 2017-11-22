@@ -31,6 +31,7 @@ function checkStorageCFU() {
 		$("#initCourseCFUDiv").hide();
 		$("#mainAddExamButton").show();
 		$("#progressBar").show();
+		getPercentageCFU();
 	}
 	else {
 		$("#initCourseCFUDiv").show();
@@ -69,7 +70,7 @@ function printCalendar(){
 
 		/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
 		if (dateDiff > 10) s += "<tr>";
-		else if (dateDiff > 5) s += "<tr class=\"table-warning\">";
+		else if (dateDiff > 5) s += "<tr class=\"table table-warning\">";
 		else if (dateDiff >= 0) s += "<tr class=\"table table-danger\">";
 		else s += "<tr class=\"table table-success\">";
 
@@ -409,8 +410,6 @@ function addCalendarEvent(){
 		alert("Data passata non valida!");
 		return false;
 	}
-
-	if(calendar_time == "") alert("A");
 
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
