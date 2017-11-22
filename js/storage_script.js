@@ -268,23 +268,23 @@ function editExam() {
     var exam_cfu = $('#examEditCFU').val();
 
 	if (!checkCode(exam_code)) {
-		showAlert("Codice esame non valido!");
+		alert("Codice esame non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
-		showAlert("Data non valida!");
+		alert("Data non valida!");
 		return false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		showAlert("Data futura non valida!");
+		alert("Data futura non valida!");
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
-		showAlert("Voto non valido!");
+		alert("Voto non valido!");
 		return false;
 	}
 	if (!checkCFU(exam_cfu)) {
-		showAlert("CFU non validi!");
+		alert("CFU non validi!");
 		return false;
 	}
 
@@ -315,11 +315,11 @@ function editCalendarEvent() {
 	var calendar_time = $('#calendarEditTime').val();
 
 	if (!checkDate(new Date(calendar_date))) {
-		showAlert("Data non valida!");
+		alert("Data non valida!");
 		return false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		showAlert("Data passata non valida!");
+		alert("Data passata non valida!");
 		return false;
 	}
 
@@ -355,23 +355,23 @@ function addExam(){
 	
 
 	if (!checkCode(exam_code)) {
-		showAlert("Codice non valido!");
+		alert("Codice non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
-		showAlert("Data non valida!");
+		alert("Data non valida!");
 		return false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		showAlert("Data futura non valida!");
+		alert("Data futura non valida!");
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
-		showAlert("Voto non valido!");
+		alert("Voto non valido!");
 		return false;
 	}
 	if (!checkCFU(exam_cfu)) {
-		showAlert("CFU non validi!");
+		alert("CFU non validi!");
 		return false;
 	}
 
@@ -387,7 +387,7 @@ function addExam(){
 	
 	for (i=0; i<len; i++) {
 		if(sameExam(exams[i], exam)) {
-			showAlert("Esame già presente!");
+			alert("Esame già presente!");
 			return false;
 		}
 	}
@@ -408,15 +408,15 @@ function addCalendarEvent(){
 	var calendar_time = $('#calendarAddTime').val();
 
 	if(!checkName(calendar_name)) {
-		showAlert("Nome non valido!");
+		alert("Nome non valido!");
 		return false;
 	}
 	if (!checkDate(new Date(calendar_date))) {
-		showAlert("Data non valida!");
+		alert("Data non valida!");
 		return false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		showAlert("Data passata non valida!");
+		alert("Data passata non valida!");
 		return false;
 	}
 
@@ -431,7 +431,7 @@ function addCalendarEvent(){
 	
 	for (i=0; i<len; i++) {
 		if(sameEvent(calendar[i], event)) {
-			showAlert("Evento già presente!");
+			alert("Evento già presente!");
 			return false;
 		}
 	}

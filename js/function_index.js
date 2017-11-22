@@ -291,32 +291,27 @@ function checkRegister() {
 	var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (!email_regex.test(email.value)) {
 		alert("Email non valida!");
-		email.focus;
 		return false;
 	}
 
 	var password_regex = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/;
 	if (!password_regex.test(password.value)) {
 		alert("Password non valida!");
-		password.focus;
 		return false;
 	}
 
 	if (password.value != repeat_password.value) {
 		alert("Passowrd differenti");
-		repeat_password.focus;
 		return false;
 	}
 	
 	if (university.value == "") {
 		alert("Inserisci l'università!");
-		university.focus;
 		return false;
 	}
 
 	if (course.value == "") {
 		alert("Inserisci il corso");
-		course.focus;
 		return false;
 	}
 
@@ -341,11 +336,7 @@ function checkLogin() {
 	return true;
 }
 
-
-function showAlert(s){
-	document.getElementById("alert_space").style.visibility='visible';
-	document.getElementById("alert_id").textContent=s;
-
-
-
+function showAlert(elem_alert, elem_alert_text, s){
+	$('#' + elem_alert).css("visibility", "visible");
+	$('#'+ elem_alert_text).text(s);
 }
