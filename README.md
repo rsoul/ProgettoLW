@@ -15,7 +15,13 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>implementare media ponderata e media aritmetica nel tab esami sostenuti (tramite ciclo for che scorre tra gli esami in localstorage o con variabile definita?)</del>
 * <del>implementare [loading bar](https://getbootstrap.com/docs/4.0/components/progress/) (cfu ottenuti /cfu da ottenere per laurearsi x 100)</del>
 * redesign aggiunta esami ed eventi calendario nei rispettivi tab tramite bottone che spawna un [pop-over](https://getbootstrap.com/docs/4.0/components/alerts/) under (MIKYXELLO CONSIGLIA: in edit, modificare direttamente i campi dalla tabella senza pop-over, in add consiglio di lasciare così)
-* implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5 che necessitano di reload della pagina
+* **implementato parzialmente** implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5 che necessitano di reload della pagina 
+  **Bug generati dalle modifiche**
+ * Nonostante la casella di alert sia invisibile occupa lo spazio e shifta le tab di parecchi pixel
+ * Quando l'evento innesca la comparsa della casella il campo edit non si chiude ergo
+   * *o inseriamo la casella di alert in quella di edit/inserimento degli esami*
+   * *o lasciamo la casella dov'è e implementiamo la chiusura della casella di edit/inserimento degli esami in caso di errore*
+
 * animare le caselle di input in caso di succesful input
 * implementare visualizzazione a pagine (1,2,3,4...) degli esami/eventi per non andare troppo in basso con la pagina (https://v4-alpha.getbootstrap.com/components/pagination/)
 * implementare inserimento idoneità (esame senza voto)

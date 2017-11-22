@@ -340,3 +340,12 @@ function checkLogin() {
 
 	return true;
 }
+
+
+function showAlert(s){
+	document.getElementById("alert_space").style.visibility='visible';
+	document.getElementById("alert_id").textContent=s;
+
+
+
+}
