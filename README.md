@@ -37,6 +37,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 - **Priority** Immettere troppi esami (n>20) fa formattare male il graph
 * La form  di immissione di esame/evento permette l'inserimento di script malevoli ([XSS](https://www.acunetix.com/websitesecurity/cross-site-scripting/))
 * (NON SEMPRE) Se si aggiunge un evento con time vuoto la pagina si aggiorna automaticamente
+* Se si chiude l'alert con la X non si riapre
 
 ### Raoul:
 - login
