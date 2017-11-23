@@ -156,10 +156,14 @@ function printStatistics() {
 	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
 
 	s += "<div id=\"mediaDiv\">";
-	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th></tr>";
-	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</tr></table></div>";
+	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU</th></tr>";
+	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</td><td>" + cfu_totali + "</td></tr></table></div>";
 
 	$("#my_statistics").html(s);
+
+	/* DRAW AVERAGE LINE ON THE CHART */
+	var ctx = $("#user_chart").get(0).getContext('2d');
+
 	return true;
 }
 
