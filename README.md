@@ -23,7 +23,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
    * <del>*o lasciamo la casella dov'è e implementiamo la chiusura della casella di edit/inserimento degli esami in caso di errore*</del>
 
 * animare le caselle di input in caso di succesful input
-* implementare visualizzazione a pagine degli esami/eventi per non intralciare il footer (https://v4-alpha.getbootstrap.com/components/pagination/)
+* implementare visualizzazione a pagine degli esami/eventi per non intralciare il footer con [pagination di bootstrap](https://v4-alpha.getbootstrap.com/components/pagination/)
 * implementare inserimento idoneità (esame senza voto)
 * <del>migliorare edit di exam/event inserendo automaticamente i valori dell'elemento da modificare disattivando il codice/nome (NON MODIFICABILI, KEYS)</del>
 * Una volta rilasciata la versione stabile e finale, ricordarsi di minify tutti i file per un piccolo boost nella performance della web app

@@ -156,8 +156,8 @@ function printStatistics() {
 	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
 
 	s += "<div id=\"mediaDiv\">";
-	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th></tr>";
-	s += "<tr><td style=\"vertical-align: middle;\">" + media + "</td><td style=\"vertical-align: middle;\">" + media_ponderata + "</td></tr></table></div>";
+	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th></tr>";
+	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</tr></table></div>";
 
 	$("#my_statistics").html(s);
 	return true;
@@ -268,24 +268,32 @@ function editExam() {
     var exam_praise = $("input[name=examEditPraise]:checked").val();
     var exam_cfu = $('#examEditCFU').val();
 
+    var exam_edit_alert = "examEditAlert";
+    var exam_edit_alert_text = "examEditAlertText";
+
 	if (!checkCode(exam_code)) {
-		showAlert("examEditAlert", "examEditAlertText", "Codice esame non valido!");
+		showAlert(exam_edit_alert, exam_edit_alert_text, "Codice esame non valido!");
+		$("#examEditCode").select();
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
-		showAlert("examEditAlert", "examEditAlertText", "Data non valida!");
+		showAlert(exam_edit_alert, exam_edit_alert_text, "Data non valida!");
+		$("examEditDate").select();
 		return false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		showAlert("examEditAlert", "examEditAlertText", "Data futura non valida!");
+		showAlert(exam_edit_alert, exam_edit_alert_text, "Data futura non valida!");
+		$("#examEditDate").select();
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
-		showAlert("examEditAlert", "examEditAlertText", "Voto non valido!");
+		showAlert(exam_edit_alert, exam_edit_alert_text, "Voto non valido!");
+		$("#examEditGrade").select();
 		return false;
 	}
 	if (!checkCFU(exam_cfu)) {
-		showAlert("examEditAlert", "examEditAlertText", "CFU non validi!");
+		showAlert(exam_edit_alert, exam_edit_alert_text, "CFU non validi!");
+		$("#examEditCFU").select();
 		return false;
 	}
 
@@ -315,12 +323,17 @@ function editCalendarEvent() {
 	var calendar_date = $('#calendarEditDate').val();
 	var calendar_time = $('#calendarEditTime').val();
 
+    var calendar_edit_alert = "calendarEditAlert";
+    var calendar_edit_alert_text = "calendarEditAlertText";
+
 	if (!checkDate(new Date(calendar_date))) {
-		showAlert("calendarEditAlert", "calendarEditAlertText", "Data non valida!");
+		showAlert(calendar_edit_alert, calendar_edit_alert_text, "Data non valida!");
+		$("#calendarEditDate").select();
 		return false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		showAlert("calendarEditAlert", "calendarEditAlertText", "Data passata non valida!");
+		showAlert(calendar_edit_alert, calendar_edit_alert_text, "Data passata non valida!");
+		$("#calendarEditDate").select();
 		return false;
 	}
 
@@ -353,26 +366,34 @@ function addExam(){
     var exam_grade = $('#examAddGrade').val();
     var exam_praise = $("input[name=examAddPraise]:checked").val();
     var exam_cfu = $('#examAddCFU').val();
+
+    var exam_add_alert = "examAddAlert";
+    var exam_add_alert_text = "examEditAlertText";
 	
 
 	if (!checkCode(exam_code)) {
-		showAlert("examAddAlert", "examAddAlertText", "Codice non valido!");
+		showAlert(exam_add_alert, exam_add_alert_text, "Codice non valido!");
+		$("#examAddCode").select();
 		return false;
 	}
 	if (!checkDate(new Date(exam_date))) {
-		showAlert("examAddAlert", "examAddAlertText", "Data non valida!");
+		showAlert(exam_add_alert, exam_add_alert_text, "Data non valida!");
+		$("#examAddDate").select();
 		return false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		showAlert("examAddAlert", "examAddAlertText", "Data futura non valida!");
+		showAlert(exam_add_alert, exam_add_alert_text, "Data futura non valida!");
+		$("#examAddDate").select();
 		return false;
 	}
 	if (!checkGrade(exam_grade)) {
-		showAlert("examAddAlert", "examAddAlertText", "Voto non valido!");
+		showAlert(exam_add_alert, exam_add_alert_text, "Voto non valido!");
+		$("#examAddGrade").select();
 		return false;
 	}
 	if (!checkCFU(exam_cfu)) {
-		showAlert("examAddAlert", "examAddAlertText", "CFU non validi!");
+		showAlert(exam_add_alert, exam_add_alert_text, "CFU non validi!");
+		$("#examAddCFU").select();
 		return false;
 	}
 
@@ -388,7 +409,7 @@ function addExam(){
 	
 	for (i=0; i<len; i++) {
 		if(sameExam(exams[i], exam)) {
-			showAlert("examAddAlert", "examAddAlertText", "Esame già presente!");
+			showAlert(exam_add_alert, exam_add_alert_text, "Esame già presente!");
 			return false;
 		}
 	}
@@ -408,16 +429,22 @@ function addCalendarEvent(){
 	var calendar_date = $('#calendarAddDate').val();
 	var calendar_time = $('#calendarAddTime').val();
 
+	var calendar_add_alert = "calendarAddAlert";
+	var calendar_add_alert_text = "calendarAddAlertText";
+
 	if(!checkName(calendar_name)) {
-		showAlert("calendarAddAlert", "calendarAddAlertText", "Nome non valido!");
+		showAlert(calendar_add_alert, calendar_add_alert_text, "Nome non valido!");
+		$("#calendarAddName").select();
 		return false;
 	}
 	if (!checkDate(new Date(calendar_date))) {
-		showAlert("calendarAddAlert", "calendarAddAlertText", "Data non valida!");
+		showAlert(calendar_add_alert, calendar_add_alert_text, "Data non valida!");
+		$("#calendarAddDate").select();
 		return false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		showAlert("calendarAddAlert", "calendarAddAlertText", "Data passata non valida!");
+		showAlert(calendar_add_alert, calendar_add_alert_text, "Data passata non valida!");
+		$("#calendarAddDate").select();
 		return false;
 	}
 
@@ -432,7 +459,7 @@ function addCalendarEvent(){
 	
 	for (i=0; i<len; i++) {
 		if(sameEvent(calendar[i], event)) {
-			showAlert("calendarAddAlert", "calendarAddAlertText", "Evento già presente!");
+			showAlert(calendar_add_alert, calendar_add_alert_text, "Evento già presente!");
 			return false;
 		}
 	}

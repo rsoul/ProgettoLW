@@ -101,7 +101,7 @@ function initEditExam(code, date, grade, cfu) {
 	$("#examEditCode").val(code);
 	$("#examEditDate").val(date);
 	if (grade == 31) {
-		$("#examEditGrade").val() = "30";
+		$("#examEditGrade").val("30");
 		$("#examEditPraiseYes").prop("checked", true);
 		$("#examEditPraiseDiv").css("visibility", "visible");
 		$("#examEditPraiseDiv").css("display", "block");
@@ -111,7 +111,7 @@ function initEditExam(code, date, grade, cfu) {
 		$("#examEditPraiseNo").prop("checked", true);
 		if (grade == 30) {
 			$("#examEditPraiseDiv").css("visibility", "visible");
-		$("#examEditPraiseDiv").css("display", "block");
+			$("#examEditPraiseDiv").css("display", "block");
 		}
 		else {
 			$("#examEditPraiseDiv").css("visibility", "collapse");
@@ -135,8 +135,12 @@ function resetAddExamFields() {
 	$("#examAddCode").val("");
 	$("#examAddDate").val(getToday());
 	$("#examAddGrade").val("");
+	$("#examAddPraiseDiv").css("visibility", "collapse");
+	$("#examAddPraiseDiv").css("display", "none");
+	$("#examAddPraiseNo").attr("checked", true);
 	$("#examAddCFU").val("");
 	hideAlert("examAddAlert");
+	$("#examAddCode").select();
 }
 
 /* RESET ADD EVENT FIELDS (NOT EDIT EVENT FIELDS) */
@@ -145,6 +149,7 @@ function resetAddEventFields() {
 	$("#calendarAddDate").val(getToday());
 	$("#calendarAddTime").val("");
 	hideAlert("calendarAddAlert");
+	$("#calendarAddName").select();
 }
 
 /* SET THE PROGRESS BAR WITH THE PERCENT */
