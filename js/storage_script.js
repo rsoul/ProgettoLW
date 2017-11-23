@@ -195,8 +195,8 @@ function printChart() {
 				label: "Voto",
 				data: voti,
 				pointStyle: "circle",
-				borderColor: "rgb(0, 0, 0)",
-				lineTension:0.0}
+				borderColor: "#3cba9f",
+				lineTension:0.2}
 			]},
 		options: {
 			maintainAspectRatio: false,

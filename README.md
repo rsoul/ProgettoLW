@@ -29,10 +29,10 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>Animare la progress bar ed il testo di esso attraverso la funzione getProgress()</del>
 * <del>modificare il grafico con valore massimo 31 e valore minimo 18 (fisso, non variabile dai valori inseriti)</del>
 * Importare librerie (Bootstrap, Chartjs, jQuery, direttamente da file o da googleapis, in formato .min.js/.min.css)
-* Inserire nel grafco la curva variazione della media dell'utente nel tempo e il bar chart voto medio ottenuto dagli studenti
+* Inserire nel grafico la curva variazione della media dell'utente nel tempo e il bar chart voto medio ottenuto dagli studenti
 
 ### Bugs to squash:
-
+- Avendo 0 esami in carriera l'etichetta percentuale esami completati fa collision con la progress bar
 - <del>Immettere troppi esami fa fare collapse tra la barra di selezione della pagina e il footer</del>
 - **Priority** Immettere troppi esami (n>20) fa formattare male il graph
 * La form  di immissione di esame/evento permette l'inserimento di script malevoli ([XSS](https://www.acunetix.com/websitesecurity/cross-site-scripting/))
