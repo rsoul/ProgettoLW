@@ -91,7 +91,7 @@ function printCalendar(){
 	}
 
 	s += "</table></div>";
-	document.getElementById("my_calendar").innerHTML = s;
+	$("#my_calendar").html(s);
 	return true;
 }
 
@@ -131,7 +131,7 @@ function printExams(){
 	}
 	s += "</table></div>";
 
-	document.getElementById("my_exams").innerHTML = s;
+	$("#my_exams").html(s);
 	return true;
 }
 
@@ -159,7 +159,7 @@ function printStatistics() {
 	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th></tr>";
 	s += "<tr><td style=\"vertical-align: middle;\">" + media + "</td><td style=\"vertical-align: middle;\">" + media_ponderata + "</td></tr></table></div>";
 
-	document.getElementById("my_statistics").innerHTML = s;
+	$("#my_statistics").html(s);
 	return true;
 }
 
@@ -181,7 +181,7 @@ function printChart() {
 		date[i] = exams[i].date;
 	}
 
-	var ctx = document.getElementById("user_chart").getContext('2d');
+	var ctx = $("#user_chart").get(0).getContext('2d');
 	new Chart(ctx,{
 		type: "line",
 		
@@ -192,9 +192,10 @@ function printChart() {
 				data: voti,
 				pointStyle: "circle",
 				borderColor: "rgb(0, 0, 0)",
-				lineTension:0.1}
+				lineTension:0.0}
 			]},
 		options: {
+			maintainAspectRatio: false,
 			yAxisID: "Voto",
 			xAxisID: "Data",
 			scales: {

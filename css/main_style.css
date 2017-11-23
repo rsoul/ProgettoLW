@@ -36,3 +36,9 @@ html,body {
 td {
 	vertical-align: middle !important;
 }
+
+.alert-mystyle {
+	visibility: hidden;
+	margin-left: 30%;
+	margin-right: 30%;
+}

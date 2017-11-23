@@ -1,3 +1,7 @@
+/* -------------- */
+/* UTIL FUNCTIONS */
+/* -------------- */
+
 /* GET TODAY DATE YYYY-MM-DD */
 function getToday() {
 	var today = new Date();
@@ -13,110 +17,6 @@ function getToday() {
 
 	today = yyyy+'-'+mm+'-'+dd;
 	return today;
-}
-
-/* INITIALIZE DASHBOARD SETTING ADDEXAM, EDITEXAM, ADDCALENDAREVENT AND EDITCALENDAREVENT (date default, max, min) */
-function initDashboard() {
-	var today = getToday();
-	var add_exam_date = document.getElementById("examAddDate");
-	var edit_exam_date = document.getElementById("examEditDate");
-	add_exam_date.setAttribute("max", today);
-	add_exam_date.value = today;
-	edit_exam_date.setAttribute("max", today);
-
-	var add_calendar_date = document.getElementById("calendarAddDate");
-	var edit_calendar_date = document.getElementById("calendarEditDate");
-	add_calendar_date.setAttribute("min", today);
-	edit_calendar_date.setAttribute("min", today);
-	add_calendar_date.value = today;
-
-	checkStorageCFU();
-	initStorageExams();
-	initStorageCalendar();
-	return true;
-}
-
-/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON ADDEXAM */
-function showAddExamPraise() {
-	var add_exam_grade = document.getElementById("examAddGrade").value;
-	var add_exam_praise_div = document.getElementById("examAddPraiseDiv");
-	if(add_exam_grade == "30") {
-		add_exam_praise_div.style.visibility = "visible";
-		add_exam_praise_div.style.display = "block";
-	}
-	else {
-		add_exam_praise_div.style.visibility = "collapse";
-		add_exam_praise_div.style.display = "none";
-	}
-	return true;
-}
-
-/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON EDITEXAM */
-function showEditExamPraise() {
-	var edit_exam_grade = document.getElementById("examEditGrade");
-	var edit_exam_praise_div = document.getElementById("examEditPraiseDiv");
-	if(edit_exam_grade.value == "30") {
-		edit_exam_praise_div.style.visibility = "visible";
-		edit_exam_praise_div.style.display = "block";
-	}
-	else {
-		edit_exam_praise_div.style.visibility = "collapse";
-		edit_exam_praise_div.style.display = "none";
-	}
-	return true;
-}
-
-/* CREATE AND SHOW A SAMPLCE CHART ON THE INDEX HTML */
-function showSampleChart() {
-	var ctx = document.getElementById("user_chart");
-		new Chart(ctx,
-			{"type":"doughnut",
-			"data":{
-				"labels": ["Esami Passati","Esami Mancanti","Idoneità"],
-				"datasets":[{
-					"label":"Dataset",
-					"data":[18,3,2],
-					"backgroundColor":[
-						"rgb(255, 99, 132)",
-						"rgb(54, 162, 235)",
-						"rgb(255, 205, 86)"
-					]
-				}]
-			}
-		});
-	return true;
-}
-
-/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
-function initEditExam(code, date, grade, cfu) {
-	document.getElementById("examEditCode").value = code;
-	document.getElementById("examEditDate").value = date;
-	if (grade == 31) {
-		document.getElementById("examEditGrade").value = "30";
-		document.getElementById("examEditPraiseYes").checked = true;
-		document.getElementById("examEditPraiseDiv").style.visibility = "visible";
-		document.getElementById("examEditPraiseDiv").style.display = "block";
-	}
-	else {
-		document.getElementById("examEditGrade").value = grade;
-		document.getElementById("examEditPraiseNo").checked = true;
-		if (grade == 30) {
-			document.getElementById("examEditPraiseDiv").style.visibility = "visible";
-		document.getElementById("examEditPraiseDiv").style.display = "block";
-		}
-		else {
-			document.getElementById("examEditPraiseDiv").style.visibility = "collapse";
-			document.getElementById("examEditPraiseDiv").style.display = "none";
-		}
-	}
-	document.getElementById("examEditCFU").value = cfu;
-}
-
-/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
-function initEditEvent(name, date, time) {
-	document.getElementById("calendarEditName").value = name;
-	document.getElementById("calendarEditDate").value = date;
-	document.getElementById("calendarEditTime").value = time;
 }
 
 /* GENERATES RANDOM DATA FOR PRESENTATION INSTEAD OF MANUALLY INPUTTING IT*/
@@ -147,33 +47,169 @@ function getProgress(){
 	return progress;
 }
 
-function getPercentageCFU(){
-	var takenCFU = getProgress();
-	var totalCFU = parseInt(localStorage.getItem("CFU"));
-	var percentageCFU = Math.floor((takenCFU * 100)/totalCFU);
-	var progressBar = document.getElementById("progressBar");
-	if(percentageCFU > 100) percentageCFU = 100;
-	progressBar.style.width = percentageCFU + "%";
-	progressBar.innerHTML = percentageCFU + "%";
-	progressBar.setAttribute("aria-valuenow", percentageCFU);
+
+/* --------------- */
+/* ON LOAD METHODS */
+/* --------------- */
+
+/* INITIALIZE DASHBOARD SETTING ADDEXAM, EDITEXAM, ADDCALENDAREVENT AND EDITCALENDAREVENT (date default, max, min) */
+function initDashboard() {
+	var today = getToday();
+	loadAddCalendar(today);
+	loadAddExam(today);
+	loadEditCalendar(today);
+	loadEditExam(today);
+
+	checkStorageCFU();
+	initStorageExams();
+	initStorageCalendar();
 	return true;
+}
+
+/* LOADING CALENDAR ADD */
+function loadAddCalendar(today) {
+	var add_calendar_date = $("#calendarAddDate");
+	add_calendar_date.attr("min", today);
+	add_calendar_date.val(today);
+}
+
+/* LOADING CALENDAR EDIT */
+function loadEditCalendar(today) {
+	var edit_calendar_date = $("#calendarEditDate");
+	edit_calendar_date.attr("min", today);
+}
+
+/* LOADING EXAM ADD */
+function loadAddExam(today) {
+	var add_exam_date = $("#examAddDate");
+	add_exam_date.attr("max", today);
+	add_exam_date.val(today);
+	
+}
+
+/* LOADING EXAM EDIT */
+function loadEditExam(today) {
+	var edit_exam_date = $("#examEditDate");
+	edit_exam_date.attr("max", today);
+}
+
+/* ------------------------------- */
+
+
+/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
+function initEditExam(code, date, grade, cfu) {
+	$("#examEditCode").val(code);
+	$("#examEditDate").val(date);
+	if (grade == 31) {
+		$("#examEditGrade").val() = "30";
+		$("#examEditPraiseYes").prop("checked", true);
+		$("#examEditPraiseDiv").css("visibility", "visible");
+		$("#examEditPraiseDiv").css("display", "block");
+	}
+	else {
+		$("#examEditGrade").val(grade);
+		$("#examEditPraiseNo").prop("checked", true);
+		if (grade == 30) {
+			$("#examEditPraiseDiv").css("visibility", "visible");
+		$("#examEditPraiseDiv").css("display", "block");
+		}
+		else {
+			$("#examEditPraiseDiv").css("visibility", "collapse");
+			$("#examEditPraiseDiv").css("display", "none");
+		}
+	}
+	$("#examEditCFU").val(cfu);
+	hideAlert("examEditAlert");
+}
+
+/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
+function initEditEvent(name, date, time) {
+	$("#calendarEditName").val(name);
+	$("#calendarEditDate").val(date);
+	$("#calendarEditTime").val(time);
+	hideAlert("calendarEditAlert");
 }
 
 /* RESET ADD EXAM FIELDS (NOT EDIT EXAM FIELDS) */
 function resetAddExamFields() {
-	document.getElementById("examAddCode").value = "";
-	document.getElementById("examAddDate").value = getToday();
-	document.getElementById("examAddGrade").value = "";
-	document.getElementById("examAddCFU").value = "";
+	$("#examAddCode").val("");
+	$("#examAddDate").val(getToday());
+	$("#examAddGrade").val("");
+	$("#examAddCFU").val("");
+	hideAlert("examAddAlert");
 }
 
 /* RESET ADD EVENT FIELDS (NOT EDIT EVENT FIELDS) */
 function resetAddEventFields() {
-	document.getElementById("calendarAddName").value = "";
-	document.getElementById("calendarAddDate").value = getToday();
-	document.getElementById("calendarAddTime").value = "";
+	$("#calendarAddName").val("");
+	$("#calendarAddDate").val(getToday());
+	$("#calendarAddTime").val("");
+	hideAlert("calendarAddAlert");
 }
 
+/* SET THE PROGRESS BAR WITH THE PERCENT */
+function getPercentageCFU(){
+	var takenCFU = getProgress();
+	var totalCFU = parseInt(localStorage.getItem("CFU"));
+	var percentageCFU = Math.floor((takenCFU * 100)/totalCFU);
+	var progressBar = $("#progressBar");
+	if(percentageCFU > 100) percentageCFU = 100;
+	progressBar.css("width", percentageCFU + "%");
+	progressBar.html(percentageCFU + "%");
+	progressBar.attr("aria-valuenow", percentageCFU);
+	return true;
+}
+
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON ADDEXAM */
+function showAddExamPraise() {
+	var add_exam_grade = $("#examAddGrade").val();
+	var add_exam_praise_div = $("#examAddPraiseDiv");
+	if(add_exam_grade == "30") {
+		add_exam_praise_div.css("visibility", "visible");
+		add_exam_praise_div.css("display", "block");
+	}
+	else {
+		add_exam_praise_div.css("visibility", "collapse");
+		add_exam_praise_div.css("display", "none");
+	}
+	return true;
+}
+
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON EDITEXAM */
+function showEditExamPraise() {
+	var edit_exam_grade = $("#examEditGrade");
+	var edit_exam_praise_div = $("#examEditPraiseDiv");
+	if(edit_exam_grade.val() == "30") {
+		edit_exam_praise_div.css("visibility", "visible");
+		edit_exam_praise_div.css("display", "block");
+	}
+	else {
+		edit_exam_praise_div.css("visibility", "collapse");
+		edit_exam_praise_div.css("display", "none");
+	}
+	return true;
+}
+
+/* CREATE AND SHOW A SAMPLCE CHART ON THE INDEX HTML */
+function showSampleChart() {
+	var ctx = $("#user_chart");
+		new Chart(ctx,
+			{"type":"doughnut",
+			"data":{
+				"labels": ["Esami Passati","Esami Mancanti","Idoneità"],
+				"datasets":[{
+					"label":"Dataset",
+					"data":[18,3,2],
+					"backgroundColor":[
+						"rgb(255, 99, 132)",
+						"rgb(54, 162, 235)",
+						"rgb(255, 205, 86)"
+					]
+				}]
+			}
+		});
+	return true;
+}
 
 
 /* ---------------------------------------- */
@@ -282,35 +318,35 @@ function checkDateMax(date) {
 
 /* CHECK IF ALL FIELDS ON REGISTER FORM ARE VALID */
 function checkRegister() {
-	var email = document.getElementById("registerEmail");
-	var password = document.getElementById("registerPassword");
-	var repeat_password = document.getElementById("registerRepeatPassword");
-	var university = document.getElementById("registerUniversity");
-	var course = document.getElementById("registerCourse");
+	var email = $("#registerEmail");
+	var password = $("#registerPassword");
+	var repeat_password = $("#registerRepeatPassword");
+	var university = $("#registerUniversity");
+	var course = $("#registerCourse");
 
 	var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	if (!email_regex.test(email.value)) {
+	if (!email_regex.test(email.val())) {
 		alert("Email non valida!");
 		return false;
 	}
 
 	var password_regex = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/;
-	if (!password_regex.test(password.value)) {
+	if (!password_regex.test(password.val())) {
 		alert("Password non valida!");
 		return false;
 	}
 
-	if (password.value != repeat_password.value) {
+	if (password.val() != repeat_password.val()) {
 		alert("Passowrd differenti");
 		return false;
 	}
 	
-	if (university.value == "") {
+	if (university.val() == "") {
 		alert("Inserisci l'università!");
 		return false;
 	}
 
-	if (course.value == "") {
+	if (course.val() == "") {
 		alert("Inserisci il corso");
 		return false;
 	}
@@ -320,15 +356,15 @@ function checkRegister() {
 
 /* SMALL CHECK FOR LOGIN FIELDS */
 function checkLogin() {
-	var email = document.getElementById("loginEmail");
-	var password = document.getElementById("loginPassword");
+	var email = $("#loginEmail");
+	var password = $("#loginPassword");
 
-	if (email.value == "") {
+	if (email.val() == "") {
 		alert("Inserisci l'email!");
 		return false;
 	}
 
-	if (password.value == "") {
+	if (password.val() == "") {
 		alert("Inserisci la password!");
 		return false;
 	}
@@ -338,6 +374,10 @@ function checkLogin() {
 
 /* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
 function showAlert(elem_alert, elem_alert_text, s){
-	$('#' + elem_alert).css("visibility", "visible");
-	$('#'+ elem_alert_text).text(s);
+	$("#" + elem_alert).css("visibility", "visible");
+	$("#" + elem_alert_text).text(s);
+}
+
+function hideAlert(elem_alert) {
+	$("#" + elem_alert).css("visibility", "hidden");
 }
