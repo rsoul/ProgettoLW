@@ -15,8 +15,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>implementare media ponderata e media aritmetica nel tab esami sostenuti (tramite ciclo for che scorre tra gli esami in localstorage o con variabile definita?)</del>
 * <del>implementare [loading bar](https://getbootstrap.com/docs/4.0/components/progress/) (cfu ottenuti /cfu da ottenere per laurearsi x 100)</del>
 * redesign aggiunta esami ed eventi calendario nei rispettivi tab tramite bottone che spawna un [pop-over](https://getbootstrap.com/docs/4.0/components/alerts/) under (MIKYXELLO CONSIGLIA: in edit, modificare direttamente i campi dalla tabella senza pop-over, in add consiglio di lasciare così)
-* **implementato parzialmente (non per LOGIN e REGISTER)** implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5 
-  **Bug generati dalle modifiche**
+* **implementato parzialmente (non per LOGIN e REGISTER)** implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5    **Bug generati dalle modifiche**   
  * <del>Nonostante la casella di alert sia invisibile occupa lo spazio e shifta le tab di parecchi pixel</del>
  * <del>Quando l'evento innesca la comparsa della casella il campo edit non si chiude ergo</del>
    * <del>*implementato o inseriamo la casella di alert in quella di edit/inserimento degli esami*</del>
@@ -30,6 +29,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>Animare la progress bar ed il testo di esso attraverso la funzione getProgress()</del>
 * <del>modificare il grafico con valore massimo 31 e valore minimo 18 (fisso, non variabile dai valori inseriti)</del>
 * Importare librerie (Bootstrap, Chartjs, jQuery, direttamente da file o da googleapis, in formato .min.js/.min.css)
+* Inserire nel grafco la curva variazione della media dell'utente nel tempo e il bar chart voto medio ottenuto dagli studenti
 
 ### Bugs to squash:
 
