@@ -96,7 +96,7 @@ function loadEditExam(today) {
 /* ------------------------------- */
 
 
-/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
+/* SHOW FIELDS OF THE --EDIT EXAM-- */
 function initEditExam(code, date, grade, cfu) {
 	$("#examEditCode").val(code);
 	$("#examEditDate").val(date);
@@ -122,7 +122,7 @@ function initEditExam(code, date, grade, cfu) {
 	hideAlert("examEditAlert");
 }
 
-/* SHOW FIELDS OF THE EXAM WHICH IS BEING EDITED */
+/* SHOW FIELDS OF THE --EDIT EVENT-- */
 function initEditEvent(name, date, time) {
 	$("#calendarEditName").val(name);
 	$("#calendarEditDate").val(date);
@@ -130,7 +130,7 @@ function initEditEvent(name, date, time) {
 	hideAlert("calendarEditAlert");
 }
 
-/* RESET ADD EXAM FIELDS (NOT EDIT EXAM FIELDS) */
+/* RESET --ADD EXAM-- FIELDS (NOT EDIT EXAM FIELDS) */
 function resetAddExamFields() {
 	$("#examAddCode").val("");
 	$("#examAddDate").val(getToday());
@@ -143,13 +143,43 @@ function resetAddExamFields() {
 	$("#examAddCode").select();
 }
 
-/* RESET ADD EVENT FIELDS (NOT EDIT EVENT FIELDS) */
+/* RESET --ADD EVENT-- FIELDS (NOT EDIT EVENT FIELDS) */
 function resetAddEventFields() {
 	$("#calendarAddName").val("");
 	$("#calendarAddDate").val(getToday());
 	$("#calendarAddTime").val("");
 	hideAlert("calendarAddAlert");
 	$("#calendarAddName").select();
+}
+
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON --ADD EXAM-- */
+function showAddExamPraise() {
+	var add_exam_grade = $("#examAddGrade").val();
+	var add_exam_praise_div = $("#examAddPraiseDiv");
+	if(add_exam_grade == "30") {
+		add_exam_praise_div.css("visibility", "visible");
+		add_exam_praise_div.css("display", "block");
+	}
+	else {
+		add_exam_praise_div.css("visibility", "collapse");
+		add_exam_praise_div.css("display", "none");
+	}
+	return true;
+}
+
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON --EDIT EXAM-- */
+function showEditExamPraise() {
+	var edit_exam_grade = $("#examEditGrade");
+	var edit_exam_praise_div = $("#examEditPraiseDiv");
+	if(edit_exam_grade.val() == "30") {
+		edit_exam_praise_div.css("visibility", "visible");
+		edit_exam_praise_div.css("display", "block");
+	}
+	else {
+		edit_exam_praise_div.css("visibility", "collapse");
+		edit_exam_praise_div.css("display", "none");
+	}
+	return true;
 }
 
 /* SET THE PROGRESS BAR WITH THE PERCENT */
@@ -165,35 +195,6 @@ function getPercentageCFU(){
 	return true;
 }
 
-/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON ADDEXAM */
-function showAddExamPraise() {
-	var add_exam_grade = $("#examAddGrade").val();
-	var add_exam_praise_div = $("#examAddPraiseDiv");
-	if(add_exam_grade == "30") {
-		add_exam_praise_div.css("visibility", "visible");
-		add_exam_praise_div.css("display", "block");
-	}
-	else {
-		add_exam_praise_div.css("visibility", "collapse");
-		add_exam_praise_div.css("display", "none");
-	}
-	return true;
-}
-
-/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON EDITEXAM */
-function showEditExamPraise() {
-	var edit_exam_grade = $("#examEditGrade");
-	var edit_exam_praise_div = $("#examEditPraiseDiv");
-	if(edit_exam_grade.val() == "30") {
-		edit_exam_praise_div.css("visibility", "visible");
-		edit_exam_praise_div.css("display", "block");
-	}
-	else {
-		edit_exam_praise_div.css("visibility", "collapse");
-		edit_exam_praise_div.css("display", "none");
-	}
-	return true;
-}
 
 /* CREATE AND SHOW A SAMPLCE CHART ON THE INDEX HTML */
 function showSampleChart() {
@@ -215,6 +216,17 @@ function showSampleChart() {
 			}
 		});
 	return true;
+}
+
+/* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
+function showAlert(elem_alert, elem_alert_text, s){
+	$("#" + elem_alert).css("visibility", "visible");
+	$("#" + elem_alert_text).text(s);
+}
+
+/* HIDE ALERT ON CLOSE CLICK */
+function hideAlert(elem_alert) {
+	$("#" + elem_alert).css("visibility", "hidden");
 }
 
 
@@ -378,12 +390,17 @@ function checkLogin() {
 	return true;
 }
 
-/* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
-function showAlert(elem_alert, elem_alert_text, s){
-	$("#" + elem_alert).css("visibility", "visible");
-	$("#" + elem_alert_text).text(s);
-}
-
-function hideAlert(elem_alert) {
-	$("#" + elem_alert).css("visibility", "hidden");
+/* SHOW INPUT CFU BUTTON IF THE CFU LOCAL STORAGE ISN'T INITIALIZED, ELSE HIDE BUTTON AND SHOW PROGRESS BAR AND ADD EXAM BUTTON */
+function checkStorageCFU() {
+	if(localStorage.getItem("CFU") != null) {
+		$("#initCourseCFUDiv").hide();
+		$("#mainAddExamButton").show();
+		$("#progressBar").show();
+		getPercentageCFU();
+	}
+	else {
+		$("#initCourseCFUDiv").show();
+		$("#mainAddExamButton").hide();	
+		$("#progressBar").hide();
+	}
 }
