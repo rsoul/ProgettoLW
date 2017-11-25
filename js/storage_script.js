@@ -141,50 +141,33 @@ function printStatistics() {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
-
+	var voti = [];
+	var date = [];
 	var media = 0.0;
 	var media_ponderata = 0.0;
 	var cfu_totali = 0.0;
-
-	for (i=0; i<len; i++) {
-		media += parseFloat(exams[i].grade);
-		media_ponderata += parseFloat(exams[i].grade)*parseFloat(exams[i].cfu);
-		cfu_totali += parseFloat(exams[i].cfu);
-	}
-
-	media = (media/len).toFixed(2);
-	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
-
-	s += "<div id=\"mediaDiv\">";
-	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU</th></tr>";
-	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</td><td>" + cfu_totali + "</td></tr></table></div>";
-
-	$("#my_statistics").html(s);
-
-	/* DRAW AVERAGE LINE ON THE CHART */
-	var ctx = $("#user_chart").get(0).getContext('2d');
-
-	return true;
-}
-
-
-/* PRINT CHART OF EXAMS VOTES FROM EXAMS STORAGE (USING CHARTJS) */
-function printChart() {
-	if (typeof(localStorage.calendar) == "undefined") return false;
-	var exams = JSON.parse(localStorage.exams);
-	var len = exams.length;
-	var voti = [];
-	var date = [];
 
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
 
 	for (i=0; i<len; i++) {
+		media += parseFloat(exams[i].grade);
+		media_ponderata += parseFloat(exams[i].grade)*parseFloat(exams[i].cfu);
+		cfu_totali += parseFloat(exams[i].cfu);
 		voti[i] = exams[i].grade;
 		date[i] = exams[i].date;
 	}
 
+	media = (media/len).toFixed(2);
+	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
+
+	/* GENERATE THE TABLE */
+	s += "<div id=\"mediaDiv\">";
+	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU</th></tr>";
+	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</td><td>" + cfu_totali + "</td></tr></table></div>";
+
+	/* DRAW THE GRAPHIC */
 	var ctx = $("#user_chart").get(0).getContext('2d');
 	new Chart(ctx,{
 		type: "line",
@@ -209,12 +192,27 @@ function printChart() {
 						max: 31
 					}
 				}]
-            }
+            },
+            annotation: {
+		      annotations: [{
+		        type: 'line',
+		        mode: 'horizontal',
+		        scaleID: 'y-axis-0',
+		        value: media,
+		        borderColor: 'rgb(255, 0, 0)',
+		        borderWidth: 1,
+		        label: {
+		          enabled: true,
+		          content: 'Media'
+		        }
+		      }]
+		    }
         }
 	});
+
+	$("#my_statistics").html(s);
 	return true;
 }
-
 
 
 /* ---------------------------------------- */
@@ -237,7 +235,6 @@ function removeExam(code) {
 	getPercentageCFU();
 	printStatistics();
 	printExams();
-	printChart();
 	return true;
 }
 
@@ -317,7 +314,6 @@ function editExam() {
 	getPercentageCFU();	
 	printStatistics();
 	printExams();
-	printChart();
 	return true;
 }
 
@@ -372,7 +368,7 @@ function addExam(){
     var exam_cfu = $('#examAddCFU').val();
 
     var exam_add_alert = "examAddAlert";
-    var exam_add_alert_text = "examEditAlertText";
+    var exam_add_alert_text = "examAddAlertText";
 	
 
 	if (!checkCode(exam_code)) {
@@ -423,7 +419,6 @@ function addExam(){
 	getPercentageCFU();
 	printStatistics();
 	printExams();
-	printChart();
 	return true;
 }
 
