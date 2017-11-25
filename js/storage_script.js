@@ -167,6 +167,8 @@ function printStatistics() {
 
 		voti[i] = grade_for;
 		date[i] = date_for;
+
+		/* CALCULATE AVERAGE ON THE I-TIME */
 		var avg = 0.0;
 		for (j=0; j<voti.length; j++) {
 			avg += parseFloat(voti[j]);
@@ -177,6 +179,7 @@ function printStatistics() {
 	media = (media/len).toFixed(2);
 	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
 
+	/* FILL TWO ARRAY WITH THE AVERAGE AND THE WEIGHTED AVERAGE (WITH ONLY 1 VALUES ON ALL THE CELLS) */
 	for (i=0; i<len; i++) {
 		media_const_array[i] = media;
 		media_ponderata_const_array[i] = media_ponderata;
@@ -194,7 +197,9 @@ function printStatistics() {
 		
 		data: {
 			labels: date,
-			datasets: [{
+			datasets: [
+			/* GRADES */
+			{
 				label: "Voti",
 				data: voti,
 				pointBackgroundColor: "#3cba9f",
@@ -202,6 +207,7 @@ function printStatistics() {
 				lineTension: 0.1,
 				fill: false
 			},
+			/* AVERAGE VARIATION */
 			{
 				label: "Variazione della media",
 				data: media_time,
@@ -210,6 +216,7 @@ function printStatistics() {
 				lineTension: 0.1,
 				fill: false
 			},
+			/* AVERAGE LINE */
 			{
 				label: "Media",
 				pointRadius: 0,
@@ -218,6 +225,7 @@ function printStatistics() {
 				borderColor: "#fc7171",
 				fill: false
 			},
+			/* WEIGHTED AVERAGE LINE */
 			{
 				label: "Media ponderata",
 				pointRadius: 0,
