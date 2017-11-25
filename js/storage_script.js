@@ -179,8 +179,9 @@ function printStatistics() {
 				data: voti,
 				pointStyle: "circle",
 				borderColor: "#3cba9f",
-				lineTension:0.2}
-			]},
+				lineTension:0.2
+			}]
+		},
 		options: {
 			maintainAspectRatio: false,
 			yAxisID: "Voto",
@@ -202,7 +203,7 @@ function printStatistics() {
 		        borderColor: 'rgb(255, 0, 0)',
 		        borderWidth: 1,
 		        label: {
-		          enabled: true,
+		          enabled: false,
 		          content: 'Media'
 		        }
 		      }]
