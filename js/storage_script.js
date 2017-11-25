@@ -141,31 +141,51 @@ function printStatistics() {
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
-	var voti = [];
-	var date = [];
+	var voti = new Array();
+	var date = new Array();
+	var media_time = new Array();
+	var media_const_array = new Array();
+	var media_ponderata_const_array = new Array();
 	var media = 0.0;
 	var media_ponderata = 0.0;
 	var cfu_totali = 0.0;
+	var cfu_corso = localStorage.getItem("CFU");
 
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
 
+	/* GENERATE GRADES, DATES AND AVERAGE VARIATION ARRAYS */
 	for (i=0; i<len; i++) {
-		media += parseFloat(exams[i].grade);
-		media_ponderata += parseFloat(exams[i].grade)*parseFloat(exams[i].cfu);
-		cfu_totali += parseFloat(exams[i].cfu);
-		voti[i] = exams[i].grade;
-		date[i] = exams[i].date;
+		var grade_for = exams[i].grade;
+		var date_for = exams[i].date;
+		var cfu_for = exams[i].cfu;
+		
+		media += parseFloat(grade_for);
+		media_ponderata += parseFloat(grade_for)*parseFloat(cfu_for);
+		cfu_totali += parseFloat(cfu_for);
+
+		voti[i] = grade_for;
+		date[i] = date_for;
+		var avg = 0.0;
+		for (j=0; j<voti.length; j++) {
+			avg += parseFloat(voti[j]);
+		}
+		media_time[i] = (avg/voti.length).toFixed(2);
 	}
 
 	media = (media/len).toFixed(2);
 	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
 
+	for (i=0; i<len; i++) {
+		media_const_array[i] = media;
+		media_ponderata_const_array[i] = media_ponderata;
+	}
+
 	/* GENERATE THE TABLE */
 	s += "<div id=\"mediaDiv\">";
-	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU</th></tr>";
-	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</td><td>" + cfu_totali + "</td></tr></table></div>";
+	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU Ottenuti</th><th>CFU Richiesti</th></tr>";
+	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</td><td>" + cfu_totali + "</td><td>" + cfu_corso + "</td></tr></table></div>";
 
 	/* DRAW THE GRAPHIC */
 	var ctx = $("#user_chart").get(0).getContext('2d');
@@ -175,17 +195,41 @@ function printStatistics() {
 		data: {
 			labels: date,
 			datasets: [{
-				label: "Voto",
+				label: "Voti",
 				data: voti,
-				pointStyle: "circle",
+				pointBackgroundColor: "#3cba9f",
 				borderColor: "#3cba9f",
-				lineTension:0.2
+				lineTension: 0.1,
+				fill: false
+			},
+			{
+				label: "Variazione della media",
+				data: media_time,
+				pointBackgroundColor: "#995f03",
+				borderColor: "#995f03",
+				lineTension: 0.1,
+				fill: false
+			},
+			{
+				label: "Media",
+				pointRadius: 0,
+				pointBackgroundColor: "#fc7171",
+				data: media_const_array,
+				borderColor: "#fc7171",
+				fill: false
+			},
+			{
+				label: "Media ponderata",
+				pointRadius: 0,
+				pointBackgroundColor: "#6bcc66",
+				data: media_ponderata_const_array,
+				borderColor: "#6bcc66",
+				fill: false
 			}]
 		},
+
 		options: {
 			maintainAspectRatio: false,
-			yAxisID: "Voto",
-			xAxisID: "Data",
 			scales: {
             	yAxes: [{
             		ticks: {
@@ -193,7 +237,8 @@ function printStatistics() {
 						max: 31
 					}
 				}]
-            },
+            }
+            /* UNUSED, DRAW AVERAGE LINE
             annotation: {
 		      annotations: [{
 		        type: 'line',
@@ -208,6 +253,7 @@ function printStatistics() {
 		        }
 		      }]
 		    }
+		    */
         }
 	});
 
