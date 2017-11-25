@@ -30,6 +30,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>modificare il grafico con valore massimo 31 e valore minimo 18 (fisso, non variabile dai valori inseriti)</del>
 * Importare librerie (Bootstrap, Chartjs, jQuery, direttamente da file o da googleapis, in formato .min.js/.min.css)
 * Inserire nel grafico la curva variazione della media dell'utente nel tempo e il bar chart voto medio ottenuto dagli studenti
+* **Priority** sostituire licenza MIT con licenza GPL
 
 ### Bugs to squash:
 - Avendo 0 esami in carriera l'etichetta percentuale esami completati fa collision con la progress bar
