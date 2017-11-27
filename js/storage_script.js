@@ -202,6 +202,8 @@ function editExam() {
 		return false;
 	}
 
+	var grade_for_print = getGrade(exam_grade, exam_praise);
+
 	/* PARSING LOCAL STORAGE */
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
@@ -210,7 +212,7 @@ function editExam() {
 	for (i=0; i<len; i++) {
 		if(exams[i].code == exam_code) {
 			exams[i].date = exam_date;
-			exams[i].grade = getGrade(exam_grade, exam_praise);
+			exams[i].grade = grade_for_print;
 			exams[i].cfu = exam_cfu;
 			break;
 		}
@@ -220,7 +222,8 @@ function editExam() {
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();	
 	printStatistics();
-	printExams();					// FOR OLD TABLE
+	examEditRow(exam_code, exam_date, grade_for_print, exam_cfu);
+	//printExams();					// FOR OLD TABLE
 	return true;
 }
 
@@ -619,14 +622,18 @@ function printExams(){
 	var table = $("#examsTable").DataTable({
 		data: exams_for_table,
 		columns: [
-		{title: "Codice"},
-		{title: "Data"},
-		{title: "Voto"},
-		{title: "CFU"},
+		{title: "Codice",
+		className: "exam_code_class"},
+		{title: "Data",
+		className: "exam_date_class"},
+		{title: "Voto",
+		className: "exam_grade_class"},
+		{title: "CFU",
+		className: "exam_cfu_class"},
 		{
 			title: '<i class="material-icons">settings</i>',
 			data: null,
-			defaultContent: '<button class="btn btn-secondary btn-sm edit_exam" data-toggle="modal" data-target="#examEditForm"><i class="material-icons">create</i></button> / <button class="btn btn-danger btn-sm remove_exam"><i class="material-icons">delete</i></button>'
+			defaultContent: '<button class="btn btn-secondary btn-sm edit_exam" data-toggle="modal" data-target="#examEditForm" onclick=\'initEditExam(this.closest("tr").cells[0].innerHTML, this.closest("tr").cells[1].innerHTML, this.closest("tr").cells[2].innerHTML, this.closest("tr").cells[3].innerHTML);\'><i class="material-icons">create</i></button> / <button class="btn btn-danger btn-sm remove_exam" onclick="removeExam(this.closest(\'tr\').cells[0].innerHTML);"><i class="material-icons">delete</i></button>'
 		}
 		],
 		order: [[ 1, "desc" ]],
@@ -645,5 +652,15 @@ function examAddRow(code, date, grade, cfu){
 function examEditRow(code, date, grade, cfu){
 	var table = $("#examsTable").DataTable();
 	var exam = [code.toString(), date.toString(), grade.toString(), cfu.toString()];
-	table.row.data();
+
+	var table = $("#examsTable").DataTable();
+	
+	// NON CORRETTO, RESTITUISCE UN GENERICO OBJECT INVECE DI UNA RIGA
+	var tableRow = $("#examsTable td").filter(function() {
+	    return $(this).text() == code.toString();
+	}).closest("tr");
+
+	// TO DO (UNA VOLTA PRESA LA RIGA AGGIORNARE LE COLONNE)
 }
+
+/* TO DO (COME EXAMEDITROW MA PER L'ELIMINAZIONE DI UNA RIGA) */
