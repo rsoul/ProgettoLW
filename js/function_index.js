@@ -393,14 +393,22 @@ function checkLogin() {
 /* SHOW INPUT CFU BUTTON IF THE CFU LOCAL STORAGE ISN'T INITIALIZED, ELSE HIDE BUTTON AND SHOW PROGRESS BAR AND ADD EXAM BUTTON */
 function checkStorageCFU() {
 	if(localStorage.getItem("CFU") != null) {
-		$("#initCourseCFUDiv").hide();
-		$("#mainAddExamButton").show();
-		$("#progressBar").show();
+		$("#initCourseCFUDiv").css({
+			"visibility": "hidden",
+			"display": "none"});
+		$("#mainAddExamButton").css("visibility", "visible");
+		$("#progressBar").css("visibility", "visible");
 		getPercentageCFU();
 	}
 	else {
-		$("#initCourseCFUDiv").show();
-		$("#mainAddExamButton").hide();	
-		$("#progressBar").hide();
+		$("#initCourseCFUDiv").css({
+			"visibility": "visible",
+			"display": "block"});
+		$("#mainAddExamButton").css({
+			"visibility": "hidden",
+			"display": "none"});
+		$("#progressBar").css({
+			"visibility": "hidden",
+			"display": "none"});
 	}
 }
