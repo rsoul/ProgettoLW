@@ -190,7 +190,8 @@ function getPercentageCFU(){
 	var progressBar = $("#progressBar");
 	if(percentageCFU > 100) percentageCFU = 100;
 	progressBar.css("width", percentageCFU + "%");
-	progressBar.html(percentageCFU + "%");
+	if (percentageCFU>3){
+	progressBar.html(percentageCFU + "%");}
 	progressBar.attr("aria-valuenow", percentageCFU);
 	return true;
 }
@@ -225,6 +226,8 @@ function showAlert(elem_alert, elem_alert_text, s){
 }
 
 /* HIDE ALERT ON CLOSE CLICK */
+
+
 function hideAlert(elem_alert) {
 	$("#" + elem_alert).css("visibility", "hidden");
 }

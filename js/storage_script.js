@@ -129,11 +129,15 @@ function addCalendarEvent(){
 	var len = calendar.length;
 
 	/* CREATE EVENT OBJECT WITH FIELDS' VALUE */
+	if(calendar_time==""){
+		calendar_time="12:00";
+	}
 	var event = {
 		name: calendar_name,
 		date: calendar_date,
 		time: calendar_time
 	};
+	
 	
 	/* CHECK IF THE EVENT IS ALREADY ON THE STORAGE */
 	for (i=0; i<len; i++) {
