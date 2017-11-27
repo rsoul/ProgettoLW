@@ -63,6 +63,7 @@ function initDashboard() {
 	checkStorageCFU();
 	initStorageExams();
 	initStorageCalendar();
+	printExams();
 	return true;
 }
 

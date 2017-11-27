@@ -89,7 +89,16 @@
             <table id="examsTable" class="table table-striped table-hover table-bordered table-sm"></table>
           </div>
           <script>
-            $(document).ready(printExams());
+            $("#examsTable").on( 'click', 'td button.edit_exam', function () {
+              var table = $("#examsTable").DataTable();
+              var tr = this.closest("tr").cells;
+              initEditExam(tr[0].innerHTML, tr[1].innerHTML, tr[2].innerHTML, tr[3].innerHTML);
+            });
+
+            $("#examsTable").on( 'click', 'td button.remove_exam', function () {
+              var table = $("#examsTable").DataTable();
+              removeExam(this.closest("tr").cells[0].innerHTML);
+            });
           </script>
           <div class="text-center"> 
             <button class="btn btn-primary btn-md" data-toggle="modal" id="mainAddExamButton" data-target="#examAddForm" onclick="resetAddExamFields()">Aggiungi Esame</button> 
@@ -112,9 +121,7 @@
           <canvas id="user_chart" style="display: block;"></canvas>
           <div id="my_statistics" style="text-align: center;"></div>
           <script> 
-            $(document).ready(function() {
-              printStatistics();
-            }); 
+            $(document).ready(printStatistics()); 
           </script>
         </div>
 

@@ -69,6 +69,8 @@ function addExam(){
 		return false;
 	}
 
+	var grade_for_print = getGrade(exam_grade, exam_praise);
+
 	/* PARSING LOCAL STORAGE */
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;	
@@ -77,7 +79,7 @@ function addExam(){
 	var exam = { 
 		code: exam_code,
 		date: exam_date,
-		grade: getGrade(exam_grade, exam_praise),
+		grade: grade_for_print,
 		cfu: exam_cfu
 	};
 	
@@ -94,7 +96,8 @@ function addExam(){
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
 	printStatistics();
-	printExams();
+	printExams();													// FOR STANDARD TABLE
+	examAddRow(exam_code, exam_date, grade_for_print, exam_cfu);	// FOR NEW TABLE 
 	return true;
 }
 
@@ -217,7 +220,7 @@ function editExam() {
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();	
 	printStatistics();
-	printExams();
+	printExams();					// FOR OLD TABLE
 	return true;
 }
 
@@ -285,7 +288,7 @@ function removeExam(code) {
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
 	printStatistics();
-	printExams();
+	printExams();				// FOR OLD TABLE
 	return true;
 }
 
@@ -316,23 +319,28 @@ function removeEvent(name) {
 /* FUNZIONI PER LA STAMPA O GENERICO OUTPUT */
 /* ---------------------------------------- */
 
-
-/* PRINT A TABLE WITH ALL EXAMS FROM EXAMS STORAGE (WITH DELETE/EDIT BUTTONS) */
+/* PRINT ALL EXAMS IN A BOOTSTRAP TABLE */
+/*
 function printExams(){
-	/* OPEN STORAGE IF ITS DEFINED */
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
 
-	var exams_for_table = [];
-
-	/* SORT EXAMS BY DATE */
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
 	
-	/* TAKE ALL VALUES FROM THE STORAGE AND INSERT THEM ON EACH ROW OF THE TABLE */
+	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
+			<thead>\
+				<tr>\
+					<th>Codice</th>\
+					<th>Data</th>\
+					<th>Voto</th>\
+					<th>CFU</th>\
+					<th><i class=\"material-icons\">settings</i></th>\
+				</tr>\
+			</thead>";
 	for (i=0; i<len; i++) {
 		var code = exams[i].code;
 		var date = exams[i].date;
@@ -342,33 +350,22 @@ function printExams(){
 
 		if (grade == 31) {
 			grade_for_print = "30 e Lode";
-			//s += "<tr class=\"table table-success\">";
+			s += "<tr class=\"table table-success\">";
 		}
-		//else s += "<tr>";
-
-		exams_for_table[i] = [code.toString(), date.toString(), grade_for_print.toString(), cfu.toString()];
-
-		/*
+		else s += "<tr>";
+		s += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
+		s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
+		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
+		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";	
-		*/	
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 	}
 
-	$('#examsTable').DataTable({
-		data: exams_for_table,
-		columns: [
-		{title: "Codice"},
-		{title: "Data"},
-		{title: "Voto"},
-		{title: "CFU"}
-		],
-		"order": [[ 1, "desc" ]],
-		"lengthMenu": [[5, 10, -1], [5, 10, "Tutti"]]
-	});
-
+	s += "</table>";
+	$("#my_exams").html(s);
 	return true;
 }
-
+*/
 
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
@@ -593,29 +590,20 @@ function printStatistics() {
 
 
 
-/*UNUSED FUNCTIONS OLD */
+/* NEW DATA TABLE FUNCTIONS */
 
-/*
+/* PRINT A TABLE WITH ALL EXAMS FROM EXAMS STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printExams(){
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var s = new String("");
+	var exams_for_table = [];
 
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
-	
-	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
-			<thead>\
-				<tr>\
-					<th>Codice</th>\
-					<th>Data</th>\
-					<th>Voto</th>\
-					<th>CFU</th>\
-					<th><i class=\"material-icons\">settings</i></th>\
-				</tr>\
-			</thead>";
+
 	for (i=0; i<len; i++) {
 		var code = exams[i].code;
 		var date = exams[i].date;
@@ -623,22 +611,39 @@ function printExams(){
 		var cfu = exams[i].cfu;
 		var grade_for_print = grade;
 
-		if (grade == 31) {
-			grade_for_print = "30 e Lode";
-			s += "<tr class=\"table table-success\">";
-		}
-		else s += "<tr>";
-		s += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
-		s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
-		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
-		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+		if (grade == 31) grade_for_print = "30 e Lode";
+
+		exams_for_table[i] = [code.toString(), date.toString(), grade_for_print.toString(), cfu.toString()];
 	}
 
-	s += "</table>";
-	$("#my_exams").html(s);
+	var table = $("#examsTable").DataTable({
+		data: exams_for_table,
+		columns: [
+		{title: "Codice"},
+		{title: "Data"},
+		{title: "Voto"},
+		{title: "CFU"},
+		{
+			title: '<i class="material-icons">settings</i>',
+			data: null,
+			defaultContent: '<button class="btn btn-secondary btn-sm edit_exam" data-toggle="modal" data-target="#examEditForm"><i class="material-icons">create</i></button> / <button class="btn btn-danger btn-sm remove_exam"><i class="material-icons">delete</i></button>'
+		}
+		],
+		order: [[ 1, "desc" ]],
+		lengthMenu: [[5, 10, -1], [5, 10, "Tutti"]]
+	});
 	return true;
 }
 
-*/
+/* ADD ROWS TO THE TABLE ON ADD EXAM */
+function examAddRow(code, date, grade, cfu){
+	var table = $("#examsTable").DataTable();
+	table.row.add([code.toString(), date.toString(), grade.toString(), cfu.toString()]).draw();
+}
+
+/* IN COSTRUCTION FOR EDITING WITH NEW TABLE */
+function examEditRow(code, date, grade, cfu){
+	var table = $("#examsTable").DataTable();
+	var exam = [code.toString(), date.toString(), grade.toString(), cfu.toString()];
+	table.row.data();
+}
