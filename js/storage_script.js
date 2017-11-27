@@ -331,8 +331,7 @@ function printExams(){
 	});
 	
 	/* PREPARE EXAMS TABLE */
-	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th>Opzioni</th></tr>";
+	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th><i class=\"material-icons\">settings</i></th></tr>";
 	
 	/* TAKE ALL VALUES FROM THE STORAGE AND INSERT THEM ON EACH ROW OF THE TABLE */
 	for (i=0; i<len; i++) {
@@ -358,7 +357,7 @@ function printExams(){
 		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
 		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";		
 	}
-	s += "</table></div>";
+	s += "</table>";
 
 	$("#my_exams").html(s);
 	return true;
