@@ -129,11 +129,15 @@ function addCalendarEvent(){
 	var len = calendar.length;
 
 	/* CREATE EVENT OBJECT WITH FIELDS' VALUE */
+	if(calendar_time==""){
+		calendar_time="12:00";
+	}
 	var event = {
 		name: calendar_name,
 		date: calendar_date,
 		time: calendar_time
 	};
+	
 	
 	/* CHECK IF THE EVENT IS ALREADY ON THE STORAGE */
 	for (i=0; i<len; i++) {
@@ -414,6 +418,32 @@ function printCalendar(){
 	s += "</table></div>";
 	$("#my_calendar").html(s);
 	return true;
+}
+
+function calculateAverage(array){
+	var avg=0.0;
+	var valid=0;
+	for(i=0;i<array.lenght;i++){
+		if (array[i].grade!=null){
+			valid++;
+			avg+=array[i].grade;
+		}
+
+	}
+	return avg/valid;
+}
+
+function calculateWAverage(array){
+	var avg;
+	var cfu;
+	for(i=0;i<array.lenght;i++){
+		if (array[i].grade!=null){
+			avg+=(array[i].grade*array[i].cfu);
+			cfu+=array[i].cfu;
+		}
+	}
+
+	return avg/cfu;
 }
 
 /* PRINT STATISTICS FOR EXAMS */
