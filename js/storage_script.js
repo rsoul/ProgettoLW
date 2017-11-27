@@ -325,13 +325,12 @@ function printExams(){
 	var len = exams.length;
 	var s = new String("");
 
+	var exams_for_table = [];
+
 	/* SORT EXAMS BY DATE */
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
-	
-	/* PREPARE EXAMS TABLE */
-	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\"><tr><th>Codice</th><th>Data</th><th>Voto</th><th>CFU</th><th><i class=\"material-icons\">settings</i></th></tr>";
 	
 	/* TAKE ALL VALUES FROM THE STORAGE AND INSERT THEM ON EACH ROW OF THE TABLE */
 	for (i=0; i<len; i++) {
@@ -341,27 +340,35 @@ function printExams(){
 		var cfu = exams[i].cfu;
 		var grade_for_print = grade;
 
-		/* IF 30 WITH PRAISE -> SHOW GREEN BACKGROUND ROW */
 		if (grade == 31) {
 			grade_for_print = "30 e Lode";
-			s += "<tr class=\"table table-success\">";
+			//s += "<tr class=\"table table-success\">";
 		}
-		/* ELSE A NORMAL ROW */
-		else s += "<tr>";
+		//else s += "<tr>";
 
-		s += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
-		s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
-		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
-		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-		/* REMOVE AND EDIT BUTTONS */
+		exams_for_table[i] = [code.toString(), date.toString(), grade_for_print.toString(), cfu.toString()];
+
+		/*
 		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";		
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";	
+		*/	
 	}
-	s += "</table>";
 
-	$("#my_exams").html(s);
+	$('#examsTable').DataTable({
+		data: exams_for_table,
+		columns: [
+		{title: "Codice"},
+		{title: "Data"},
+		{title: "Voto"},
+		{title: "CFU"}
+		],
+		"order": [[ 1, "desc" ]],
+		"lengthMenu": [[5, 10, -1], [5, 10, "Tutti"]]
+	});
+
 	return true;
 }
+
 
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
@@ -582,3 +589,56 @@ function printStatistics() {
 	$("#my_statistics").html(s);
 	return true;
 }
+
+
+
+
+/*UNUSED FUNCTIONS OLD */
+
+/*
+function printExams(){
+	if (typeof(localStorage.exams) == "undefined") return false;
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+	var s = new String("");
+
+	exams.sort(function(a,b) { 
+	    return new Date(a.date) - new Date(b.date); 
+	});
+	
+	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
+			<thead>\
+				<tr>\
+					<th>Codice</th>\
+					<th>Data</th>\
+					<th>Voto</th>\
+					<th>CFU</th>\
+					<th><i class=\"material-icons\">settings</i></th>\
+				</tr>\
+			</thead>";
+	for (i=0; i<len; i++) {
+		var code = exams[i].code;
+		var date = exams[i].date;
+		var grade = exams[i].grade;
+		var cfu = exams[i].cfu;
+		var grade_for_print = grade;
+
+		if (grade == 31) {
+			grade_for_print = "30 e Lode";
+			s += "<tr class=\"table table-success\">";
+		}
+		else s += "<tr>";
+		s += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
+		s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
+		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
+		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
+		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+	}
+
+	s += "</table>";
+	$("#my_exams").html(s);
+	return true;
+}
+
+*/
