@@ -420,6 +420,32 @@ function printCalendar(){
 	return true;
 }
 
+function calculateAverage(array){
+	var avg=0.0;
+	var valid=0;
+	for(i=0;i<array.lenght;i++){
+		if (array[i].grade!=null){
+			valid++;
+			avg+=array[i].grade;
+		}
+
+	}
+	return avg/valid;
+}
+
+function calculateWAverage(array){
+	var avg;
+	var cfu;
+	for(i=0;i<array.lenght;i++){
+		if (array[i].grade!=null){
+			avg+=(array[i].grade*array[i].cfu);
+			cfu+=array[i].cfu;
+		}
+	}
+
+	return avg/cfu;
+}
+
 /* PRINT STATISTICS FOR EXAMS */
 function printStatistics() {
 	/* OPEN STORAGE IF ITS DEFINED */
