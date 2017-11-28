@@ -327,13 +327,45 @@ function printExams(){
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
-	var s = new String("");
+	var table_body = new String("");
+	var table_paging = new String("");
+
+	var values_to_show = 5;
+	var page_number = parseFloat(len/values_to_show);
+	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
+	else page_number = parseInt(page_number);
+
+	table_paging += "\
+	<nav aria-label=\"Exams pages\" id=\"examPages\">\
+		<ul class=\"pagination justify-content-end pagination-sm\">\
+			<li class=\"page-item\" id=\"page_previous\">\
+				<a class=\"page-link\" href=\"#\" aria-label=\"Previous\">\
+	     			<span aria-hidden=\"true\">&laquo;</span>\
+	     			<span class=\"sr-only\">Previous</span>\
+	    		</a>\
+	    	</li>";
+
+	for (i=0; i<page_number; i++) {
+		if (i==0) table_paging += "<li class=\"page-item active\" id=\"page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"showBody(table_body_" + (i+1) + ", page_button_" + (i+1) + ")\">" + (i+1) + "</a></li>";
+	  	else table_paging += "<li class=\"page-item\" id=\"page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"showBody(table_body_" + (i+1) + ", page_button_"+(i+1)+")\">" + (i+1) + "</a></li>";
+	}
+
+	table_paging += "\
+	<li class=\"page-item\" id=\"page_next\">\
+      	<a class=\"page-link\" href=\"#\" aria-label=\"Next\">\
+        	<span aria-hidden=\"true\">&raquo;</span>\
+        	<span class=\"sr-only\">Next</span>\
+      	</a>\
+    </li>\
+    </ul>\
+    </nav>";
 
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
 	
-	s += "<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
+	table_body += "\
+	<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
 			<thead>\
 				<tr>\
 					<th>Codice</th>\
@@ -343,28 +375,39 @@ function printExams(){
 					<th><i class=\"material-icons\">settings</i></th>\
 				</tr>\
 			</thead>";
-	for (i=0; i<len; i++) {
-		var code = exams[i].code;
-		var date = exams[i].date;
-		var grade = exams[i].grade;
-		var cfu = exams[i].cfu;
-		var grade_for_print = grade;
+	
+	var i=0;
+	for (j=0; j<page_number; j++) {
+		if (j==0) { table_body += "<tbody id=\"table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
+		else { table_body += "<tbody id=\"table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
+		var next_table_max = (j+1)*values_to_show;
+		for (i=i; i<next_table_max && i<len; i++) {
+			var code = exams[i].code;
+			var date = exams[i].date;
+			var grade = exams[i].grade;
+			var cfu = exams[i].cfu;
+			var grade_for_print = grade;
 
-		if (grade == 31) {
-			grade_for_print = "30 e Lode";
-			s += "<tr class=\"table table-success\">";
+			if (grade == 31) {
+				grade_for_print = "30 e Lode";
+				table_body += "<tr class=\"table table-success\">";
+			}
+			else table_body += "<tr>";
+			
+			table_body += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
+			table_body += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
+			table_body += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
+			table_body += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
+			table_body += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
-		else s += "<tr>";
-		s += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
-		s += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
-		s += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
-		s += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+		table_body += "</tbody>";
 	}
 
-	s += "</table>";
-	$("#my_exams").html(s);
+	table_body += "</table>";
+
+	$("#my_exams").html(table_body);
+	$("#my_exams_paging").html(table_paging);
 	return true;
 }
 

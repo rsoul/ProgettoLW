@@ -266,6 +266,15 @@ function hideAlert(elem_alert) {
 }
 
 
+/* SELECTED BODY TO SHOW */
+function showBody(clicked_body, clicked_button) {
+	$("#examTable tbody").css("visibility", "collapse");
+	$(clicked_body).css("visibility", "visible");
+	$("#examPages li").removeClass("active");
+	$(clicked_button).addClass("active");
+	//if(clicked_button == page_button_1) $("#examTable li #page_previous").addClass("disabled");
+}
+
 /* ---------------------------------------- */
 /* FUNZIONI PER CONTROLLI O CHECK VARI      */
 /* ---------------------------------------- */
