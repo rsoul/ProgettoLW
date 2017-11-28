@@ -96,8 +96,8 @@ function addExam(){
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
 	printStatistics();
-	printExams();													// FOR STANDARD TABLE
-	examAddRow(exam_code, exam_date, grade_for_print, exam_cfu);	// FOR NEW TABLE 
+	printExams();
+	//examAddRow(exam_code, exam_date, grade_for_print, exam_cfu);	FOR DATATABLE 
 	return true;
 }
 
@@ -222,8 +222,8 @@ function editExam() {
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();	
 	printStatistics();
-	examEditRow(exam_code, exam_date, grade_for_print, exam_cfu);
-	//printExams();					// FOR OLD TABLE
+	//examEditRow(exam_code, exam_date, grade_for_print, exam_cfu);	// FOR DATATABLE
+	printExams();
 	return true;
 }
 
@@ -291,7 +291,7 @@ function removeExam(code) {
 	localStorage.exams = JSON.stringify(exams);
 	getPercentageCFU();
 	printStatistics();
-	printExams();				// FOR OLD TABLE
+	printExams();
 	return true;
 }
 
@@ -323,7 +323,6 @@ function removeEvent(name) {
 /* ---------------------------------------- */
 
 /* PRINT ALL EXAMS IN A BOOTSTRAP TABLE */
-/*
 function printExams(){
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
@@ -368,7 +367,6 @@ function printExams(){
 	$("#my_exams").html(s);
 	return true;
 }
-*/
 
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
@@ -424,32 +422,6 @@ function printCalendar(){
 	s += "</table></div>";
 	$("#my_calendar").html(s);
 	return true;
-}
-
-function calculateAverage(array){
-	var avg=0.0;
-	var valid=0;
-	for(i=0;i<array.lenght;i++){
-		if (array[i].grade!=null){
-			valid++;
-			avg+=array[i].grade;
-		}
-
-	}
-	return avg/valid;
-}
-
-function calculateWAverage(array){
-	var avg;
-	var cfu;
-	for(i=0;i<array.lenght;i++){
-		if (array[i].grade!=null){
-			avg+=(array[i].grade*array[i].cfu);
-			cfu+=array[i].cfu;
-		}
-	}
-
-	return avg/cfu;
 }
 
 /* PRINT STATISTICS FOR EXAMS */
@@ -596,6 +568,7 @@ function printStatistics() {
 /* NEW DATA TABLE FUNCTIONS */
 
 /* PRINT A TABLE WITH ALL EXAMS FROM EXAMS STORAGE (WITH DELETE/EDIT BUTTONS) */
+/*
 function printExams(){
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
@@ -641,14 +614,18 @@ function printExams(){
 	});
 	return true;
 }
+*/
 
 /* ADD ROWS TO THE TABLE ON ADD EXAM */
+/*
 function examAddRow(code, date, grade, cfu){
 	var table = $("#examsTable").DataTable();
 	table.row.add([code.toString(), date.toString(), grade.toString(), cfu.toString()]).draw();
 }
+*/
 
 /* IN COSTRUCTION FOR EDITING WITH NEW TABLE */
+/*
 function examEditRow(code, date, grade, cfu){
 	var table = $("#examsTable").DataTable();
 	var exam = [code.toString(), date.toString(), grade.toString(), cfu.toString()];
@@ -662,5 +639,6 @@ function examEditRow(code, date, grade, cfu){
 
 	// TO DO (UNA VOLTA PRESA LA RIGA AGGIORNARE LE COLONNE)
 }
+*/
 
 /* TO DO (COME EXAMEDITROW MA PER L'ELIMINAZIONE DI UNA RIGA) */

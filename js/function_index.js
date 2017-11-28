@@ -47,6 +47,35 @@ function getProgress(){
 	return progress;
 }
 
+/* AVERAGE WITHOUT IDONEITY */
+function calculateAverage(array){
+	var avg=0.0;
+	var valid=0;
+	for(i=0;i<array.lenght;i++){
+		if (array[i].grade!=null){
+			valid++;
+			avg+=array[i].grade;
+		}
+
+	}
+	return avg/valid;
+}
+
+/* WEIGHTED AVERAGE WITHOUT IDONEITY */
+function calculateWAverage(array){
+	var avg;
+	var cfu;
+	for(i=0;i<array.lenght;i++){
+		if (array[i].grade!=null){
+			avg+=(array[i].grade*array[i].cfu);
+			cfu+=array[i].cfu;
+		}
+	}
+
+	return avg/cfu;
+}
+
+
 
 /* --------------- */
 /* ON LOAD METHODS */
@@ -63,7 +92,10 @@ function initDashboard() {
 	checkStorageCFU();
 	initStorageExams();
 	initStorageCalendar();
+
 	printExams();
+	printCalendar();
+	printStatistics();
 	return true;
 }
 
@@ -99,6 +131,7 @@ function loadEditExam(today) {
 
 /* SHOW FIELDS OF THE --EDIT EXAM-- */
 function initEditExam(code, date, grade, cfu) {
+	// $("#examEditType").val(type);
 	$("#examEditCode").val(code);
 	$("#examEditDate").val(date);
 	if (grade == 31) {
@@ -133,6 +166,7 @@ function initEditEvent(name, date, time) {
 
 /* RESET --ADD EXAM-- FIELDS (NOT EDIT EXAM FIELDS) */
 function resetAddExamFields() {
+	$("#examAddType").val("");
 	$("#examAddCode").val("");
 	$("#examAddDate").val(getToday());
 	$("#examAddGrade").val("");
@@ -227,8 +261,6 @@ function showAlert(elem_alert, elem_alert_text, s){
 }
 
 /* HIDE ALERT ON CLOSE CLICK */
-
-
 function hideAlert(elem_alert) {
 	$("#" + elem_alert).css("visibility", "hidden");
 }
