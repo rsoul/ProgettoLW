@@ -268,11 +268,36 @@ function hideAlert(elem_alert) {
 
 /* SELECTED BODY TO SHOW */
 function showBody(clicked_body, clicked_button) {
-	$("#examTable tbody").css("visibility", "collapse");
-	$(clicked_body).css("visibility", "visible");
+	if(clicked_button.id == "exam_page_previous") {
+		var toHide = $("#examTable tbody:visible");
+		var toShow = $("#examTable tbody:visible").prev();
+		var toDeactive = $("#my_exams_paging .active");
+		var toActive = $("#my_exams_paging .active").prev();
+		toHide.css({"visibility": "collapse", "display": "none"});
+		toShow.css({"visibility": "visible", "display": ""});
+		toDeactive.removeClass("active");
+		toActive.addClass("active");
+
+		if($("#my_exams_paging .active").attr("id") == "page_button_1") $("#my_exams_paging #exam_page_previous").addClass("disabled");
+		return true;
+	}
+
+	/* IMPOSTARE TASTO NEXT E TASTO FINALE */
+
+	$("#examTable tbody").css({"visibility": "collapse", "display": "none"});
+	$(clicked_body).css({"visibility": "visible", "display": ""});
 	$("#examPages li").removeClass("active");
 	$(clicked_button).addClass("active");
-	//if(clicked_button == page_button_1) $("#examTable li #page_previous").addClass("disabled");
+
+	if(clicked_button.id == "page_button_1") {
+		$("#my_exams_paging #exam_page_previous").addClass("disabled");
+		return true;
+	}
+	else {
+		$("#my_exams_paging #exam_page_previous").removeClass("disabled");
+		return true;
+	}
+	
 }
 
 /* ---------------------------------------- */

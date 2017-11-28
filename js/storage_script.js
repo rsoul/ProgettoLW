@@ -337,9 +337,9 @@ function printExams(){
 
 	table_paging += "\
 	<nav aria-label=\"Exams pages\" id=\"examPages\">\
-		<ul class=\"pagination justify-content-end pagination-sm\">\
-			<li class=\"page-item\" id=\"page_previous\">\
-				<a class=\"page-link\" href=\"#\" aria-label=\"Previous\">\
+		<ul class=\"pagination justify-content-end\">\
+			<li class=\"page-item disabled\" id=\"exam_page_previous\">\
+				<a class=\"page-link\" href=\"#\" aria-label=\"Previous\" onclick=\"showBody(null, exam_page_previous)\">\
 	     			<span aria-hidden=\"true\">&laquo;</span>\
 	     			<span class=\"sr-only\">Previous</span>\
 	    		</a>\
@@ -351,8 +351,8 @@ function printExams(){
 	}
 
 	table_paging += "\
-	<li class=\"page-item\" id=\"page_next\">\
-      	<a class=\"page-link\" href=\"#\" aria-label=\"Next\">\
+	<li class=\"page-item\" id=\"exam_page_next\">\
+      	<a class=\"page-link\" href=\"#\" aria-label=\"Next\" onclick=\"showBody(null, exam_page_next)\">\
         	<span aria-hidden=\"true\">&raquo;</span>\
         	<span class=\"sr-only\">Next</span>\
       	</a>\
