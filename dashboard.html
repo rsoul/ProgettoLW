@@ -124,11 +124,11 @@
               <div class="modal-body">
                 <form class="was-validated">
 
-                  <!-- INSERT EXAM CODE -->
+                  <!-- INSERT EXAM TYPE -->
                   <div class="form-group row">
                     <label for="examAddType" class="col-sm-2 col-form-label">Tipologia</label>
                     <div class="col-sm-10">
-                      <select class="form-control" id="examAddType" required>
+                      <select class="form-control" id="examAddType" required onchange="showAddExamGrade()">
                         <option></option>
                         <option>Esame</option>
                         <option>Idoneità</option> <!--se idoneità è selezionato insert exam grade sparisce-->
@@ -213,6 +213,18 @@
               </div>
               <div class="modal-body">
                 <form class="was-validated">
+
+                  <!-- INSERT EXAM CODE (EDIT) -->
+                  <div class="form-group row">
+                    <label for="examEditType" class="col-sm-2 col-form-label">Tipologia</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" id="examEditType" required readonly>
+                        <option></option>
+                        <option>Esame</option>
+                        <option>Idoneità</option>
+                      </select>
+                    </div>
+                  </div>
 
                   <!-- INSERT EXAM CODE (EDIT) -->
                   <div class="form-group row">

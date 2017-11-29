@@ -40,6 +40,7 @@ function generateRandomData(n,ex,ev){
 
 /* GET A SUM OF ALL CFU TAKEN */
 function getProgress(){
+	if (typeof(localStorage.exams == "undefined")) return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var progress = 0;
@@ -117,7 +118,6 @@ function loadAddExam(today) {
 	var add_exam_date = $("#examAddDate");
 	add_exam_date.attr("max", today);
 	add_exam_date.val(today);
-	
 }
 
 /* LOADING EXAM EDIT */
@@ -130,26 +130,29 @@ function loadEditExam(today) {
 
 
 /* SHOW FIELDS OF THE --EDIT EXAM-- */
-function initEditExam(code, date, grade, cfu) {
-	// $("#examEditType").val(type);
+function initEditExam(type, code, date, grade, cfu) {
+	$("#examEditType").val(type).attr('selected','selected');	//NOT WORKING
 	$("#examEditCode").val(code);
 	$("#examEditDate").val(date);
-	if (grade == 31) {
-		$("#examEditGrade").val("30");
-		$("#examEditPraiseYes").prop("checked", true);
-		$("#examEditPraiseDiv").css("visibility", "visible");
-		$("#examEditPraiseDiv").css("display", "block");
-	}
+	if($("#examEditType :selected").val() == "Idoneità") $("#examEditGrade").css("visibility", "hidden");
 	else {
-		$("#examEditGrade").val(grade);
-		$("#examEditPraiseNo").prop("checked", true);
-		if (grade == 30) {
+		if (grade == 31) {
+			$("#examEditGrade").val("30");
+			$("#examEditPraiseYes").prop("checked", true);
 			$("#examEditPraiseDiv").css("visibility", "visible");
 			$("#examEditPraiseDiv").css("display", "block");
 		}
 		else {
-			$("#examEditPraiseDiv").css("visibility", "collapse");
-			$("#examEditPraiseDiv").css("display", "none");
+			$("#examEditGrade").val(grade);
+			$("#examEditPraiseNo").prop("checked", true);
+			if (grade == 30) {
+				$("#examEditPraiseDiv").css("visibility", "visible");
+				$("#examEditPraiseDiv").css("display", "block");
+			}
+			else {
+				$("#examEditPraiseDiv").css("visibility", "collapse");
+				$("#examEditPraiseDiv").css("display", "none");
+			}
 		}
 	}
 	$("#examEditCFU").val(cfu);
@@ -170,6 +173,8 @@ function resetAddExamFields() {
 	$("#examAddCode").val("");
 	$("#examAddDate").val(getToday());
 	$("#examAddGrade").val("");
+	$("#examAddGrade").css("visibility", "visible");
+	loadAddExam(getToday());
 	$("#examAddPraiseDiv").css("visibility", "collapse");
 	$("#examAddPraiseDiv").css("display", "none");
 	$("#examAddPraiseNo").attr("checked", true);
@@ -252,6 +257,16 @@ function showSampleChart() {
 			}
 		});
 	return true;
+}
+
+function showAddExamGrade() {
+	if ($("#examAddType :selected").val() == "Idoneità") {
+		$("#examAddGrade").css("visibility", "hidden");
+		$("#examAddGrade").removeAttr("max");
+		$("#examAddGrade").removeAttr("min");
+		$("#examAddGrade").removeAttr("required");
+	}
+	else $("#examAddGrade").css("visibility", "visible");
 }
 
 /* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
@@ -482,6 +497,12 @@ function checkCode(code) {
 /* CHECK EVENT NAME */
 function checkName(name) {
 	if (name != "") return true;
+	else return false;
+}
+
+/* CHECK EXAM TYPE */
+function checkType(type) {
+	if (type != "") return true;
 	else return false;
 }
 

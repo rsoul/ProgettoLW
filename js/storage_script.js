@@ -32,6 +32,7 @@ function resetStorageCFU(){localStorage.setItem('CFU', null);}
 
 /* INSERT NEW EXAM ON EXAMS STORAGE (CHECK ALL FIELDS) */
 function addExam(){
+	var exam_type = $("#examAddType :selected").val();
 	var exam_code = $('#examAddCode').val();
 	var exam_date = $('#examAddDate').val();
     var exam_grade = $('#examAddGrade').val();
@@ -43,6 +44,11 @@ function addExam(){
 	
 
     /* CHECK ALL FIELDS' VALUES */
+    if (!checkType(exam_type)) {
+    	showAlert(exam_add_alert, exam_add_alert_text, "Tipo non valido!");
+		$("#examAddType").select();
+		return false;
+    }
 	if (!checkCode(exam_code)) {
 		showAlert(exam_add_alert, exam_add_alert_text, "Codice non valido!");
 		$("#examAddCode").select();
@@ -58,10 +64,12 @@ function addExam(){
 		$("#examAddDate").select();
 		return false;
 	}
-	if (!checkGrade(exam_grade)) {
-		showAlert(exam_add_alert, exam_add_alert_text, "Voto non valido!");
-		$("#examAddGrade").select();
-		return false;
+	if (exam_type != "Idoneità") {
+		if (!checkGrade(exam_grade)) {
+			showAlert(exam_add_alert, exam_add_alert_text, "Voto non valido!");
+			$("#examAddGrade").select();
+			return false;
+		}
 	}
 	if (!checkCFU(exam_cfu)) {
 		showAlert(exam_add_alert, exam_add_alert_text, "CFU non validi!");
@@ -69,7 +77,10 @@ function addExam(){
 		return false;
 	}
 
-	var grade_for_print = getGrade(exam_grade, exam_praise);
+	var grade_for_print;
+	if(exam_type == "Idoneità") grade_for_print = "Idoneo";
+	else grade_for_print = getGrade(exam_grade, exam_praise);
+	//var grade_for_print = getGrade(exam_grade, exam_praise);
 
 	/* PARSING LOCAL STORAGE */
 	var exams = JSON.parse(localStorage.exams);
@@ -77,6 +88,7 @@ function addExam(){
 
 	/* CREATE EXAM OBJECT WITH FIELDS' VALUE */
 	var exam = { 
+		type: exam_type,
 		code: exam_code,
 		date: exam_date,
 		grade: grade_for_print,
@@ -168,6 +180,7 @@ function addCalendarEvent(){
 
 /* EDIT A SELECTED EXAM (FROM BUTTON) FROM THE EXAMS STORAGE */
 function editExam() {
+	var exam_type = $("#examEditType :selected").val();
 	var exam_code = $('#examEditCode').val();
     var exam_date = $('#examEditDate').val();
     var exam_grade = $('#examEditGrade').val();
@@ -178,11 +191,6 @@ function editExam() {
     var exam_edit_alert_text = "examEditAlertText";
 
     /* CHECK ALL FIELDS' VALUES */
-	if (!checkCode(exam_code)) {
-		showAlert(exam_edit_alert, exam_edit_alert_text, "Codice esame non valido!");
-		$("#examEditCode").select();
-		return false;
-	}
 	if (!checkDate(new Date(exam_date))) {
 		showAlert(exam_edit_alert, exam_edit_alert_text, "Data non valida!");
 		$("examEditDate").select();
@@ -193,10 +201,12 @@ function editExam() {
 		$("#examEditDate").select();
 		return false;
 	}
-	if (!checkGrade(exam_grade)) {
-		showAlert(exam_edit_alert, exam_edit_alert_text, "Voto non valido!");
-		$("#examEditGrade").select();
-		return false;
+	if(exam_type != "Idoneità") {
+		if (!checkGrade(exam_grade)) {
+			showAlert(exam_edit_alert, exam_edit_alert_text, "Voto non valido!");
+			$("#examEditGrade").select();
+			return false;
+		}
 	}
 	if (!checkCFU(exam_cfu)) {
 		showAlert(exam_edit_alert, exam_edit_alert_text, "CFU non validi!");
@@ -204,7 +214,10 @@ function editExam() {
 		return false;
 	}
 
-	var grade_for_print = getGrade(exam_grade, exam_praise);
+	var grade_for_print;
+	if(exam_type == "Idoneità") grade_for_print = "Idoneo";
+	else grade_for_print = getGrade(exam_grade, exam_praise);
+	//var grade_for_print = getGrade(exam_grade, exam_praise);
 
 	/* PARSING LOCAL STORAGE */
 	var exams = JSON.parse(localStorage.exams);
@@ -388,6 +401,7 @@ function printExams(){
 		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
+			//var type = exams[i].type;
 			var code = exams[i].code;
 			var date = exams[i].date;
 			var grade = exams[i].grade;
@@ -399,6 +413,8 @@ function printExams(){
 				table_body += "<tr class=\"table table-success\">";
 			}
 			else table_body += "<tr>";
+
+			//if (type == "Idoneità") grade_for_print = "Idoneo";
 			
 			table_body += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
 			table_body += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
@@ -471,11 +487,11 @@ function printCalendar(){
 			<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"calendarTable\">\
 				<thead>\
 					<tr>\
-						<th width=\"40%\">Esame</th>\
+						<th width=\"40%\">Evento</th>\
 						<th width=\"15%\">Data</th>\
-						<th widht=\"15%\">Orario</th>\
-						<th widht=\"20%\">Scadenza</th>\
-						<th widht=\"10%\"><i class=\"material-icons\">settings</i></th>\
+						<th width=\"15%\">Orario</th>\
+						<th width=\"20%\">Scadenza</th>\
+						<th width=\"10%\"><i class=\"material-icons\">settings</i></th>\
 					</tr>\
 				</thead>";
 
