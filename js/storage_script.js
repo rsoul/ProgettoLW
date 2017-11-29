@@ -132,9 +132,11 @@ function addCalendarEvent(){
 	var len = calendar.length;
 
 	/* CREATE EVENT OBJECT WITH FIELDS' VALUE */
+	/*
 	if(calendar_time==""){
 		calendar_time="12:00";
 	}
+	*/
 	var event = {
 		name: calendar_name,
 		date: calendar_date,
@@ -330,6 +332,7 @@ function printExams(){
 	var table_body = new String("");
 	var table_paging = new String("");
 
+	/* PAGING */
 	var values_to_show = 5;
 	var page_number = parseFloat(len/values_to_show);
 	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
@@ -339,20 +342,22 @@ function printExams(){
 	<nav aria-label=\"Exams pages\" id=\"examPages\">\
 		<ul class=\"pagination justify-content-end\">\
 			<li class=\"page-item disabled\" id=\"exam_page_previous\">\
-				<a class=\"page-link\" href=\"#\" aria-label=\"Previous\" onclick=\"showBody(null, exam_page_previous)\">\
+				<a class=\"page-link\" href=\"#\" aria-label=\"Previous\" onclick=\"examShowBodyPrevious(exam_page_previous)\">\
 	     			<span aria-hidden=\"true\">&laquo;</span>\
 	     			<span class=\"sr-only\">Previous</span>\
 	    		</a>\
 	    	</li>";
 
 	for (i=0; i<page_number; i++) {
-		if (i==0) table_paging += "<li class=\"page-item active\" id=\"page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"showBody(table_body_" + (i+1) + ", page_button_" + (i+1) + ")\">" + (i+1) + "</a></li>";
-	  	else table_paging += "<li class=\"page-item\" id=\"page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"showBody(table_body_" + (i+1) + ", page_button_"+(i+1)+")\">" + (i+1) + "</a></li>";
+		if (i==0) table_paging += "<li class=\"page-item active\" id=\"exam_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"examShowBody(exam_table_body_" + (i+1) + ", exam_page_button_" + (i+1) + ", " + page_number + ")\">" + (i+1) + "</a></li>";
+	  	else table_paging += "<li class=\"page-item\" id=\"exam_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"examShowBody(exam_table_body_" + (i+1) + ", exam_page_button_"+(i+1)+", " + page_number + ")\">" + (i+1) + "</a></li>";
 	}
 
+	if (page_number == 1) table_paging += "<li class=\"page-item disabled\" id=\"exam_page_next\">";
+	else table_paging += "<li class=\"page-item\" id=\"exam_page_next\">";
+	
 	table_paging += "\
-	<li class=\"page-item\" id=\"exam_page_next\">\
-      	<a class=\"page-link\" href=\"#\" aria-label=\"Next\" onclick=\"showBody(null, exam_page_next)\">\
+		<a class=\"page-link\" href=\"#\" aria-label=\"Next\" onclick=\"examShowBodyNext(exam_page_next, " + page_number + ")\">\
         	<span aria-hidden=\"true\">&raquo;</span>\
         	<span class=\"sr-only\">Next</span>\
       	</a>\
@@ -360,6 +365,7 @@ function printExams(){
     </ul>\
     </nav>";
 
+    /* TABLE BODY */
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
@@ -368,18 +374,18 @@ function printExams(){
 	<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
 			<thead>\
 				<tr>\
-					<th>Codice</th>\
-					<th>Data</th>\
-					<th>Voto</th>\
-					<th>CFU</th>\
-					<th><i class=\"material-icons\">settings</i></th>\
+					<th width=\"40%\">Codice</th>\
+					<th width=\"15%\">Data</th>\
+					<th width=\"20%\">Voto</th>\
+					<th width=\"15%\">CFU</th>\
+					<th width=\"10%\"><i class=\"material-icons\">settings</i></th>\
 				</tr>\
 			</thead>";
 	
 	var i=0;
 	for (j=0; j<page_number; j++) {
-		if (j==0) { table_body += "<tbody id=\"table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
-		else { table_body += "<tbody id=\"table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
+		if (j==0) { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
+		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
 			var code = exams[i].code;
@@ -398,7 +404,7 @@ function printExams(){
 			table_body += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
 			table_body += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
 			table_body += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			table_body += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+			table_body += "<td id=\"tableExamSetting"+code+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
 			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		table_body += "</tbody>";
@@ -411,13 +417,49 @@ function printExams(){
 	return true;
 }
 
+
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
 	/* OPEN STORAGE IF ITS DEFINED */
 	if (typeof(localStorage.calendar) == "undefined") return false;
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
-	var s = new String("");
+	var table_body = new String("");
+	var table_paging = new String("");
+
+	/* PAGING */
+	var values_to_show = 5;
+	var page_number = parseFloat(len/values_to_show);
+	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
+	else page_number = parseInt(page_number);
+
+	table_paging += "\
+	<nav aria-label=\"Calendar pages\" id=\"calendarPages\">\
+		<ul class=\"pagination justify-content-end\">\
+			<li class=\"page-item disabled\" id=\"calendar_page_previous\">\
+				<a class=\"page-link\" href=\"#\" aria-label=\"Previous\" onclick=\"calendarShowBodyPrevious(calendar_page_previous)\">\
+	     			<span aria-hidden=\"true\">&laquo;</span>\
+	     			<span class=\"sr-only\">Previous</span>\
+	    		</a>\
+	    	</li>";
+
+	for (i=0; i<page_number; i++) {
+		if (i==0) table_paging += "<li class=\"page-item active\" id=\"calendar_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"calendarShowBody(calendar_table_body_" + (i+1) + ", calendar_page_button_" + (i+1) + ", " + page_number + ")\">" + (i+1) + "</a></li>";
+	  	else table_paging += "<li class=\"page-item\" id=\"calendar_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"calendarShowBody(calendar_table_body_" + (i+1) + ", calendar_page_button_"+(i+1)+", " + page_number + ")\">" + (i+1) + "</a></li>";
+	}
+
+	if (page_number == 1) table_paging += "<li class=\"page-item disabled\" id=\"calendar_page_next\">";
+	else table_paging += "<li class=\"page-item\" id=\"calendar_page_next\">";
+	
+	table_paging += "\
+		<a class=\"page-link\" href=\"#\" aria-label=\"Next\" onclick=\"calendarShowBodyNext(calendar_page_next, " + page_number + ")\">\
+        	<span aria-hidden=\"true\">&raquo;</span>\
+        	<span class=\"sr-only\">Next</span>\
+      	</a>\
+    </li>\
+    </ul>\
+    </nav>";
+
 
 	/* SORT EVENTS BY DATE */
 	calendar.sort(function(a,b) { 
@@ -425,45 +467,62 @@ function printCalendar(){
 	});
 	
 	/* PREPARE TABLE */
-	s += "<div style=\"text-align: center; padding-top:5px;\">";
-	s += "<table class=\"table table-striped table-hover table-bordered  table-sm\" border=\"1px\"><tr><th>Esame</th><th>Data</th><th>Orario</th><th>Scadenza</th><th>Opzioni</th></tr>";
+	table_body += "\
+			<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"calendarTable\">\
+				<thead>\
+					<tr>\
+						<th width=\"40%\">Esame</th>\
+						<th width=\"15%\">Data</th>\
+						<th widht=\"15%\">Orario</th>\
+						<th widht=\"20%\">Scadenza</th>\
+						<th widht=\"10%\"><i class=\"material-icons\">settings</i></th>\
+					</tr>\
+				</thead>";
+
 	/* TAKE ALL VALUES FROM THE LOCAL STORAGE AND INSERT EACH EVENT ON A ROW */
-	for (i=0; i<len; i++) {
-		var name = calendar[i].name;
-		var date = calendar[i].date;
-		var time = calendar[i].time;
-		var dateDiff = dateDiffInDays(new Date(getToday()), date);
-		var dateDiff_for_print = dateDiff;
-		var time_for_print = time;
+	var i=0;
+	for (j=0; j<page_number; j++) {
+		if (j==0) { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
+		else { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
+		var next_table_max = (j+1)*values_to_show;
+		for (i=i; i<next_table_max && i<len; i++) {
+			var name = calendar[i].name;
+			var date = calendar[i].date;
+			var time = calendar[i].time;
+			var dateDiff = dateDiffInDays(new Date(getToday()), date);
+			var dateDiff_for_print = dateDiff;
+			var time_for_print = time;
 
 
-		/* IF TIME IS NOT DEFINED, PRINTS N.D. INSTEAD OF AN EMPTY STRING */
-		if(time == "") time_for_print = "N.D.";
+			/* IF TIME IS NOT DEFINED, PRINTS N.D. INSTEAD OF AN EMPTY STRING */
+			if(time == "") time_for_print = "N.D.";
 
-		/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
-		if (dateDiff > 10) s += "<tr>";
-		else if (dateDiff > 5) s += "<tr class=\"table table-warning\">";
-		else if (dateDiff >= 0) s += "<tr class=\"table table-danger\">";
-		else s += "<tr class=\"table table-success\">";
+			/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
+			if (dateDiff > 10) table_body += "<tr>";
+			else if (dateDiff > 5) table_body += "<tr class=\"table table-warning\">";
+			else if (dateDiff >= 0) table_body += "<tr class=\"table table-danger\">";
+			else table_body += "<tr class=\"table table-success\">";
 
-		
-		/* CHECK FOR DISTANCE FROM TODAY (TODAY, TOMORROW OR YESTERDAY) */
-		if(dateDiff == 1) dateDiff_for_print = "Domani";
-		else if(dateDiff == 0) dateDiff_for_print = "Oggi";
-		else if(dateDiff == -1) dateDiff_for_print = "Ieri";
-		
-		s += "<td>" + name + "</td>";
-		s += "<td>" + date + "</td>";
-		s += "<td>" + time_for_print + "</td>";
-		s += "<td>" + dateDiff_for_print + "</td>";
+			
+			/* CHECK FOR DISTANCE FROM TODAY (TODAY, TOMORROW OR YESTERDAY) */
+			if(dateDiff == 1) dateDiff_for_print = "Domani";
+			else if(dateDiff == 0) dateDiff_for_print = "Oggi";
+			else if(dateDiff == -1) dateDiff_for_print = "Ieri";
+			
+			table_body += "<td id=\"tableCalendarName"+name+"\">" + name + "</td>";
+			table_body += "<td id=\"tableCalendarDate"+name+"\">" + date + "</td>";
+			table_body += "<td id=\"tableCalendarTime"+name+"\">" + time_for_print + "</td>";
+			table_body += "<td id=\"tableCalendarDiff"+name+"\">" + dateDiff_for_print + "</td>";
 
-		/* REMOVE AND EDIT BUTTONS */
-		s += "<td><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
-		s += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#calendarEditForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+			/* REMOVE AND EDIT BUTTONS */
+			table_body += "<td id=\"tableCalendarSetting"+name+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
+			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#calendarEditForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+		}
+		table_body += "</tbody>";
 	}
-
-	s += "</table></div>";
-	$("#my_calendar").html(s);
+	table_body += "</table>";
+	$("#my_calendar").html(table_body);
+	$("#my_calendar_paging").html(table_paging);
 	return true;
 }
 

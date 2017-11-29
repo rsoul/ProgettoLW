@@ -266,8 +266,8 @@ function hideAlert(elem_alert) {
 }
 
 
-/* SELECTED BODY TO SHOW */
-function showBody(clicked_body, clicked_button) {
+/* SHOW PREVIOUS EXAMS TABLE PAGE (BUTTON PREVIOUS) */
+function examShowBodyPrevious(clicked_button, page_max) {
 	if(clicked_button.id == "exam_page_previous") {
 		var toHide = $("#examTable tbody:visible");
 		var toShow = $("#examTable tbody:visible").prev();
@@ -278,26 +278,181 @@ function showBody(clicked_body, clicked_button) {
 		toDeactive.removeClass("active");
 		toActive.addClass("active");
 
-		if($("#my_exams_paging .active").attr("id") == "page_button_1") $("#my_exams_paging #exam_page_previous").addClass("disabled");
+		if(page_max == 1) {
+			$("#my_exams_paging #exam_page_next").addClass("disabled"); 
+			$("#my_exams_paging #exam_page_previous").addClass("disabled"); 
+			return true; 
+		}
+
+		if($("#my_exams_paging .active").attr("id") == "exam_page_button_1") {
+			$("#my_exams_paging #exam_page_previous").addClass("disabled");
+			$("#my_exams_paging #exam_page_next").removeClass("disabled");
+			return true;
+		}
+		else {
+			$("#my_exams_paging #exam_page_previous").removeClass("disabled");
+			$("#my_exams_paging #exam_page_next").removeClass("disabled");
+		}
+		
 		return true;
 	}
+}
 
-	/* IMPOSTARE TASTO NEXT E TASTO FINALE */
+/* SHOW NEXT EXAMS TABLE PAGE (BUTTON NEXT) */
+function examShowBodyNext(clicked_button, page_max) {
+	if(clicked_button.id == "exam_page_next") {
+		var toHide = $("#examTable tbody:visible");
+		var toShow = $("#examTable tbody:visible").next();
+		var toDeactive = $("#my_exams_paging .active");
+		var toActive = $("#my_exams_paging .active").next();
+		toHide.css({"visibility": "collapse", "display": "none"});
+		toShow.css({"visibility": "visible", "display": ""});
+		toDeactive.removeClass("active");
+		toActive.addClass("active");
 
+		if(page_max == 1) { 
+			$("#my_exams_paging #exam_page_previous").addClass("disabled"); 
+			$("#my_exams_paging #exam_page_next").addClass("disabled");
+			return true;
+		}
+		if($("#my_exams_paging .active").attr("id") == "exam_page_button_"+page_max) {
+			$("#my_exams_paging #exam_page_next").addClass("disabled");
+			$("#my_exams_paging #exam_page_previous").removeClass("disabled");
+			return true;
+		}
+		else {
+			$("#my_exams_paging #exam_page_next").removeClass("disabled");
+			$("#my_exams_paging #exam_page_previous").removeClass("disabled");
+		}
+
+		return true;
+	}
+}
+
+/* SHOW THE CLICKED EXAMS TABLE PAGE (NUMBER BUTTON) */
+function examShowBody(clicked_body, clicked_button, page_max) {
 	$("#examTable tbody").css({"visibility": "collapse", "display": "none"});
 	$(clicked_body).css({"visibility": "visible", "display": ""});
 	$("#examPages li").removeClass("active");
 	$(clicked_button).addClass("active");
 
-	if(clicked_button.id == "page_button_1") {
+	if(page_max == 1) { 
+		$("#my_exams_paging #exam_page_previous").addClass("disabled"); 
+		$("#my_exams_paging #exam_page_next").addClass("disabled");
+		return true;
+	}
+	if($("#my_exams_paging .active").attr("id") == "exam_page_button_"+page_max) {
+		$("#my_exams_paging #exam_page_next").addClass("disabled");
+		$("#my_exams_paging #exam_page_previous").removeClass("disabled");
+		return true;
+	}
+	else if($("#my_exams_paging .active").attr("id") == "exam_page_button_1") {
 		$("#my_exams_paging #exam_page_previous").addClass("disabled");
+		$("#my_exams_paging #exam_page_next").removeClass("disabled");
 		return true;
 	}
 	else {
 		$("#my_exams_paging #exam_page_previous").removeClass("disabled");
-		return true;
+		$("#my_exams_paging #exam_page_next").removeClass("disabled");
 	}
 	
+	return true;
+}
+
+
+
+
+/* SHOW PREVIOUS CALENDAR TABLE PAGE (BUTTON PREVIOUS) */
+function calendarShowBodyPrevious(clicked_button, page_max) {
+	if(clicked_button.id == "calendar_page_previous") {
+		var toHide = $("#calendarTable tbody:visible");
+		var toShow = $("#calendarTable tbody:visible").prev();
+		var toDeactive = $("#my_calendar_paging .active");
+		var toActive = $("#my_calendar_paging .active").prev();
+		toHide.css({"visibility": "collapse", "display": "none"});
+		toShow.css({"visibility": "visible", "display": ""});
+		toDeactive.removeClass("active");
+		toActive.addClass("active");
+
+		if(page_max == 1) {
+			$("#my_calendar_paging #calendar_page_next").addClass("disabled"); 
+			$("#my_calendar_paging #calendar_page_previous").addClass("disabled"); 
+			return true; 
+		}
+
+		if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_1") {
+			$("#my_calendar_paging #calendar_page_previous").addClass("disabled");
+			$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
+			return true;
+		}
+		else {
+			$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
+			$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
+		}
+		
+		return true;
+	}
+}
+
+/* SHOW NEXT EXAMS TABLE PAGE (BUTTON NEXT) */
+function calendarShowBodyNext(clicked_button, page_max) {
+	if(clicked_button.id == "calendar_page_next") {
+		var toHide = $("#calendarTable tbody:visible");
+		var toShow = $("#calendarTable tbody:visible").next();
+		var toDeactive = $("#my_calendar_paging .active");
+		var toActive = $("#my_calendar_paging .active").next();
+		toHide.css({"visibility": "collapse", "display": "none"});
+		toShow.css({"visibility": "visible", "display": ""});
+		toDeactive.removeClass("active");
+		toActive.addClass("active");
+
+		if(page_max == 1) { 
+			$("#my_calendar_paging #calendar_page_previous").addClass("disabled"); 
+			$("#my_calendar_paging #calendar_page_next").addClass("disabled");
+			return true;
+		}
+		if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_"+page_max) {
+			$("#my_calendar_paging #calendar_page_next").addClass("disabled");
+			$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
+			return true;
+		}
+		else {
+			$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
+			$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
+		}
+
+		return true;
+	}
+}
+
+/* SHOW THE CLICKED EXAMS TABLE PAGE (NUMBER BUTTON) */
+function calendarShowBody(clicked_body, clicked_button, page_max) {
+	$("#calendarTable tbody").css({"visibility": "collapse", "display": "none"});
+	$(clicked_body).css({"visibility": "visible", "display": ""});
+	$("#calendarPages li").removeClass("active");
+	$(clicked_button).addClass("active");
+
+	if(page_max == 1) { 
+		$("#my_calendar_paging #calendar_calendar_previous").addClass("disabled"); 
+		$("#my_calendar_paging #calendar_calendar_next").addClass("disabled");
+		return true;
+	}
+	if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_"+page_max) {
+		$("#my_calendar_paging #calendar_page_next").addClass("disabled");
+		$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
+		return true;
+	}
+	else if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_1") {
+		$("#my_calendar_paging #calendar_page_previous").addClass("disabled");
+		$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
+		return true;
+	}
+	else {
+		$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
+		$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
+	}
+	
+	return true;
 }
 
 /* ---------------------------------------- */
