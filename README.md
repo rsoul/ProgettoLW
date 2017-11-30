@@ -17,6 +17,8 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * animare le caselle di input in caso di succesful input
 * Una volta rilasciata la versione stabile e finale, ricordarsi di minify tutti i file per un piccolo boost nella performance della web app
 * inserire nel grafico il bar chart voto medio ottenuto dagli studenti
+* Implementare riordino dati tramite freccetta 
+
 
 ## Bugs to squash:
 - **Priority** Immettere troppi esami (n>20) fa formattare male il graph
