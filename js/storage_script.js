@@ -433,7 +433,6 @@ function printExams(){
 	return true;
 }
 
-
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
 	/* OPEN STORAGE IF ITS DEFINED */
@@ -658,6 +657,13 @@ function printStatistics() {
 						min: 18,
 						max: 31,
 						stepSize: 1
+					}
+				}],
+				xAxes: [{
+					ticks: {
+						autoSkip: false,
+				        maxRotation: 75,
+				        minRotation: 75
 					}
 				}]
             }

@@ -194,36 +194,6 @@ function resetAddEventFields() {
 	$("#calendarAddName").select();
 }
 
-/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON --ADD EXAM-- */
-function showAddExamPraise() {
-	var add_exam_grade = $("#examAddGrade").val();
-	var add_exam_praise_div = $("#examAddPraiseDiv");
-	if(add_exam_grade == "30") {
-		add_exam_praise_div.css("visibility", "visible");
-		add_exam_praise_div.css("display", "block");
-	}
-	else {
-		add_exam_praise_div.css("visibility", "collapse");
-		add_exam_praise_div.css("display", "none");
-	}
-	return true;
-}
-
-/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON --EDIT EXAM-- */
-function showEditExamPraise() {
-	var edit_exam_grade = $("#examEditGrade");
-	var edit_exam_praise_div = $("#examEditPraiseDiv");
-	if(edit_exam_grade.val() == "30") {
-		edit_exam_praise_div.css("visibility", "visible");
-		edit_exam_praise_div.css("display", "block");
-	}
-	else {
-		edit_exam_praise_div.css("visibility", "collapse");
-		edit_exam_praise_div.css("display", "none");
-	}
-	return true;
-}
-
 /* SET THE PROGRESS BAR WITH THE PERCENT */
 function getPercentageCFU(){
 	var takenCFU = getProgress();
@@ -283,6 +253,35 @@ function hideAlert(elem_alert) {
 	$("#" + elem_alert).css("visibility", "hidden");
 }
 
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON --ADD EXAM-- */
+function showAddExamPraise() {
+	var add_exam_grade = $("#examAddGrade").val();
+	var add_exam_praise_div = $("#examAddPraiseDiv");
+	if(add_exam_grade == "30") {
+		add_exam_praise_div.css("visibility", "visible");
+		add_exam_praise_div.css("display", "block");
+	}
+	else {
+		add_exam_praise_div.css("visibility", "collapse");
+		add_exam_praise_div.css("display", "none");
+	}
+	return true;
+}
+
+/* CHECK IF HAVE TO SHOW PRAISE RADIO BUTTON (GRADE == 30) ON --EDIT EXAM-- */
+function showEditExamPraise() {
+	var edit_exam_grade = $("#examEditGrade");
+	var edit_exam_praise_div = $("#examEditPraiseDiv");
+	if(edit_exam_grade.val() == "30") {
+		edit_exam_praise_div.css("visibility", "visible");
+		edit_exam_praise_div.css("display", "block");
+	}
+	else {
+		edit_exam_praise_div.css("visibility", "collapse");
+		edit_exam_praise_div.css("display", "none");
+	}
+	return true;
+}
 
 /* SHOW PREVIOUS EXAMS TABLE PAGE (BUTTON PREVIOUS) */
 function examShowBodyPrevious(clicked_button, page_max) {
