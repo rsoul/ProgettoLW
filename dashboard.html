@@ -84,8 +84,8 @@
 
         <!-- EXAMS TABLE -->
         <div class="tab-pane fade show active" id="exams" role="tabpanel">
-          <div class="progress" style="margin-top: 5px">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar" role="progressbar" style="width:0%"></div>
+          <div class="progress" id="progress" style="margin-top: 5px">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar" role="progressbar" style="width:0%;"></div>
           </div>
           <div id="my_exams" style="text-align: center; padding-top:5px;"></div>
           <div id="my_exams_paging"></div> 
@@ -153,7 +153,7 @@
                   </div>
 
                   <!-- INSERT EXAM GRADE (WITH PRAISE) -->
-                  <div class="form-group row">
+                  <div class="form-group row" id="examAddGradeDiv">
                     <label for="examAddGrade" class="col-sm-2 col-form-label">Voto</label>
                     <div class="col-sm-10">
                       <input type="number" class="form-control" id="examAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddExamPraise()" required>
@@ -243,7 +243,7 @@
                   </div>
 
                   <!-- INSERT EXAM GRADE (EDIT) (WITH PRAISE) -->
-                  <div class="form-group row">
+                  <div class="form-group row" id="examEditGradeDiv">
                     <label for="examEditGrade" class="col-sm-2 col-form-label">Voto</label>
                     <div class="col-sm-10">
                       <input type="number" class="form-control" id="examEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditExamPraise()" onclick="showEditExamPraise()" required>

@@ -401,7 +401,7 @@ function printExams(){
 		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
-			//var type = exams[i].type;
+			var type = exams[i].type;
 			var code = exams[i].code;
 			var date = exams[i].date;
 			var grade = exams[i].grade;
@@ -421,7 +421,7 @@ function printExams(){
 			table_body += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
 			table_body += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
 			table_body += "<td id=\"tableExamSetting"+code+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
-			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'"+code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'" + type + "\',\'" + code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		table_body += "</tbody>";
 	}
@@ -547,7 +547,7 @@ function printStatistics() {
 	/* OPEN STORAGE IF ITS DEFINED */
 	if (typeof(localStorage.calendar) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
-	var len = exams.length;
+	var total_len = exams.length;
 
 	var s = new String("");
 	var voti = new Array();
@@ -560,10 +560,14 @@ function printStatistics() {
 	var cfu_totali = 0.0;	// TOTAL CFU FOR WEIGHTED AVERAGE
 	var cfu_corso = localStorage.getItem("CFU");
 
+	exams = exams.filter(function(a) {return a.type == "Esame"});
+
 	/* SORT EXAMS BY DATE */
 	exams.sort(function(a,b) { 
 	    return new Date(a.date) - new Date(b.date); 
 	});
+
+	var len = exams.length;
 
 	/* GENERATE GRADES, DATES AND AVERAGE VARIATION ARRAYS */
 	for (i=0; i<len; i++) {
@@ -598,7 +602,7 @@ function printStatistics() {
 	/* GENERATE THE TABLE */
 	s += "<div id=\"mediaDiv\">";
 	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU Ottenuti</th><th>CFU Richiesti</th></tr>";
-	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + len + "</td><td>" + cfu_totali + "</td><td>" + cfu_corso + "</td></tr></table></div>";
+	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + total_len + "</td><td>" + getProgress() + "</td><td>" + cfu_corso + "</td></tr></table></div>";
 
 	/* DRAW THE GRAPHIC */
 	var ctx = $("#user_chart").get(0).getContext('2d');

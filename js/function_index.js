@@ -40,7 +40,7 @@ function generateRandomData(n,ex,ev){
 
 /* GET A SUM OF ALL CFU TAKEN */
 function getProgress(){
-	if (typeof(localStorage.exams == "undefined")) return false;
+	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var progress = 0;
@@ -132,10 +132,12 @@ function loadEditExam(today) {
 /* SHOW FIELDS OF THE --EDIT EXAM-- */
 function initEditExam(type, code, date, grade, cfu) {
 	$("#examEditType").val(type).attr('selected','selected');	//NOT WORKING
+	$("#examEditType").attr("disabled", true);
 	$("#examEditCode").val(code);
 	$("#examEditDate").val(date);
-	if($("#examEditType :selected").val() == "Idoneità") $("#examEditGrade").css("visibility", "hidden");
+	if($("#examEditType :selected").val() == "Idoneità") $("#examEditGradeDiv").css({"visibility": "hidden", "display": "none"});
 	else {
+		$("#examEditGradeDiv").css({"visibility": "visible", "display": ""});
 		if (grade == 31) {
 			$("#examEditGrade").val("30");
 			$("#examEditPraiseYes").prop("checked", true);
@@ -230,8 +232,7 @@ function getPercentageCFU(){
 	var progressBar = $("#progressBar");
 	if(percentageCFU > 100) percentageCFU = 100;
 	progressBar.css("width", percentageCFU + "%");
-	if (percentageCFU>3){
-	progressBar.html(percentageCFU + "%");}
+	if (percentageCFU>3) progressBar.html(percentageCFU + "%");
 	progressBar.attr("aria-valuenow", percentageCFU);
 	return true;
 }
@@ -259,14 +260,16 @@ function showSampleChart() {
 	return true;
 }
 
+/* CHECK IF IS AN EXAM OR IDONEITY FOR SHOWING GRADE */
 function showAddExamGrade() {
 	if ($("#examAddType :selected").val() == "Idoneità") {
-		$("#examAddGrade").css("visibility", "hidden");
-		$("#examAddGrade").removeAttr("max");
-		$("#examAddGrade").removeAttr("min");
+		$("#examAddGradeDiv").css({"visibility": "hidden", "display": "none"});
 		$("#examAddGrade").removeAttr("required");
 	}
-	else $("#examAddGrade").css("visibility", "visible");
+	else {
+		$("#examAddGradeDiv").css({"visibility": "visible", "display": ""});
+		$("#examAddGrade").attr("required", "required");
+	}
 }
 
 /* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
@@ -373,8 +376,6 @@ function examShowBody(clicked_body, clicked_button, page_max) {
 	
 	return true;
 }
-
-
 
 
 /* SHOW PREVIOUS CALENDAR TABLE PAGE (BUTTON PREVIOUS) */
@@ -639,22 +640,14 @@ function checkLogin() {
 /* SHOW INPUT CFU BUTTON IF THE CFU LOCAL STORAGE ISN'T INITIALIZED, ELSE HIDE BUTTON AND SHOW PROGRESS BAR AND ADD EXAM BUTTON */
 function checkStorageCFU() {
 	if(localStorage.getItem("CFU") != null) {
-		$("#initCourseCFUDiv").css({
-			"visibility": "hidden",
-			"display": "none"});
-		$("#mainAddExamButton").css("visibility", "visible");
-		$("#progressBar").css("visibility", "visible");
+		$("#initCourseCFUDiv").css({"visibility": "hidden", "display": "none"});
+		$("#mainAddExamButton").css({"visibility": "visible", "display": ""});
+		$("#progress").css({"visibility": "visible", "display": "block"});
 		getPercentageCFU();
 	}
 	else {
-		$("#initCourseCFUDiv").css({
-			"visibility": "visible",
-			"display": "block"});
-		$("#mainAddExamButton").css({
-			"visibility": "hidden",
-			"display": "none"});
-		$("#progressBar").css({
-			"visibility": "hidden",
-			"display": "none"});
+		$("#initCourseCFUDiv").css({"visibility": "visible", "display": "block"});
+		$("#mainAddExamButton").css({"visibility": "hidden", "display": "none"});
+		$("#progress").css({"visibility": "hidden", "display": "none"});
 	}
 }
