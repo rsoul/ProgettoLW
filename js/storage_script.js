@@ -366,7 +366,7 @@ function printExams(){
 	  	else table_paging += "<li class=\"page-item\" id=\"exam_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"examShowBody(exam_table_body_" + (i+1) + ", exam_page_button_"+(i+1)+", " + page_number + ")\">" + (i+1) + "</a></li>";
 	}
 
-	if (page_number == 1) table_paging += "<li class=\"page-item disabled\" id=\"exam_page_next\">";
+	if (page_number <= 1) table_paging += "<li class=\"page-item disabled\" id=\"exam_page_next\">";
 	else table_paging += "<li class=\"page-item\" id=\"exam_page_next\">";
 	
 	table_paging += "\
@@ -463,7 +463,7 @@ function printCalendar(){
 	  	else table_paging += "<li class=\"page-item\" id=\"calendar_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"calendarShowBody(calendar_table_body_" + (i+1) + ", calendar_page_button_"+(i+1)+", " + page_number + ")\">" + (i+1) + "</a></li>";
 	}
 
-	if (page_number == 1) table_paging += "<li class=\"page-item disabled\" id=\"calendar_page_next\">";
+	if (page_number <= 1) table_paging += "<li class=\"page-item disabled\" id=\"calendar_page_next\">";
 	else table_paging += "<li class=\"page-item\" id=\"calendar_page_next\">";
 	
 	table_paging += "\
@@ -549,16 +549,20 @@ function printStatistics() {
 	var total_len = exams.length;
 
 	var s = new String("");
+
 	var voti = new Array();
 	var date = new Array();
+	var codici = new Array();
 	var media_time = new Array();
 	var media_const_array = new Array();
 	var media_ponderata_const_array = new Array();
+
 	var media = 0.0;
 	var media_ponderata = 0.0;
 	var cfu_totali = 0.0;	// TOTAL CFU FOR WEIGHTED AVERAGE
 	var cfu_corso = localStorage.getItem("CFU");
 
+	/* EXCLUDES IDONEITIES */
 	exams = exams.filter(function(a) {return a.type == "Esame"});
 
 	/* SORT EXAMS BY DATE */
@@ -566,20 +570,23 @@ function printStatistics() {
 	    return new Date(a.date) - new Date(b.date); 
 	});
 
+	/* LENGTH ONLY EXAMS */
 	var len = exams.length;
 
 	/* GENERATE GRADES, DATES AND AVERAGE VARIATION ARRAYS */
 	for (i=0; i<len; i++) {
-		var grade_for = exams[i].grade;
-		var date_for = exams[i].date;
-		var cfu_for = exams[i].cfu;
+		var codice = exams[i].code;
+		var voto = exams[i].grade;
+		var data = exams[i].date;
+		var cfu = exams[i].cfu;
 		
-		media += parseFloat(grade_for);
-		media_ponderata += parseFloat(grade_for)*parseFloat(cfu_for);
-		cfu_totali += parseFloat(cfu_for);
+		media += parseFloat(voto);
+		media_ponderata += parseFloat(voto)*parseFloat(cfu);
+		cfu_totali += parseFloat(cfu);
 
-		voti[i] = grade_for;
-		date[i] = date_for;
+		codici[i] = codice;
+		voti[i] = voto;
+		date[i] = data;
 
 		/* CALCULATE AVERAGE ON THE I-TIME */
 		var avg = 0.0;
@@ -609,11 +616,11 @@ function printStatistics() {
 		type: "line",
 		
 		data: {
-			labels: date,
+			labels: codici,
 			datasets: [
 			/* GRADES */
 			{
-				label: "Voti",
+				label: "Voto",
 				data: voti,
 				pointBackgroundColor: "#3cba9f",
 				borderColor: "#3cba9f",
@@ -651,6 +658,16 @@ function printStatistics() {
 
 		options: {
 			maintainAspectRatio: false,
+			tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                	/* CHANGE TITLE ON HOVER WITH EXAM CODE */
+                    title: function(tooltipItems, data) { 
+                        return codici[tooltipItems[0].index];
+                    }
+                }
+            },
 			scales: {
             	yAxes: [{
             		ticks: {
@@ -660,6 +677,7 @@ function printStatistics() {
 					}
 				}],
 				xAxes: [{
+					labels: date,
 					ticks: {
 						autoSkip: false,
 				        maxRotation: 75,

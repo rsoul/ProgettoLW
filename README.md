@@ -16,14 +16,12 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * **implementato (SOLO IN DASHBOARD)** implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5  
 * animare le caselle di input in caso di succesful input
 * Una volta rilasciata la versione stabile e finale, ricordarsi di minify tutti i file per un piccolo boost nella performance della web app
-* Facendo hover su di un punto della curva esami dati il popover dovrebbe mostrare il nome dell'esame e non la data
 * inserire nel grafico il bar chart voto medio ottenuto dagli studenti
 
 ## Bugs to squash:
 - **Priority** Immettere troppi esami (n>20) fa formattare male il graph
+- **Priority** Visualizzazione da alcuni dispositivi troppo grande, modificare dimensioni tabelle
 * La form  di immissione di esame/evento permette l'inserimento di script malevoli ([XSS](https://www.acunetix.com/websitesecurity/cross-site-scripting/))
-
-* **Priority** Se non si hanno inizializzati i local storage si verifica un "bug" se non si aggiorna la pagina
 
 ### Raoul:
 - login
@@ -48,4 +46,6 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>implementare [loading bar](https://getbootstrap.com/docs/4.0/components/progress/) (cfu ottenuti /cfu da ottenere per laurearsi x 100)</del>
 * <del>implementare inserimento idoneità (esame senza voto)</del>
 * <del>implementare visualizzazione a pagine degli esami/eventi per non intralciare il footer con [pagination di bootstrap](https://v4-alpha.getbootstrap.com/components/pagination/)</del>
+* <del>Facendo hover su di un punto della curva esami dati il popover dovrebbe mostrare il nome dell'esame e non la data</del>
+* <del>**Priority** Se non si hanno inizializzati i local storage si verifica un "bug" se non si aggiorna la pagina</del>
 **Good job so far!**
