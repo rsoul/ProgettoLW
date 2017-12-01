@@ -42,3 +42,12 @@ td, th {
 	margin-left: 30%;
 	margin-right: 30%;
 }
+
+.th-link {
+	color: #000000 !important;
+}
+
+.th-link:hover {
+	color: #5e5e5e !important;
+	cursor: pointer;
+}

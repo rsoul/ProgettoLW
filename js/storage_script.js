@@ -32,6 +32,7 @@ function resetStorageCFU(){localStorage.setItem('CFU', null);}
 
 /* INSERT NEW EXAM ON EXAMS STORAGE (CHECK ALL FIELDS) */
 function addExam(){
+	initStorageExams();
 	var exam_type = $("#examAddType :selected").val();
 	var exam_code = $('#examAddCode').val();
 	var exam_date = $('#examAddDate').val();
@@ -115,6 +116,7 @@ function addExam(){
 
 /* INSERT NEW EVENT ON CALENDAR STORAGE (CHECK ALL FIELDS) */
 function addCalendarEvent(){
+	initStorageCalendar();
 	var calendar_name = $('#calendarAddName').val();
 	var calendar_date = $('#calendarAddDate').val();
 	var calendar_time = $('#calendarAddTime').val();
@@ -149,7 +151,7 @@ function addCalendarEvent(){
 		calendar_time="12:00";
 	}
 	*/
-	var event = {
+	var calendar_event = {
 		name: calendar_name,
 		date: calendar_date,
 		time: calendar_time
@@ -158,14 +160,14 @@ function addCalendarEvent(){
 	
 	/* CHECK IF THE EVENT IS ALREADY ON THE STORAGE */
 	for (i=0; i<len; i++) {
-		if(sameEvent(calendar[i], event)) {
+		if(sameEvent(calendar[i], calendar_event)) {
 			showAlert(calendar_add_alert, calendar_add_alert_text, "Evento già presente!");
 			return false;
 		}
 	}
 
 	/* ADD EVENT ON STORAGE AND UPDATE CALENDAR TABLE */
-	calendar[len] = event;
+	calendar[len] = calendar_event;
 	localStorage.calendar = JSON.stringify(calendar);
 	printCalendar();
 	return true;
@@ -338,7 +340,7 @@ function removeEvent(name) {
 /* ---------------------------------------- */
 
 /* PRINT ALL EXAMS IN A BOOTSTRAP TABLE */
-function printExams(){
+function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, ASCENDENT
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
@@ -346,6 +348,7 @@ function printExams(){
 	var table_paging = new String("");
 
 	/* PAGING */
+	// var window_height = $( window ).height(); // IF WANT TO SHOW N VALUES BASED ON THE HEIGHT OF THE WINDOW (NOT OF THE HTML)
 	var values_to_show = 5;
 	var page_number = parseFloat(len/values_to_show);
 	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
@@ -377,21 +380,104 @@ function printExams(){
     </li>\
     </ul>\
     </nav>";
+    /* --- END PAGING --- */
+
+    if(ordering == null || ordering == "") ordering = "date";
+    if(mode == null || mode == "") mode = "asc";
+
+    /* ADD ARROW TO ORDERING PARAMETER */
+	var code_string = "Codice";
+	var date_string = "Data";
+	var grade_string = "Voto";
+	var cfu_string = "CFU";
+
+	var arrow_up = "&#x25B2;";
+	var arrow_down = "&#x25BC;";
+
+	if (mode == "asc") {
+		/* &#x25BC; -> ASCII Arrow Down */
+		switch (ordering) {
+			case "code": 
+					code_string += arrow_down;
+					break;
+			case "date":
+					date_string += arrow_down;
+					break;
+			case "grade":
+					grade_string += arrow_down;
+					break;
+			case "cfu":
+					cfu_string += arrow_down;
+					break;
+			default:
+					date_string += arrow_down;
+					break;
+		}
+	} else {
+		/* &#x25BC; -> ASCII Arrow Down */
+		switch (ordering) {
+			case "code": 
+					code_string += arrow_up;
+					break;
+			case "date":
+					date_string += arrow_up;
+					break;
+			case "grade":
+					grade_string += arrow_up;
+					break;
+			case "cfu":
+					cfu_string += arrow_up;
+					break;
+			default:
+					date_string += arrow_up;
+					break;
+		}
+	}
+
 
     /* TABLE BODY */
-	exams.sort(function(a,b) { 
-	    return new Date(a.date) - new Date(b.date); 
+	exams.sort(function(a,b) {
+		if (mode == "asc") {
+			if (ordering == "code") return a.code.localeCompare(b.code);
+			else if (ordering == "date") return new Date(a.date) - new Date(b.date); 
+			else if (ordering == "grade"){
+				if (a.grade == "Idoneo") return -1;
+				if (b.grade == "Idoneo") return 1;
+				return a.grade - b.grade;
+			}
+			else if (ordering == "cfu") return a.cfu - b.cfu;
+		}
+		else {
+			if (ordering == "code") return b.code.localeCompare(a.code);
+			else if (ordering == "date") return new Date(b.date) - new Date(a.date); 
+			else if (ordering == "grade") {
+				if (a.grade == "Idoneo") return 1;
+				if (b.grade == "Idoneo") return -1;
+				return b.grade - a.grade;
+			}
+			else if (ordering == "cfu") return b.cfu - a.cfu;
+		}
 	});
-	
+
+	/* CONTROLS WHICH ONE HAS BEEN PRESSED AND CHANGE ASC/DESC MODE ON NEXT CLICK, ASC DEFAULT*/
 	table_body += "\
 	<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
 			<thead>\
-				<tr>\
-					<th width=\"40%\">Codice</th>\
-					<th width=\"15%\">Data</th>\
-					<th width=\"20%\">Voto</th>\
-					<th width=\"15%\">CFU</th>\
-					<th width=\"10%\"><i class=\"material-icons\">settings</i></th>\
+				<tr>";
+	if(ordering == "code" && mode == "asc") table_body += "<th width=\"40%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'desc\')\">" + code_string + "</a></th>";
+	else table_body += "<th width=\"40%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'asc\')\">" + code_string + "</a></th>";
+
+	if(ordering == "date" && mode == "asc") table_body += "<th width=\"15%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'desc\')\">" + date_string + "</a></th>";
+	else table_body += "<th width=\"15%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'asc\')\">" + date_string + "</a></th>";
+
+	if(ordering == "grade" && mode == "asc") table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'desc\')\">"+ grade_string + "</a></th>";
+	else table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'asc\')\">"+ grade_string + "</a></th>";
+
+	if(ordering == "cfu" && mode == "asc") table_body += "<th width=\"10%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'desc\')\">" + cfu_string + "</a></th>";
+	else table_body += "<th width=\"10%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'asc\')\">" + cfu_string + "</a></th>";
+	
+	table_body += "\
+					<th width=\"15%\"><i class=\"material-icons\">settings</i></th>\
 				</tr>\
 			</thead>";
 	
@@ -406,16 +492,15 @@ function printExams(){
 			var date = exams[i].date;
 			var grade = exams[i].grade;
 			var cfu = exams[i].cfu;
-			var grade_for_print = grade;
+			var grade_for_print = grade;	// IDONEO IF IDONEITA'
 
+			// FOR 30 WITH PRAISE
 			if (grade == 31) {
 				grade_for_print = "30 e Lode";
 				table_body += "<tr class=\"table table-success\">";
 			}
 			else table_body += "<tr>";
 
-			//if (type == "Idoneità") grade_for_print = "Idoneo";
-			
 			table_body += "<td id=\"tableExamCode"+code+"\">" + code + "</td>";
 			table_body += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
 			table_body += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
@@ -433,14 +518,15 @@ function printExams(){
 	return true;
 }
 
+
 /* PRINT ALL EVENTS FROM CALENDAR STORAGE (WITH DELETE/EDIT BUTTONS) */
 function printCalendar(){
 	/* OPEN STORAGE IF ITS DEFINED */
 	if (typeof(localStorage.calendar) == "undefined") return false;
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
-	var table_body = new String("");
-	var table_paging = new String("");
+	var table_body = new String("");	// CONTAINS TABLE
+	var table_paging = new String("");	// CONTAINS PAGING
 
 	/* PAGING */
 	var values_to_show = 5;
@@ -448,6 +534,7 @@ function printCalendar(){
 	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
 	else page_number = parseInt(page_number);
 
+	/* INIT PAGING AND PRINT PREVIOUS BUTTON DISACTIVATED */
 	table_paging += "\
 	<nav aria-label=\"Calendar pages\" id=\"calendarPages\">\
 		<ul class=\"pagination justify-content-end\">\
@@ -458,14 +545,17 @@ function printCalendar(){
 	    		</a>\
 	    	</li>";
 
+	/* PRINT PAGE_NUMBER BUTTONS */
 	for (i=0; i<page_number; i++) {
 		if (i==0) table_paging += "<li class=\"page-item active\" id=\"calendar_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"calendarShowBody(calendar_table_body_" + (i+1) + ", calendar_page_button_" + (i+1) + ", " + page_number + ")\">" + (i+1) + "</a></li>";
 	  	else table_paging += "<li class=\"page-item\" id=\"calendar_page_button_" + (i+1) + "\"><a class=\"page-link\" href=\"#\" onclick=\"calendarShowBody(calendar_table_body_" + (i+1) + ", calendar_page_button_"+(i+1)+", " + page_number + ")\">" + (i+1) + "</a></li>";
 	}
 
+	/* CHECK IF ACTIVE NEXT BUTTON */
 	if (page_number <= 1) table_paging += "<li class=\"page-item disabled\" id=\"calendar_page_next\">";
 	else table_paging += "<li class=\"page-item\" id=\"calendar_page_next\">";
 	
+	/* PRINT NEXT BUTTON AND CLOSE PAGING */
 	table_paging += "\
 		<a class=\"page-link\" href=\"#\" aria-label=\"Next\" onclick=\"calendarShowBodyNext(calendar_page_next, " + page_number + ")\">\
         	<span aria-hidden=\"true\">&raquo;</span>\
@@ -478,7 +568,7 @@ function printCalendar(){
 
 	/* SORT EVENTS BY DATE */
 	calendar.sort(function(a,b) { 
-	    return new Date(a.date) - new Date(b.date); 
+	    return new Date(a.date+" "+a.time) - new Date(b.date+" "+b.time); 
 	});
 	
 	/* PREPARE TABLE */
@@ -488,9 +578,9 @@ function printCalendar(){
 					<tr>\
 						<th width=\"40%\">Evento</th>\
 						<th width=\"15%\">Data</th>\
-						<th width=\"15%\">Orario</th>\
+						<th width=\"10%\">Orario</th>\
 						<th width=\"20%\">Scadenza</th>\
-						<th width=\"10%\"><i class=\"material-icons\">settings</i></th>\
+						<th width=\"15%\"><i class=\"material-icons\">settings</i></th>\
 					</tr>\
 				</thead>";
 
@@ -514,9 +604,9 @@ function printCalendar(){
 
 			/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
 			if (dateDiff > 10) table_body += "<tr>";
-			else if (dateDiff > 5) table_body += "<tr class=\"table table-warning\">";
-			else if (dateDiff >= 0) table_body += "<tr class=\"table table-danger\">";
-			else table_body += "<tr class=\"table table-success\">";
+			else if (dateDiff > 0) table_body += "<tr class=\"table table-warning\">";
+			else if (dateDiff == 0) table_body += "<tr class=\"table table-success\">";
+			else table_body += "<tr class=\"table table-danger\">";
 
 			
 			/* CHECK FOR DISTANCE FROM TODAY (TODAY, TOMORROW OR YESTERDAY) */

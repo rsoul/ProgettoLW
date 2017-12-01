@@ -171,7 +171,7 @@ function initEditEvent(name, date, time) {
 
 /* RESET --ADD EXAM-- FIELDS (NOT EDIT EXAM FIELDS) */
 function resetAddExamFields() {
-	$("#examAddType").val("");
+	$("#examAddType").val("Esame");
 	$("#examAddCode").val("");
 	$("#examAddDate").val(getToday());
 	$("#examAddGrade").val("");
@@ -649,4 +649,11 @@ function checkStorageCFU() {
 		$("#mainAddExamButton").css({"visibility": "hidden", "display": "none"});
 		$("#progress").css({"visibility": "hidden", "display": "none"});
 	}
+}
+
+/* CHECK MODE */
+function checkMode(elem) {
+	/* IF CONTAINS UPPER ARROW, DESCENDENT, ELSE ASCENDENT */
+	if ($("#"+elem).text().search("&#x25BC;")) return "desc";
+	else return "asc";
 }
