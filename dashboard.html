@@ -4,6 +4,7 @@
   <!-- META -->
   <meta author="M. Anselmi / R. D. Nuccetelli / A. Federico">
   <meta description="MyBook - Web App per gestire il proprio libretto universitario.">
+  <meta charset="UTF-8"> 
 
   <!-- TITLE -->
   <title>MyBook | Dashboard</title>
@@ -14,8 +15,10 @@
   <script type="text/javascript" src="js\storage_script.js"></script>
   <script type="text/javascript" src="js\function_index.js"></script>
   <script type="text/javascript" src="js\Chart.bundle.min.js"></script>
-  <!--
+  <!-- TEST
   <script type="text/javascript" src="js\chartjs-plugin-annotation.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   -->
 
   <!--
@@ -40,11 +43,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
   <!-- BOOTSTRAP JS -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
-  <!--
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-  -->
 
 </head>
 <body onload="initDashboard();">
@@ -153,7 +151,7 @@
                   </div>
 
                   <!-- INSERT EXAM GRADE (WITH PRAISE) -->
-                  <div class="form-group row" id="examAddGradeDiv">
+                  <div class="form-group row" id="examAddGradeDiv" style="visibility: visible;">
                     <label for="examAddGrade" class="col-sm-2 col-form-label">Voto</label>
                     <div class="col-sm-10">
                       <input type="number" class="form-control" id="examAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddExamPraise()" required>

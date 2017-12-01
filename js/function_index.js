@@ -171,17 +171,16 @@ function initEditEvent(name, date, time) {
 
 /* RESET --ADD EXAM-- FIELDS (NOT EDIT EXAM FIELDS) */
 function resetAddExamFields() {
+	loadAddExam(getToday());
+	hideAlert("examAddAlert");
 	$("#examAddType").val("Esame");
 	$("#examAddCode").val("");
 	$("#examAddDate").val(getToday());
 	$("#examAddGrade").val("");
-	$("#examAddGrade").css("visibility", "visible");
-	loadAddExam(getToday());
-	$("#examAddPraiseDiv").css("visibility", "collapse");
-	$("#examAddPraiseDiv").css("display", "none");
+	$("#examAddGradeDiv").css({"visibility": "visible", "display": ""});
+	$("#examAddPraiseDiv").css({"visibility": "collapse", "display": "none"});
 	$("#examAddPraiseNo").attr("checked", true);
 	$("#examAddCFU").val("");
-	hideAlert("examAddAlert");
 	$("#examAddCode").select();
 }
 
@@ -238,7 +237,7 @@ function showAddExamGrade() {
 	}
 	else {
 		$("#examAddGradeDiv").css({"visibility": "visible", "display": ""});
-		$("#examAddGrade").attr("required", "required");
+		$("#examAddGrade").attr("required", true);
 	}
 }
 

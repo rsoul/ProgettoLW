@@ -598,7 +598,6 @@ function printCalendar(){
 			var dateDiff_for_print = dateDiff;
 			var time_for_print = time;
 
-
 			/* IF TIME IS NOT DEFINED, PRINTS N.D. INSTEAD OF AN EMPTY STRING */
 			if(time == "") time_for_print = "N.D.";
 
