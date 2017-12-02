@@ -342,6 +342,8 @@ function removeEvent(name) {
 /* PRINT ALL EXAMS IN A BOOTSTRAP TABLE */
 function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, ASCENDENT
 	if (typeof(localStorage.exams) == "undefined") return false;
+	//var cfu_corso = localStorage.getItem("CFU");
+	//if (cfu_corso == null) return false;
 	var exams = JSON.parse(localStorage.exams);
 	var len = exams.length;
 	var table_body = new String("");
@@ -633,11 +635,13 @@ function printCalendar(){
 /* PRINT STATISTICS FOR EXAMS */
 function printStatistics() {
 	/* OPEN STORAGE IF ITS DEFINED */
-	if (typeof(localStorage.calendar) == "undefined") return false;
+	if (typeof(localStorage.exams) == "undefined") return false;
+	var cfu_corso = localStorage.getItem("CFU");
+	//if (cfu_corso == null) return false;
 	var exams = JSON.parse(localStorage.exams);
 	var total_len = exams.length;
 
-	var s = new String("");
+	var s = new String("");	// TABLE STRING
 
 	var voti = new Array();
 	var date = new Array();
@@ -649,7 +653,7 @@ function printStatistics() {
 	var media = 0.0;
 	var media_ponderata = 0.0;
 	var cfu_totali = 0.0;	// TOTAL CFU FOR WEIGHTED AVERAGE
-	var cfu_corso = localStorage.getItem("CFU");
+	
 
 	/* EXCLUDES IDONEITIES */
 	exams = exams.filter(function(a) {return a.type == "Esame"});
