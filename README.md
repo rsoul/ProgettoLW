@@ -8,21 +8,18 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 *Antonio Federico*
 
 
-
 # To do 
 
 ### Funzionalità e modifiche da implementare:
 
 * **implementato (SOLO IN DASHBOARD)** implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5  
-* animare le caselle di input in caso di succesful input
 * Una volta rilasciata la versione stabile e finale, ricordarsi di minify tutti i file per un piccolo boost nella performance della web app
 * inserire nel grafico il bar chart voto medio ottenuto dagli studenti
-* Implementare riordino dati tramite freccetta 
+* Probabile implementazione tramite database in locale (per implementare Register/Login e conseguente trasferimento Exams/Calendar in DB Relazionale MySQL)
 
 
 ## Bugs to squash:
 - **Priority** Immettere troppi esami (n>20) fa formattare male il graph
-- **Priority** Visualizzazione da alcuni dispositivi troppo grande, modificare dimensioni tabelle
 * La form  di immissione di esame/evento permette l'inserimento di script malevoli ([XSS](https://www.acunetix.com/websitesecurity/cross-site-scripting/))
 
 ### Raoul:
@@ -50,4 +47,7 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>implementare visualizzazione a pagine degli esami/eventi per non intralciare il footer con [pagination di bootstrap](https://v4-alpha.getbootstrap.com/components/pagination/)</del>
 * <del>Facendo hover su di un punto della curva esami dati il popover dovrebbe mostrare il nome dell'esame e non la data</del>
 * <del>**Priority** Se non si hanno inizializzati i local storage si verifica un "bug" se non si aggiorna la pagina</del>
+* <del>Implementare riordino dati tramite freccetta</del>
+* <del>Visualizzazione da alcuni dispositivi troppo grande, modificare dimensioni tabelle</del>
+* <del>animare le caselle di input in caso di succesful input</del>
 **Good job so far!**
