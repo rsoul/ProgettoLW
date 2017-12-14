@@ -162,10 +162,11 @@ function initEditExam(type, code, date, grade, cfu) {
 }
 
 /* SHOW FIELDS OF THE --EDIT EVENT-- */
-function initEditEvent(name, date, time) {
+function initEditEvent(name, date, time_start, time_end) {
 	$("#calendarEditName").val(name);
 	$("#calendarEditDate").val(date);
-	$("#calendarEditTime").val(time);
+	$("#calendarEditTimeStart").val(time_start);
+	$("#calendarEditTimeEnd").val(time_end);
 	hideAlert("calendarEditAlert");
 }
 
@@ -188,7 +189,8 @@ function resetAddExamFields() {
 function resetAddEventFields() {
 	$("#calendarAddName").val("");
 	$("#calendarAddDate").val(getToday());
-	$("#calendarAddTime").val("");
+	$("#calendarAddTimeStart").val("");
+	$("#calendarAddTimeEnd").val("");
 	hideAlert("calendarAddAlert");
 	$("#calendarAddName").select();
 }
@@ -580,6 +582,14 @@ function checkDateMax(date) {
 	return true;
 }
 
+/* CHECK IF TIME_START > TIME_END */
+function checkTimes(time_start, time_end) {
+	if(time_start == "") return true;
+	else if (time_end == "") return true;
+
+	return time_start<time_end;
+}
+
 /* CHECK IF ALL FIELDS ON REGISTER FORM ARE VALID */
 function checkRegister() {
 	var email = $("#registerEmail");
@@ -588,34 +598,39 @@ function checkRegister() {
 	var university = $("#registerUniversity");
 	var course = $("#registerCourse");
 
+	var flag = true;
+
 	var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (!email_regex.test(email.val())) {
-		alert("Email non valida!");
-		return false;
+		email.css("border","1px solid #ff0000");
+		flag = false;
 	}
 
 	var password_regex = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/;
 	if (!password_regex.test(password.val())) {
-		alert("Password non valida!");
-		return false;
+		password.css("border","1px solid #ff0000");
+		flag = false;
 	}
 
 	if (password.val() != repeat_password.val()) {
-		alert("Passowrd differenti");
-		return false;
+		password.css("border","1px solid #ff0000");
+		repeat_password.css("border","1px solid #ff0000");
+		flag = false;
 	}
 	
 	if (university.val() == "") {
-		alert("Inserisci l'università!");
-		return false;
+		university.css("border","1px solid #ff0000");
+		flag = false;
 	}
 
 	if (course.val() == "") {
-		alert("Inserisci il corso");
-		return false;
+		course.css("border","1px solid #ff0000");
+		flag = false;
 	}
 
-	return true;
+	if(flag) register(email.val(), password.val(), university.val(), course.val());
+
+	return flag;
 }
 
 /* SMALL CHECK FOR LOGIN FIELDS */
@@ -623,17 +638,22 @@ function checkLogin() {
 	var email = $("#loginEmail");
 	var password = $("#loginPassword");
 
+	var flag = true;
+
 	if (email.val() == "") {
-		alert("Inserisci l'email!");
-		return false;
+		email.css("border","1px solid #ff0000");
+		flag = false;
 	}
 
 	if (password.val() == "") {
 		alert("Inserisci la password!");
-		return false;
+		password.css("border","1px solid #ff0000");
+		flag = false;
 	}
 
-	return true;
+	if(flag) login(email.val(), password.val());
+
+	return flag;
 }
 
 /* SHOW INPUT CFU BUTTON IF THE CFU LOCAL STORAGE ISN'T INITIALIZED, ELSE HIDE BUTTON AND SHOW PROGRESS BAR AND ADD EXAM BUTTON */
@@ -656,4 +676,16 @@ function checkMode(elem) {
 	/* IF CONTAINS UPPER ARROW, DESCENDENT, ELSE ASCENDENT */
 	if ($("#"+elem).text().search("&#x25BC;")) return "desc";
 	else return "asc";
+}
+
+
+/* ---------------- */
+/* Login e Register */
+/* ---------------- */
+function login(email, password){
+	return true;
+}
+
+function register(email, password, university, course) {
+	return true;
 }

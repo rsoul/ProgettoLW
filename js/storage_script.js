@@ -119,7 +119,8 @@ function addCalendarEvent(){
 	initStorageCalendar();
 	var calendar_name = $('#calendarAddName').val();
 	var calendar_date = $('#calendarAddDate').val();
-	var calendar_time = $('#calendarAddTime').val();
+	var calendar_time_start = $('#calendarAddTimeStart').val();
+	var calendar_time_end = $('#calendarAddTimeEnd').val();
 
 	var calendar_add_alert = "calendarAddAlert";
 	var calendar_add_alert_text = "calendarAddAlertText";
@@ -140,6 +141,11 @@ function addCalendarEvent(){
 		$("#calendarAddDate").select();
 		return false;
 	}
+	if (!checkTimes(calendar_time_start, calendar_time_end)) {
+		showAlert(calendar_add_alert, calendar_add_alert_text, "Gli orari si sovrappongono!");
+		$("#calendarAddTimeStart").select();
+		return false;
+	}
 
 	/* PARSING LOCAL STORAGE */
 	var calendar = JSON.parse(localStorage.calendar);
@@ -154,7 +160,8 @@ function addCalendarEvent(){
 	var calendar_event = {
 		name: calendar_name,
 		date: calendar_date,
-		time: calendar_time
+		time_start: calendar_time_start,
+		time_end: calendar_time_end
 	};
 	
 	
@@ -248,7 +255,8 @@ function editExam() {
 function editCalendarEvent() {
 	var calendar_name = $('#calendarEditName').val();
 	var calendar_date = $('#calendarEditDate').val();
-	var calendar_time = $('#calendarEditTime').val();
+	var calendar_time_start = $('#calendarEditTimeStart').val();
+	var calendar_time_end = $('#calendarEditTimeEnd').val();
 
     var calendar_edit_alert = "calendarEditAlert";
     var calendar_edit_alert_text = "calendarEditAlertText";
@@ -264,6 +272,11 @@ function editCalendarEvent() {
 		$("#calendarEditDate").select();
 		return false;
 	}
+	if (!checkTimes(calendar_time_start, calendar_time_end)) {
+		showAlert(calendar_add_alert, calendar_add_alert_text, "Gli orari si sovrappongono!");
+		$("#calendarEditTimeStart").select();
+		return false;
+	}
 
 	/* PARSING LOCAL STORAGE */
 	var calendar = JSON.parse(localStorage.calendar);
@@ -273,7 +286,8 @@ function editCalendarEvent() {
 	for (i=0; i<len; i++) {
 		if(calendar[i].name == calendar_name) {
 			calendar[i].date = calendar_date;
-			calendar[i].time = calendar_time;
+			calendar[i].time_start = calendar_time_start;
+			calendar[i].time_end = calendar_time_end;
 			break; 
 		}
 	}
@@ -467,16 +481,16 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 			<thead>\
 				<tr>";
 	if(ordering == "code" && mode == "asc") table_body += "<th width=\"40%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'desc\')\">" + code_string + "</a></th>";
-	else table_body += "<th width=\"40%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'asc\')\">" + code_string + "</a></th>";
+	else table_body += "<th width=\30%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'asc\')\">" + code_string + "</a></th>";
 
 	if(ordering == "date" && mode == "asc") table_body += "<th width=\"15%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'desc\')\">" + date_string + "</a></th>";
-	else table_body += "<th width=\"15%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'asc\')\">" + date_string + "</a></th>";
+	else table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'asc\')\">" + date_string + "</a></th>";
 
 	if(ordering == "grade" && mode == "asc") table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'desc\')\">"+ grade_string + "</a></th>";
-	else table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'asc\')\">"+ grade_string + "</a></th>";
+	else table_body += "<th width=\"25%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'asc\')\">"+ grade_string + "</a></th>";
 
 	if(ordering == "cfu" && mode == "asc") table_body += "<th width=\"10%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'desc\')\">" + cfu_string + "</a></th>";
-	else table_body += "<th width=\"10%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'asc\')\">" + cfu_string + "</a></th>";
+	else table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'asc\')\">" + cfu_string + "</a></th>";
 	
 	table_body += "\
 					<th width=\"15%\"><i class=\"material-icons\">settings</i></th>\
@@ -570,7 +584,7 @@ function printCalendar(){
 
 	/* SORT EVENTS BY DATE */
 	calendar.sort(function(a,b) { 
-	    return new Date(a.date+" "+a.time) - new Date(b.date+" "+b.time); 
+	    return new Date(a.date+" "+a.time_start) - new Date(b.date+" "+b.time_start); 
 	});
 	
 	/* PREPARE TABLE */
@@ -578,9 +592,10 @@ function printCalendar(){
 			<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"calendarTable\">\
 				<thead>\
 					<tr>\
-						<th width=\"40%\">Evento</th>\
+						<th width=\"30%\">Evento</th>\
 						<th width=\"15%\">Data</th>\
-						<th width=\"10%\">Orario</th>\
+						<th width=\"10%\">Inizio</th>\
+						<th width=\"10%\">Fine</th>\
 						<th width=\"20%\">Scadenza</th>\
 						<th width=\"15%\"><i class=\"material-icons\">settings</i></th>\
 					</tr>\
@@ -595,13 +610,16 @@ function printCalendar(){
 		for (i=i; i<next_table_max && i<len; i++) {
 			var name = calendar[i].name;
 			var date = calendar[i].date;
-			var time = calendar[i].time;
+			var time_start = calendar[i].time_start;
+			var time_end = calendar[i].time_end;
 			var dateDiff = dateDiffInDays(new Date(getToday()), date);
 			var dateDiff_for_print = dateDiff;
-			var time_for_print = time;
+			var time_start_for_print = time_start;
+			var time_end_for_print = time_end;
 
 			/* IF TIME IS NOT DEFINED, PRINTS N.D. INSTEAD OF AN EMPTY STRING */
-			if(time == "") time_for_print = "N.D.";
+			if(time_start == "") time_start_for_print = "N.D.";
+			if(time_end == "") time_end_for_print = "N.D.";
 
 			/* IF DISTANCE FROM TODAY > 10 -> NORMAL ROW, IF >5 AND <=10 WARNING, ELSE DANGER */
 			if (dateDiff > 10) table_body += "<tr>";
@@ -617,12 +635,13 @@ function printCalendar(){
 			
 			table_body += "<td id=\"tableCalendarName"+name+"\">" + name + "</td>";
 			table_body += "<td id=\"tableCalendarDate"+name+"\">" + date + "</td>";
-			table_body += "<td id=\"tableCalendarTime"+name+"\">" + time_for_print + "</td>";
+			table_body += "<td id=\"tableCalendarTimeStart"+name+"\">" + time_start_for_print + "</td>";
+			table_body += "<td id=\"tableCalendarTimeEnd"+name+"\">" + time_end_for_print + "</td>";
 			table_body += "<td id=\"tableCalendarDiff"+name+"\">" + dateDiff_for_print + "</td>";
 
 			/* REMOVE AND EDIT BUTTONS */
 			table_body += "<td id=\"tableCalendarSetting"+name+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
-			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#calendarEditForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
+			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#calendarEditForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time_start+"\',\'"+time_end+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		table_body += "</tbody>";
 	}
