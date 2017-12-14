@@ -480,20 +480,24 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 	<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"examTable\">\
 			<thead>\
 				<tr>";
-	if(ordering == "code" && mode == "asc") table_body += "<th width=\"40%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'desc\')\">" + code_string + "</a></th>";
-	else table_body += "<th width=\30%\"><a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'asc\')\">" + code_string + "</a></th>";
 
-	if(ordering == "date" && mode == "asc") table_body += "<th width=\"15%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'desc\')\">" + date_string + "</a></th>";
-	else table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'asc\')\">" + date_string + "</a></th>";
+	table_body += "<th width=\"40%\">";
+	if(ordering == "code" && mode == "asc") table_body += "<a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'desc\')\">" + code_string + "</a></th>";
+	else table_body += "<a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'asc\')\">" + code_string + "</a></th>";
 
-	if(ordering == "grade" && mode == "asc") table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'desc\')\">"+ grade_string + "</a></th>";
-	else table_body += "<th width=\"25%\"><a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'asc\')\">"+ grade_string + "</a></th>";
+	table_body += "<th width=\"15%\">";
+	if(ordering == "date" && mode == "asc") table_body += "<a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'desc\')\">" + date_string + "</a></th>";
+	else table_body += "<a class=\"th-link\" id=\"exam_th_date\" onclick=\"printExams(\'date\', \'asc\')\">" + date_string + "</a></th>";
 
-	if(ordering == "cfu" && mode == "asc") table_body += "<th width=\"10%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'desc\')\">" + cfu_string + "</a></th>";
-	else table_body += "<th width=\"20%\"><a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'asc\')\">" + cfu_string + "</a></th>";
+	table_body += "<th width=\"15%\">";
+	if(ordering == "grade" && mode == "asc") table_body += "<a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'desc\')\">"+ grade_string + "</a></th>";
+	else table_body += "<a class=\"th-link\" id=\"exam_th_grade\" onclick=\"printExams(\'grade\', \'asc\')\">"+ grade_string + "</a></th>";
+
+	table_body += "<th width=\"10%\">";
+	if(ordering == "cfu" && mode == "asc") table_body += "<a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'desc\')\">" + cfu_string + "</a></th>";
+	else table_body += "<a class=\"th-link\" id=\"exam_th_cfu\" onclick=\"printExams(\'cfu\', \'asc\')\">" + cfu_string + "</a></th>";
 	
-	table_body += "\
-					<th width=\"15%\"><i class=\"material-icons\">settings</i></th>\
+	table_body += "<th width=\"20%\"><i class=\"material-icons\">settings</i></th>\
 				</tr>\
 			</thead>";
 	
@@ -592,12 +596,12 @@ function printCalendar(){
 			<table class=\"table table-striped table-hover table-bordered table-sm\" border=\"1px\" id=\"calendarTable\">\
 				<thead>\
 					<tr>\
-						<th width=\"30%\">Evento</th>\
+						<th width=\"20%\">Evento</th>\
 						<th width=\"15%\">Data</th>\
 						<th width=\"10%\">Inizio</th>\
 						<th width=\"10%\">Fine</th>\
 						<th width=\"20%\">Scadenza</th>\
-						<th width=\"15%\"><i class=\"material-icons\">settings</i></th>\
+						<th width=\"25%\"><i class=\"material-icons\">settings</i></th>\
 					</tr>\
 				</thead>";
 
