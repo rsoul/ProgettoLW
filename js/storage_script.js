@@ -369,8 +369,10 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 	var table_paging = new String("");
 
 	/* PAGING */
-	// var window_height = $( window ).height(); // IF WANT TO SHOW N VALUES BASED ON THE HEIGHT OF THE WINDOW (NOT OF THE HTML)
-	var values_to_show = 5;
+	var values_to_show = $( window ).height() - 397; // 397 -> PIXELS TAKEN BY OTHER ELEMENTS  
+	var tab_height = 48;
+
+	values_to_show = parseInt(values_to_show/tab_height)-1;
 	var page_number = parseFloat(len/values_to_show);
 	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
 	else page_number = parseInt(page_number);
@@ -530,7 +532,7 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 			table_body += "<td id=\"tableExamDate"+code+"\">" + date + "</td>";
 			table_body += "<td id=\"tableExamGrade"+code+"\">" + grade_for_print + "</td>";
 			table_body += "<td id=\"tableExamCFU"+code+"\">" + cfu + "</td>";
-			table_body += "<td id=\"tableExamSetting"+code+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\"><i class=\"material-icons\">delete</i></button>";
+			table_body += "<td id=\"tableExamSetting"+code+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_exam_"+code+"\" onclick=\"removeExam(\'"+code+"\')\" style=\"margin-right: 10px;\"><i class=\"material-icons\">delete</i></button>";
 			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#examEditForm\"  id=\"edit_exam_"+code+"\")\" onclick=\"initEditExam(\'" + type + "\',\'" + code+"\',\'"+date+"\',\'"+grade+"\',\'"+cfu+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		table_body += "</tbody>";
@@ -554,7 +556,10 @@ function printCalendar(){
 	var table_paging = new String("");	// CONTAINS PAGING
 
 	/* PAGING */
-	var values_to_show = 5;
+	var values_to_show = $( window ).height() - 397; // 397 -> PIXELS TAKEN BY OTHER ELEMENTS  
+	var tab_height = 48;
+
+	values_to_show = parseInt(values_to_show/tab_height)-1;
 	var page_number = parseFloat(len/values_to_show);
 	if (page_number > parseInt(page_number)) page_number = parseInt(page_number) + 1;
 	else page_number = parseInt(page_number);
@@ -649,7 +654,7 @@ function printCalendar(){
 			table_body += "<td id=\"tableCalendarDiff"+name+"\">" + dateDiff_for_print + "</td>";
 
 			/* REMOVE AND EDIT BUTTONS */
-			table_body += "<td id=\"tableCalendarSetting"+name+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\"><i class=\"material-icons\">delete</i></button>";
+			table_body += "<td id=\"tableCalendarSetting"+name+"\"><button class=\"btn btn-danger btn-sm\" id=\"rmv_event_"+name+"\" onclick=\"removeEvent(\'"+name+"\')\" style=\"margin-right: 10px;\"><i class=\"material-icons\">delete</i></button>";
 			table_body += "<button class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#calendarEditForm\"  id=\"edit_event_"+name+"\" onclick=\"initEditEvent(\'"+name+"\',\'"+date+"\',\'"+time_start+"\',\'"+time_end+"\')\"><i class=\"material-icons\">create</i></button></td></tr>";
 		}
 		table_body += "</tbody>";
