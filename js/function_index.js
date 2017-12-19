@@ -201,7 +201,7 @@ function getPercentageCFU(){
 	var totalCFU = parseInt(localStorage.getItem("CFU"));
 	var percentageCFU = Math.floor((takenCFU * 100)/totalCFU);
 	var progressBar = $("#progressBar");
-	if(percentageCFU > 100) percentageCFU = 100;
+	if(percentageCFU >= 100) percentageCFU = 100;
 	progressBar.css("width", percentageCFU + "%");
 	if (percentageCFU>3) progressBar.html(percentageCFU + "%");
 	else progressBar.html('&nbsp;');
@@ -605,11 +605,17 @@ function checkRegister() {
 		email.css("border","1px solid #ff0000");
 		flag = false;
 	}
+	else {
+		email.css("border","1px solid #04ff00");
+	}
 
 	var password_regex = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/;
 	if (!password_regex.test(password.val())) {
 		password.css("border","1px solid #ff0000");
 		flag = false;
+	}
+	else {
+		password.css("border","1px solid #04ff00");
 	}
 
 	if (password.val() != repeat_password.val()) {
@@ -617,15 +623,25 @@ function checkRegister() {
 		repeat_password.css("border","1px solid #ff0000");
 		flag = false;
 	}
+	else {
+		password.css("border","1px solid #04ff00");
+		repeat_password.css("border","1px solid #04ff00");
+	}
 	
 	if (university.val() == "") {
 		university.css("border","1px solid #ff0000");
 		flag = false;
 	}
+	else {
+		university.css("border","1px solid #04ff00");
+	}
 
 	if (course.val() == "") {
 		course.css("border","1px solid #ff0000");
 		flag = false;
+	}
+	else {
+		course.css("border","1px solid #04ff00");
 	}
 
 	if(flag) register(email.val(), password.val(), university.val(), course.val());

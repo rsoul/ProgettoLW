@@ -43,6 +43,11 @@ function addExam(){
     var exam_add_alert = "examAddAlert";
     var exam_add_alert_text = "examAddAlertText";
 	
+	if((parseInt(getProgress()) + parseInt(exam_cfu)) > localStorage.getItem('CFU')) {
+		showAlert(exam_add_alert, exam_add_alert_text, "CFU Massimi raggiunti!");
+		$("#examAddCFU").select();
+		return false;
+	}
 
     /* CHECK ALL FIELDS' VALUES */
     if (!checkType(exam_type)) {
@@ -504,7 +509,7 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 	var i=0;
 	for (j=0; j<page_number; j++) {
 		if (j==0) { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
-		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
+		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse; display: none;\">"; }
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
 			var type = exams[i].type;
@@ -609,7 +614,7 @@ function printCalendar(){
 	var i=0;
 	for (j=0; j<page_number; j++) {
 		if (j==0) { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
-		else { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: collapse;\">"; }
+		else { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: collapse; display: none;\">"; }
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
 			var name = calendar[i].name;
