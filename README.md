@@ -12,10 +12,11 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 
 ### Funzionalità e modifiche da implementare:
 
-* **implementato (SOLO IN DASHBOARD)** implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5  
 * Una volta rilasciata la versione stabile e finale, ricordarsi di minify tutti i file per un piccolo boost nella performance della web app
 * inserire nel grafico il bar chart voto medio ottenuto dagli studenti
 * Probabile implementazione tramite database in locale (per implementare Register/Login e conseguente trasferimento Exams/Calendar in DB Relazionale MySQL)
+* Eliminare il rosso di default nei vari form, diventano rossi solo in Submit
+* Mettere apposto edit calendar
 
 
 ## Bugs to squash:
@@ -50,4 +51,5 @@ Il gruppo si pone l'obiettivo di  sviluppare un sito web in cui l'utente inseris
 * <del>Implementare riordino dati tramite freccetta</del>
 * <del>Visualizzazione da alcuni dispositivi troppo grande, modificare dimensioni tabelle</del>
 * <del>animare le caselle di input in caso di succesful input</del>
+* <del>implementare [alert system di bootstrap](https://getbootstrap.com/docs/4.0/components/alerts/) invece delle caselle di alert html5</del>
 **Good job so far!**
