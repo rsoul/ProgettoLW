@@ -32,7 +32,7 @@ function resetStorageCFU(){localStorage.setItem('CFU', null);}
 
 /* INSERT NEW EXAM ON EXAMS STORAGE (CHECK ALL FIELDS) */
 function addExam(){
-	initStorageExams();
+	initStorageExams();	// IF NOT INITIALIZATED
 	var exam_type = $("#examAddType :selected").val();
 	var exam_code = $('#examAddCode').val();
 	var exam_date = $('#examAddDate').val();
@@ -42,51 +42,59 @@ function addExam(){
 
     var exam_add_alert = "examAddAlert";
     var exam_add_alert_text = "examAddAlertText";
+
+    var flag = true;
 	
+	/* CHECK IF MAXIUM CFU REACHED */
 	if((parseInt(getProgress()) + parseInt(exam_cfu)) > localStorage.getItem('CFU')) {
 		showAlert(exam_add_alert, exam_add_alert_text, "CFU Massimi raggiunti!");
 		$("#examAddCFU").select();
-		return false;
+		flag = false;
 	}
 
     /* CHECK ALL FIELDS' VALUES */
     if (!checkType(exam_type)) {
     	showAlert(exam_add_alert, exam_add_alert_text, "Tipo non valido!");
 		$("#examAddType").select();
-		return false;
+		flag = false;
     }
 	if (!checkCode(exam_code)) {
+		changeExamAddCode();
 		showAlert(exam_add_alert, exam_add_alert_text, "Codice non valido!");
 		$("#examAddCode").select();
-		return false;
+		flag = false;
 	}
 	if (!checkDate(new Date(exam_date))) {
+		changeExamAddDate();
 		showAlert(exam_add_alert, exam_add_alert_text, "Data non valida!");
 		$("#examAddDate").select();
-		return false;
+		flag = false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
 		showAlert(exam_add_alert, exam_add_alert_text, "Data futura non valida!");
 		$("#examAddDate").select();
-		return false;
+		flag = false;
 	}
 	if (exam_type != "Idoneità") {
 		if (!checkGrade(exam_grade)) {
+			changeExamAddGrade();
 			showAlert(exam_add_alert, exam_add_alert_text, "Voto non valido!");
 			$("#examAddGrade").select();
-			return false;
+			flag = false;
 		}
 	}
 	if (!checkCFU(exam_cfu)) {
+		changeExamAddCFU();
 		showAlert(exam_add_alert, exam_add_alert_text, "CFU non validi!");
 		$("#examAddCFU").select();
-		return false;
+		flag = false;
 	}
+
+	if (!flag) return false;
 
 	var grade_for_print;
 	if(exam_type == "Idoneità") grade_for_print = "Idoneo";
 	else grade_for_print = getGrade(exam_grade, exam_praise);
-	//var grade_for_print = getGrade(exam_grade, exam_praise);
 
 	/* PARSING LOCAL STORAGE */
 	var exams = JSON.parse(localStorage.exams);
@@ -112,10 +120,9 @@ function addExam(){
 	/* INSERT EXAM IN STORAGE AND UPDATE EXAM TABLE/STATISTICS/PROGRESS BAR */
 	exams[len] = exam;
 	localStorage.exams = JSON.stringify(exams);
-	getPercentageCFU();
-	printStatistics();
-	printExams();
-	//examAddRow(exam_code, exam_date, grade_for_print, exam_cfu);	FOR DATATABLE 
+	getPercentageCFU();	// UPDATE PERCENTAGE BAR
+	printStatistics();	// UPDATE CHART
+	printExams();	// UPDATE EXAMS
 	return true;
 }
 
@@ -130,45 +137,46 @@ function addCalendarEvent(){
 	var calendar_add_alert = "calendarAddAlert";
 	var calendar_add_alert_text = "calendarAddAlertText";
 
+	var flag = true;
+
 	/* CHECK ALL FIELDS' VALUES */
 	if(!checkName(calendar_name)) {
+		changeCalendarAddName();
 		showAlert(calendar_add_alert, calendar_add_alert_text, "Nome non valido!");
 		$("#calendarAddName").select();
-		return false;
+		flag = false;
 	}
 	if (!checkDate(new Date(calendar_date))) {
+		changeCalendarAddDate();
 		showAlert(calendar_add_alert, calendar_add_alert_text, "Data non valida!");
 		$("#calendarAddDate").select();
-		return false;
+		flag = false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
 		showAlert(calendar_add_alert, calendar_add_alert_text, "Data passata non valida!");
 		$("#calendarAddDate").select();
-		return false;
+		flag = false;
 	}
 	if (!checkTimes(calendar_time_start, calendar_time_end)) {
+		changeCalendarAddTimes();
 		showAlert(calendar_add_alert, calendar_add_alert_text, "Gli orari si sovrappongono!");
 		$("#calendarAddTimeStart").select();
-		return false;
+		flag = false;
 	}
+
+	if(!flag) return false;
 
 	/* PARSING LOCAL STORAGE */
 	var calendar = JSON.parse(localStorage.calendar);
 	var len = calendar.length;
 
 	/* CREATE EVENT OBJECT WITH FIELDS' VALUE */
-	/*
-	if(calendar_time==""){
-		calendar_time="12:00";
-	}
-	*/
 	var calendar_event = {
 		name: calendar_name,
 		date: calendar_date,
 		time_start: calendar_time_start,
 		time_end: calendar_time_end
 	};
-	
 	
 	/* CHECK IF THE EVENT IS ALREADY ON THE STORAGE */
 	for (i=0; i<len; i++) {
@@ -181,7 +189,7 @@ function addCalendarEvent(){
 	/* ADD EVENT ON STORAGE AND UPDATE CALENDAR TABLE */
 	calendar[len] = calendar_event;
 	localStorage.calendar = JSON.stringify(calendar);
-	printCalendar();
+	printCalendar();	// UPDATE CALENDAR
 	return true;
 }
 
@@ -204,34 +212,40 @@ function editExam() {
     var exam_edit_alert = "examEditAlert";
     var exam_edit_alert_text = "examEditAlertText";
 
+    var flag = true;
+
     /* CHECK ALL FIELDS' VALUES */
 	if (!checkDate(new Date(exam_date))) {
+		changeExamAddDate();
 		showAlert(exam_edit_alert, exam_edit_alert_text, "Data non valida!");
 		$("examEditDate").select();
-		return false;
+		flag = false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
 		showAlert(exam_edit_alert, exam_edit_alert_text, "Data futura non valida!");
 		$("#examEditDate").select();
-		return false;
+		flag = false;
 	}
 	if(exam_type != "Idoneità") {
 		if (!checkGrade(exam_grade)) {
+			changeExamEditGrade();
 			showAlert(exam_edit_alert, exam_edit_alert_text, "Voto non valido!");
 			$("#examEditGrade").select();
-			return false;
+			flag = false;
 		}
 	}
 	if (!checkCFU(exam_cfu)) {
+		changeExamEditCFU();
 		showAlert(exam_edit_alert, exam_edit_alert_text, "CFU non validi!");
 		$("#examEditCFU").select();
-		return false;
+		flag = false;
 	}
+
+	if(!flag) return false;
 
 	var grade_for_print;
 	if(exam_type == "Idoneità") grade_for_print = "Idoneo";
 	else grade_for_print = getGrade(exam_grade, exam_praise);
-	//var grade_for_print = getGrade(exam_grade, exam_praise);
 
 	/* PARSING LOCAL STORAGE */
 	var exams = JSON.parse(localStorage.exams);
@@ -249,10 +263,9 @@ function editExam() {
 
 	/* UPDATE STORAGE WITH NEW VALUES AND UPDATE TABLES AND CHARTS */
 	localStorage.exams = JSON.stringify(exams);
-	getPercentageCFU();	
-	printStatistics();
-	//examEditRow(exam_code, exam_date, grade_for_print, exam_cfu);	// FOR DATATABLE
-	printExams();
+	getPercentageCFU();		// UPDATE PERCENTAGE BAR
+	printStatistics();	// UPDATE CHART
+	printExams();	// UPDATE EXAMS
 	return true;
 }
 
@@ -266,22 +279,28 @@ function editCalendarEvent() {
     var calendar_edit_alert = "calendarEditAlert";
     var calendar_edit_alert_text = "calendarEditAlertText";
 
+    var flag = true;
+
     /* CHECK ALL FIELDS' VALUES */
 	if (!checkDate(new Date(calendar_date))) {
+		changeCalendarEditDate();
 		showAlert(calendar_edit_alert, calendar_edit_alert_text, "Data non valida!");
 		$("#calendarEditDate").select();
-		return false;
+		flag = false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
 		showAlert(calendar_edit_alert, calendar_edit_alert_text, "Data passata non valida!");
 		$("#calendarEditDate").select();
-		return false;
+		flag = false;
 	}
 	if (!checkTimes(calendar_time_start, calendar_time_end)) {
+		changeCalendarEditTimes();
 		showAlert(calendar_add_alert, calendar_add_alert_text, "Gli orari si sovrappongono!");
 		$("#calendarEditTimeStart").select();
-		return false;
+		flag = false;
 	}
+
+	if(!flag) return false;
 
 	/* PARSING LOCAL STORAGE */
 	var calendar = JSON.parse(localStorage.calendar);
@@ -325,9 +344,9 @@ function removeExam(code) {
 
 	/* UPDATE LOCAL STORAGE AND TABLES */
 	localStorage.exams = JSON.stringify(exams);
-	getPercentageCFU();
-	printStatistics();
-	printExams();
+	getPercentageCFU();	// UPDATE PERCENTAGE BAR
+	printStatistics();	// UPDATE CHART
+	printExams();	// UPDATE EXAMS
 	return true;
 }
 
@@ -346,7 +365,7 @@ function removeEvent(name) {
 
 	/* UPDATE LOCAL STORAGE AND CALENDAR TABLE */
 	localStorage.calendar = JSON.stringify(calendar);	
-	printCalendar();
+	printCalendar();	// UPDATE CALENDAR
 	return true;
 }
 
@@ -369,6 +388,8 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 	var table_paging = new String("");
 
 	/* PAGING */
+
+	/* SHOW VALUES BASED ON WINDOW HEIGHT */
 	var values_to_show = $( window ).height() - 397; // 397 -> PIXELS TAKEN BY OTHER ELEMENTS  
 	var tab_height = 48;
 
@@ -417,6 +438,7 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 	var arrow_up = "&#x25B2;";
 	var arrow_down = "&#x25BC;";
 
+	/* CHECK ORDERING MODE AND PARAMETER AND UPDATE STRING OF THE PARAMETER WHICH IS BEING ORDERED BY WITH ARROW */
 	if (mode == "asc") {
 		/* &#x25BC; -> ASCII Arrow Down */
 		switch (ordering) {
@@ -458,8 +480,9 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 	}
 
 
-    /* TABLE BODY */
+    /* ORDERING */
 	exams.sort(function(a,b) {
+		/* ASCENDENT ORDERING */
 		if (mode == "asc") {
 			if (ordering == "code") return a.code.localeCompare(b.code);
 			else if (ordering == "date") return new Date(a.date) - new Date(b.date); 
@@ -470,6 +493,7 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 			}
 			else if (ordering == "cfu") return a.cfu - b.cfu;
 		}
+		/* DESCENDENT ORDERING */
 		else {
 			if (ordering == "code") return b.code.localeCompare(a.code);
 			else if (ordering == "date") return new Date(b.date) - new Date(a.date); 
@@ -488,6 +512,7 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 			<thead>\
 				<tr>";
 
+	/* CHECK ORDERING FOR STRING ON TABLE HEADER */
 	table_body += "<th width=\"40%\">";
 	if(ordering == "code" && mode == "asc") table_body += "<a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'desc\')\">" + code_string + "</a></th>";
 	else table_body += "<a class=\"th-link\" id=\"exam_th_code\" onclick=\"printExams(\'code\', \'asc\')\">" + code_string + "</a></th>";
@@ -509,9 +534,10 @@ function printExams(ordering = "date", mode = "asc"){ // DEFAULT VALUES DATE, AS
 			</thead>";
 	
 	var i=0;
+	/* PRINTS ALL TABLE BODIES */
 	for (j=0; j<page_number; j++) {
-		if (j==0) { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
-		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse; display: none;\">"; }
+		if (j==0) { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }	// SHOW ONLY FIRST TABLE'S PAGE
+		else { table_body += "<tbody id=\"exam_table_body_"+ (j+1) +"\" style=\"visibility: collapse; display: none;\">"; }	// OTHERS HIDDEN
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
 			var type = exams[i].type;
@@ -596,7 +622,7 @@ function printCalendar(){
     </nav>";
 
 
-	/* SORT EVENTS BY DATE */
+	/* SORT EVENTS BY DATE ASCENDENT */
 	calendar.sort(function(a,b) { 
 	    return new Date(a.date+" "+a.time_start) - new Date(b.date+" "+b.time_start); 
 	});
@@ -618,8 +644,8 @@ function printCalendar(){
 	/* TAKE ALL VALUES FROM THE LOCAL STORAGE AND INSERT EACH EVENT ON A ROW */
 	var i=0;
 	for (j=0; j<page_number; j++) {
-		if (j==0) { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }
-		else { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: collapse; display: none;\">"; }
+		if (j==0) { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: visible;\">"; }	// SHOW ONLY FIRST TABLE'S PAGE
+		else { table_body += "<tbody id=\"calendar_table_body_"+ (j+1) +"\" style=\"visibility: collapse; display: none;\">"; }	// OTHERS HIDDEN
 		var next_table_max = (j+1)*values_to_show;
 		for (i=i; i<next_table_max && i<len; i++) {
 			var name = calendar[i].name;
@@ -676,17 +702,16 @@ function printStatistics() {
 
 	var s = new String("");	// TABLE STRING
 
-	var voti = new Array();
-	var date = new Array();
-	var codici = new Array();
-	var media_time = new Array();
-	var media_const_array = new Array();
-	var media_ponderata_const_array = new Array();
+	var voti = new Array();	// GRADES ARRAY
+	var date = new Array();	// DATES ARRAY
+	var codici = new Array();	// CODES ARRAY 
+	var media_time = new Array();	// AVERAGE VARIATION EXAM BY EXAM
+	var media_const_array = new Array();	// AVERAGE LINE (CONST)
+	var media_ponderata_const_array = new Array();	// WEIGHTED AVERAGE LINE (CONST)
 
-	var media = 0.0;
-	var media_ponderata = 0.0;
+	var media = 0.0;	// AVERAGE
+	var media_ponderata = 0.0;	// WEIGHTED AVERAGE
 	var cfu_totali = 0.0;	// TOTAL CFU FOR WEIGHTED AVERAGE
-	
 
 	/* EXCLUDES IDONEITIES */
 	exams = exams.filter(function(a) {return a.type == "Esame"});
@@ -706,6 +731,7 @@ function printStatistics() {
 		var data = exams[i].date;
 		var cfu = exams[i].cfu;
 		
+		/* INCREMENTS */
 		media += parseFloat(voto);
 		media_ponderata += parseFloat(voto)*parseFloat(cfu);
 		cfu_totali += parseFloat(cfu);
@@ -722,8 +748,8 @@ function printStatistics() {
 		media_time[i] = (avg/voti.length).toFixed(2);
 	}
 
-	media = (media/len).toFixed(2);
-	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);
+	media = (media/len).toFixed(2);	// ONLY 2 NUMBERS AFTER POINT
+	media_ponderata = (media_ponderata/cfu_totali).toFixed(2);	// ONLY 2 NUMBERS AFTER POINT
 
 	/* FILL TWO ARRAY WITH THE AVERAGE AND THE WEIGHTED AVERAGE (WITH ONLY 1 VALUES ON ALL THE CELLS) */
 	for (i=0; i<len; i++) {
@@ -797,6 +823,7 @@ function printStatistics() {
 			scales: {
             	yAxes: [{
             		ticks: {
+            			/* MIN AND MAX GRADE VALUES */
 						min: 18,
 						max: 31,
 						stepSize: 1
@@ -805,112 +832,16 @@ function printStatistics() {
 				xAxes: [{
 					labels: date,
 					ticks: {
+						/* X LABEL ROTATION */
 						autoSkip: false,
 				        maxRotation: 75,
 				        minRotation: 75
 					}
 				}]
             }
-            /* DRAW AVERAGE LINE (UNUSED - ANNOTATION CHART JS PLUGIN)
-            annotation: {
-		      annotations: [{
-		        type: 'line',
-		        mode: 'horizontal',
-		        scaleID: 'y-axis-0',
-		        value: media,
-		        borderColor: 'rgb(255, 0, 0)',
-		        borderWidth: 1,
-		        label: {
-		          enabled: false,
-		          content: 'Media'
-		        }
-		      }]
-		    }
-		    */
         }
 	});
 
 	$("#my_statistics").html(s);
 	return true;
 }
-
-
-
-
-/* NEW DATA TABLE FUNCTIONS */
-
-/* PRINT A TABLE WITH ALL EXAMS FROM EXAMS STORAGE (WITH DELETE/EDIT BUTTONS) */
-/*
-function printExams(){
-	if (typeof(localStorage.exams) == "undefined") return false;
-	var exams = JSON.parse(localStorage.exams);
-	var len = exams.length;
-	var s = new String("");
-	var exams_for_table = [];
-
-	exams.sort(function(a,b) { 
-	    return new Date(a.date) - new Date(b.date); 
-	});
-
-	for (i=0; i<len; i++) {
-		var code = exams[i].code;
-		var date = exams[i].date;
-		var grade = exams[i].grade;
-		var cfu = exams[i].cfu;
-		var grade_for_print = grade;
-
-		if (grade == 31) grade_for_print = "30 e Lode";
-
-		exams_for_table[i] = [code.toString(), date.toString(), grade_for_print.toString(), cfu.toString()];
-	}
-
-	var table = $("#examsTable").DataTable({
-		data: exams_for_table,
-		columns: [
-		{title: "Codice",
-		className: "exam_code_class"},
-		{title: "Data",
-		className: "exam_date_class"},
-		{title: "Voto",
-		className: "exam_grade_class"},
-		{title: "CFU",
-		className: "exam_cfu_class"},
-		{
-			title: '<i class="material-icons">settings</i>',
-			data: null,
-			defaultContent: '<button class="btn btn-secondary btn-sm edit_exam" data-toggle="modal" data-target="#examEditForm" onclick=\'initEditExam(this.closest("tr").cells[0].innerHTML, this.closest("tr").cells[1].innerHTML, this.closest("tr").cells[2].innerHTML, this.closest("tr").cells[3].innerHTML);\'><i class="material-icons">create</i></button> / <button class="btn btn-danger btn-sm remove_exam" onclick="removeExam(this.closest(\'tr\').cells[0].innerHTML);"><i class="material-icons">delete</i></button>'
-		}
-		],
-		order: [[ 1, "desc" ]],
-		lengthMenu: [[5, 10, -1], [5, 10, "Tutti"]]
-	});
-	return true;
-}
-*/
-
-/* ADD ROWS TO THE TABLE ON ADD EXAM */
-/*
-function examAddRow(code, date, grade, cfu){
-	var table = $("#examsTable").DataTable();
-	table.row.add([code.toString(), date.toString(), grade.toString(), cfu.toString()]).draw();
-}
-*/
-
-/* IN COSTRUCTION FOR EDITING WITH NEW TABLE */
-/*
-function examEditRow(code, date, grade, cfu){
-	var table = $("#examsTable").DataTable();
-	var exam = [code.toString(), date.toString(), grade.toString(), cfu.toString()];
-
-	var table = $("#examsTable").DataTable();
-	
-	// NON CORRETTO, RESTITUISCE UN GENERICO OBJECT INVECE DI UNA RIGA
-	var tableRow = $("#examsTable td").filter(function() {
-	    return $(this).text() == code.toString();
-	}).closest("tr");
-
-	// TO DO (UNA VOLTA PRESA LA RIGA AGGIORNARE LE COLONNE)
-}
-*/
-
-/* TO DO (COME EXAMEDITROW MA PER L'ELIMINAZIONE DI UNA RIGA) */

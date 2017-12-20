@@ -15,13 +15,8 @@
   <script type="text/javascript" src="js\storage_script.js"></script>
   <script type="text/javascript" src="js\function_index.js"></script>
   <script type="text/javascript" src="js\Chart.bundle.min.js"></script>
-  <!-- TEST
-  <script type="text/javascript" src="js\chartjs-plugin-annotation.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-  -->
 
-  <!--
+  <!-- FROM LOCAL FILES
   <script type="text/javascript" src="js\bootstrap.min.js"></script>
   <script type="text/javascript" src="js\popper.min.js"></script>
   <link href="css\bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -58,7 +53,7 @@
 
   <!-- MAIN DIV CONTAINER -->
   <div id="main_container">
-    <h1 style="text-align: center;">Dashboard</h1>
+    <h1 style="text-align: center;" id="dashboard_title">Dashboard</h1>
     <div id="initCourseCFUDiv" style="text-align: center; visibility: hidden;">
       <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#initCourseCFUForm">Inserisci CFU Corso</button>
     </div>
@@ -120,16 +115,15 @@
               </div>
               <!-- POPUP ADD EXAM BODY -->
               <div class="modal-body">
-                <form class="was-validated">
+                <form>
 
                   <!-- INSERT EXAM TYPE -->
                   <div class="form-group row">
                     <label for="examAddType" class="col-sm-2 col-form-label">Tipologia</label>
                     <div class="col-sm-10">
                       <select class="form-control" id="examAddType" required onchange="showAddExamGrade()">
-                        <option></option>
-                        <option>Esame</option>
-                        <option>Idoneità</option> <!--se idoneità è selezionato insert exam grade sparisce-->
+                        <option value="Esame" selected>Esame</option>
+                        <option value="Idoneità">Idoneità</option> <!--se idoneità è selezionato insert exam grade sparisce-->
                       </select>
                     </div>
                   </div>
@@ -138,7 +132,7 @@
                   <div class="form-group row">
                     <label for="examAddCode" class="col-sm-2 col-form-label">Codice Esame</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="examAddCode" placeholder="Codice Esame" required>
+                      <input type="text" class="form-control" id="examAddCode" placeholder="Codice Esame" onchange="changeExamAddCode()" required>
                     </div>
                   </div>
 
@@ -146,7 +140,7 @@
                   <div class="form-group row">
                     <label for="examAddDate" class="col-sm-2 col-form-label">Data</label>
                     <div class="col-sm-10">
-                      <input type="date" class="form-control" id="examAddDate" placeholder="Data" min="1900-01-01" required>
+                      <input type="date" class="form-control" id="examAddDate" placeholder="Data" min="1900-01-01" onchange="changeExamAddDate()" required>
                     </div>
                   </div>
 
@@ -154,7 +148,7 @@
                   <div class="form-group row" id="examAddGradeDiv" style="visibility: visible;">
                     <label for="examAddGrade" class="col-sm-2 col-form-label">Voto</label>
                     <div class="col-sm-10">
-                      <input type="number" class="form-control" id="examAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddExamPraise()" required>
+                      <input type="number" class="form-control" id="examAddGrade" placeholder="Voto"  min="18" max="30" onchange="showAddExamPraise(); changeExamAddGrade();" required>
                       <div id="examAddPraiseDiv" style="visibility: hidden; display: none;">
                         <i>Lode?</i> 
                         Si <input type="radio" id="examAddPraiseYes" name="examAddPraise" value="praise_yes"> 
@@ -167,7 +161,7 @@
                   <div class="form-group row">
                     <label for="examAddCFU" class="col-sm-2 col-form-label">CFU</label>
                     <div class="col-sm-10">
-                      <input type="number" class="form-control" id="examAddCFU" placeholder="CFU" min="1" max="24" required>
+                      <input type="number" class="form-control" id="examAddCFU" placeholder="CFU" min="1" max="24" onchange="changeExamAddCFU()" required>
                     </div>
                   </div>
 
@@ -210,16 +204,15 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
               </div>
               <div class="modal-body">
-                <form class="was-validated">
+                <form>
 
                   <!-- INSERT EXAM CODE (EDIT) -->
                   <div class="form-group row">
                     <label for="examEditType" class="col-sm-2 col-form-label">Tipologia</label>
                     <div class="col-sm-10">
                       <select class="form-control" id="examEditType" required readonly>
-                        <option></option>
-                        <option>Esame</option>
-                        <option>Idoneità</option>
+                        <option value="Esame">Esame</option>
+                        <option value="Idoneità">Idoneità</option>
                       </select>
                     </div>
                   </div>
@@ -236,7 +229,7 @@
                   <div class="form-group row">
                     <label for="examEditDate" class="col-sm-2 col-form-label">Data</label>
                     <div class="col-sm-10">
-                      <input type="date" class="form-control" id="examEditDate" placeholder="Data" min="1900-01-01" required>
+                      <input type="date" class="form-control" id="examEditDate" placeholder="Data" min="1900-01-01" onchange="changeExamEditDate()" required>
                     </div>
                   </div>
 
@@ -244,7 +237,7 @@
                   <div class="form-group row" id="examEditGradeDiv">
                     <label for="examEditGrade" class="col-sm-2 col-form-label">Voto</label>
                     <div class="col-sm-10">
-                      <input type="number" class="form-control" id="examEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditExamPraise()" onclick="showEditExamPraise()" required>
+                      <input type="number" class="form-control" id="examEditGrade" placeholder="Voto"  min="18" max="30" onchange="showEditExamPraise(); changeExamEditGrade();" required>
                       <div id="examEditPraiseDiv" style="visibility: hidden; display: none;">
                         <i>Lode?</i> Si <input type="radio" id="examEditPraiseYes" name="examEditPraise" value="praise_yes"> No <input type="radio" id="examEditPraiseNo" name="examEditPraise" value="praise_no" checked>
                       </div>
@@ -255,7 +248,7 @@
                   <div class="form-group row">
                     <label for="examEditCFU" class="col-sm-2 col-form-label">CFU</label>
                     <div class="col-sm-10">
-                      <input type="number" class="form-control" id="examEditCFU" placeholder="CFU" min="1" max="24" required>
+                      <input type="number" class="form-control" id="examEditCFU" placeholder="CFU" min="1" max="24" onchange="changeExamEditCFU()" required>
                     </div>
                   </div>
                 </form>
@@ -299,12 +292,12 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
               </div>
               <div class="modal-body">
-                <form class="was-validated">
+                <form>
                   <!-- INSERT EVENT NAME -->
                   <div class="form-group row">
                     <label for="calendarAddName" class="col-sm-2 col-form-label">Nome</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="calendarAddName" placeholder="Nome" required>
+                      <input type="text" class="form-control" id="calendarAddName" placeholder="Nome" onchange="changeCalendarAddName()" required>
                     </div>
                   </div>
 
@@ -312,7 +305,7 @@
                   <div class="form-group row">
                     <label for="calendarAddDate" class="col-sm-2 col-form-label">Data</label>
                     <div class="col-sm-10">
-                      <input type="date" class="form-control" id="calendarAddDate" placeholder="Data" required>
+                      <input type="date" class="form-control" id="calendarAddDate" placeholder="Data" onchange="changeCalendarAddDate()" required>
                     </div>
                   </div>
 
@@ -320,11 +313,11 @@
                   <div class="form-group row">
                     <label for="calendarAddTimeStart" class="col-sm-2 col-form-label">Ora Inizio</label>
                     <div class="col-sm-4">
-                      <input type="time" class="form-control" id="calendarAddTimeStart" placeholder="Ora inizio">
+                      <input type="time" class="form-control" id="calendarAddTimeStart" placeholder="Ora inizio" onchange="changeCalendarAddTimes()">
                     </div>
                     <label for="calendarAddTimeEnd" class="col-sm-2 col-form-label">Ora Fine</label>
                     <div class="col-sm-4">
-                      <input type="time" class="form-control" id="calendarAddTimeEnd" placeholder="Ora fine">
+                      <input type="time" class="form-control" id="calendarAddTimeEnd" placeholder="Ora fine" onchange="changeCalendarAddTimes()">
                     </div>
                   </div>
                 </form>
@@ -365,7 +358,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
               </div>
               <div class="modal-body">
-                <form class="was-validated">
+                <form>
                   <!-- INSERT EVENT NAME (EDIT) -->
                   <div class="form-group row">
                     <label for="calendarEditName" class="col-sm-2 col-form-label">Nome</label>
@@ -378,7 +371,7 @@
                   <div class="form-group row">
                     <label for="calendarEditDate" class="col-sm-2 col-form-label">Data</label>
                     <div class="col-sm-10">
-                      <input type="date" class="form-control" id="calendarEditDate" placeholder="Data" required>
+                      <input type="date" class="form-control" id="calendarEditDate" placeholder="Data" onchange="changeCalendarEditDate()" required>
                     </div>
                   </div>
 
@@ -386,11 +379,11 @@
                   <div class="form-group row">
                     <label for="calendarEditTimeStart" class="col-sm-2 col-form-label">Ora Inizio</label>
                     <div class="col-sm-4">
-                      <input type="time" class="form-control" id="calendarEditTimeStart" placeholder="Ora inizio">
+                      <input type="time" class="form-control" id="calendarEditTimeStart" placeholder="Ora inizio" onchange="changeCalendarEditTimes()">
                     </div>
                     <label for="calendarEditTimeEnd" class="col-sm-2 col-form-label">Ora Fine</label>
                     <div class="col-sm-4">
-                      <input type="time" class="form-control" id="calendarEditTimeEnd" placeholder="Ora fine">
+                      <input type="time" class="form-control" id="calendarEditTimeEnd" placeholder="Ora fine" onchange="changeCalendarEditTimes()">
                     </div>
                   </div>
                 </form>
@@ -431,7 +424,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
               </div>
               <div class="modal-body">
-                <form class="was-validated">
+                <form>
                   <!-- INSERT TOTAL CFU -->
                   <div class="form-group row">
                     <label for="courseCFU" class="col-sm-2 col-form-label">CFU Totali</label>

@@ -158,6 +158,11 @@ function initEditExam(type, code, date, grade, cfu) {
 		}
 	}
 	$("#examEditCFU").val(cfu);
+
+	$("#examEditDate").css("border","");
+	$("#examEditGrade").css("border","");
+	$("#examEditCFU").css("border","");
+
 	hideAlert("examEditAlert");
 }
 
@@ -167,6 +172,11 @@ function initEditEvent(name, date, time_start, time_end) {
 	$("#calendarEditDate").val(date);
 	$("#calendarEditTimeStart").val(time_start);
 	$("#calendarEditTimeEnd").val(time_end);
+
+	$("#calendarEditDate").css("border","");
+	$("#calendarAddTimeEnd").css("border","");
+	$("#calendarAddTimeStart").css("border","");
+
 	hideAlert("calendarEditAlert");
 }
 
@@ -183,6 +193,11 @@ function resetAddExamFields() {
 	$("#examAddPraiseNo").attr("checked", true);
 	$("#examAddCFU").val("");
 	$("#examAddCode").select();
+
+	$("#examAddCode").css("border","");
+	$("#examAddDate").css("border","");
+	$("#examAddGrade").css("border","");
+	$("#examAddCFU").css("border","");
 }
 
 /* RESET --ADD EVENT-- FIELDS (NOT EDIT EVENT FIELDS) */
@@ -193,6 +208,11 @@ function resetAddEventFields() {
 	$("#calendarAddTimeEnd").val("");
 	hideAlert("calendarAddAlert");
 	$("#calendarAddName").select();
+
+	$("#calendarAddName").css("border","");
+	$("#calendarAddDate").css("border","");
+	$("#calendarAddTimeStart").css("border","");
+	$("#calendarAddTimeEnd").css("border","");
 }
 
 /* SET THE PROGRESS BAR WITH THE PERCENT */
@@ -201,14 +221,21 @@ function getPercentageCFU(){
 	var totalCFU = parseInt(localStorage.getItem("CFU"));
 	var percentageCFU = Math.floor((takenCFU * 100)/totalCFU);
 	var progressBar = $("#progressBar");
-	if(percentageCFU >= 100) percentageCFU = 100;
+	if(percentageCFU >= 100) {
+		percentageCFU = 100;
+		$("#dashboard_title").append("<img src=\"img/laurel-wreath.png\" height=\"40px\" width=\"40px\" alt=\"\">");
+		$("#mainAddExamButton").css({"display": "none", "visibility":"hidden"});
+	}
+	else {
+		$("#dashboard_title").html("Dashboard");
+		$("#mainAddExamButton").css({"display": "", "visibility":"visible"});
+	}
 	progressBar.css("width", percentageCFU + "%");
 	if (percentageCFU>3) progressBar.html(percentageCFU + "%");
 	else progressBar.html('&nbsp;');
 	progressBar.attr("aria-valuenow", percentageCFU);
 	return true;
 }
-
 
 /* CREATE AND SHOW A SAMPLCE CHART ON THE INDEX HTML */
 function showSampleChart() {
@@ -285,6 +312,10 @@ function showEditExamPraise() {
 	return true;
 }
 
+/*----------------------*/
+/* PAGING BUTTON EVENTS */
+/*----------------------*/
+
 /* SHOW PREVIOUS EXAMS TABLE PAGE (BUTTON PREVIOUS) */
 function examShowBodyPrevious(clicked_button, page_max) {
 	if(clicked_button.id == "exam_page_previous") {
@@ -297,17 +328,17 @@ function examShowBodyPrevious(clicked_button, page_max) {
 		toDeactive.removeClass("active");
 		toActive.addClass("active");
 
+		/* IF ONLY 1 PAGE -> DISABLE PREVIOUS/NEXT BUTTONS */
 		if(page_max == 1) {
 			$("#my_exams_paging #exam_page_next").addClass("disabled"); 
 			$("#my_exams_paging #exam_page_previous").addClass("disabled"); 
-			return true; 
 		}
-
-		if($("#my_exams_paging .active").attr("id") == "exam_page_button_1") {
+		/* IF ACTIVE PAGE IS 1ST -> DISABLE PREVIOUS BUTTON */
+		else if($("#my_exams_paging .active").attr("id") == "exam_page_button_1") {
 			$("#my_exams_paging #exam_page_previous").addClass("disabled");
 			$("#my_exams_paging #exam_page_next").removeClass("disabled");
-			return true;
 		}
+		/* ELSE -> ACTIVE PREVIOUS/NEXT BUTTONS */
 		else {
 			$("#my_exams_paging #exam_page_previous").removeClass("disabled");
 			$("#my_exams_paging #exam_page_next").removeClass("disabled");
@@ -332,12 +363,10 @@ function examShowBodyNext(clicked_button, page_max) {
 		if(page_max == 1) { 
 			$("#my_exams_paging #exam_page_previous").addClass("disabled"); 
 			$("#my_exams_paging #exam_page_next").addClass("disabled");
-			return true;
 		}
-		if($("#my_exams_paging .active").attr("id") == "exam_page_button_"+page_max) {
+		else if($("#my_exams_paging .active").attr("id") == "exam_page_button_"+page_max) {
 			$("#my_exams_paging #exam_page_next").addClass("disabled");
 			$("#my_exams_paging #exam_page_previous").removeClass("disabled");
-			return true;
 		}
 		else {
 			$("#my_exams_paging #exam_page_next").removeClass("disabled");
@@ -358,17 +387,14 @@ function examShowBody(clicked_body, clicked_button, page_max) {
 	if(page_max == 1) { 
 		$("#my_exams_paging #exam_page_previous").addClass("disabled"); 
 		$("#my_exams_paging #exam_page_next").addClass("disabled");
-		return true;
 	}
-	if($("#my_exams_paging .active").attr("id") == "exam_page_button_"+page_max) {
+	else if($("#my_exams_paging .active").attr("id") == "exam_page_button_"+page_max) {
 		$("#my_exams_paging #exam_page_next").addClass("disabled");
 		$("#my_exams_paging #exam_page_previous").removeClass("disabled");
-		return true;
 	}
 	else if($("#my_exams_paging .active").attr("id") == "exam_page_button_1") {
 		$("#my_exams_paging #exam_page_previous").addClass("disabled");
 		$("#my_exams_paging #exam_page_next").removeClass("disabled");
-		return true;
 	}
 	else {
 		$("#my_exams_paging #exam_page_previous").removeClass("disabled");
@@ -393,14 +419,11 @@ function calendarShowBodyPrevious(clicked_button, page_max) {
 
 		if(page_max == 1) {
 			$("#my_calendar_paging #calendar_page_next").addClass("disabled"); 
-			$("#my_calendar_paging #calendar_page_previous").addClass("disabled"); 
-			return true; 
+			$("#my_calendar_paging #calendar_page_previous").addClass("disabled");
 		}
-
-		if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_1") {
+		else if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_1") {
 			$("#my_calendar_paging #calendar_page_previous").addClass("disabled");
 			$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
-			return true;
 		}
 		else {
 			$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
@@ -426,12 +449,10 @@ function calendarShowBodyNext(clicked_button, page_max) {
 		if(page_max == 1) { 
 			$("#my_calendar_paging #calendar_page_previous").addClass("disabled"); 
 			$("#my_calendar_paging #calendar_page_next").addClass("disabled");
-			return true;
 		}
-		if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_"+page_max) {
+		else if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_"+page_max) {
 			$("#my_calendar_paging #calendar_page_next").addClass("disabled");
 			$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
-			return true;
 		}
 		else {
 			$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
@@ -452,17 +473,14 @@ function calendarShowBody(clicked_body, clicked_button, page_max) {
 	if(page_max == 1) { 
 		$("#my_calendar_paging #calendar_calendar_previous").addClass("disabled"); 
 		$("#my_calendar_paging #calendar_calendar_next").addClass("disabled");
-		return true;
 	}
-	if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_"+page_max) {
+	else if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_"+page_max) {
 		$("#my_calendar_paging #calendar_page_next").addClass("disabled");
 		$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
-		return true;
 	}
 	else if($("#my_calendar_paging .active").attr("id") == "calendar_page_button_1") {
 		$("#my_calendar_paging #calendar_page_previous").addClass("disabled");
 		$("#my_calendar_paging #calendar_page_next").removeClass("disabled");
-		return true;
 	}
 	else {
 		$("#my_calendar_paging #calendar_page_previous").removeClass("disabled");
@@ -540,7 +558,7 @@ function checkDate(date) {
 
 /* CHECK IF EXAM GRADE IS VALID */
 function checkGrade(grade) {
-	if (isNaN(grade) || grade < 18 || grade > 30) {return false;}
+	if (isNaN(grade) || grade < 18 || grade > 30) return false;
 	return true;
 }
 
@@ -590,6 +608,113 @@ function checkTimes(time_start, time_end) {
 	return time_start<time_end;
 }
 
+/*------------------*/
+/* ON CHANGE CHECKS */
+/*------------------*/
+
+function changeExamAddCode() {
+	var code = $("#examAddCode");
+	if(checkCode(code.val())) code.css("border","1px solid #04ff00");
+	else code.css("border","1px solid #ff0000");
+	return true;
+}
+
+function changeExamAddDate() {
+	var date = $("#examAddDate");
+	if(!checkDate(new Date(date.val())) || !checkDateMax(new Date(date.val()))) date.css("border","1px solid #ff0000");
+	else date.css("border","1px solid #04ff00");
+	return true;
+}
+
+function changeExamAddGrade() {
+	var grade = $("#examAddGrade");
+	if(checkGrade(grade.val())) grade.css("border","1px solid #04ff00");
+	else grade.css("border","1px solid #ff0000");
+	return true;
+}
+
+function changeExamAddCFU() {
+	var cfu = $("#examAddCFU");
+	if(checkCFU(cfu.val())) cfu.css("border","1px solid #04ff00");
+	else cfu.css("border","1px solid #ff0000");
+	return true;
+}
+
+
+function changeExamEditDate() {
+	var date = $("#examEditDate");
+	if(!checkDate(new Date(date.val())) || !checkDateMax(new Date(date.val()))) date.css("border","1px solid #ff0000");
+	else date.css("border","1px solid #04ff00");
+	return true;
+}
+
+function changeExamEditGrade() {
+	var grade = $("#examEditGrade");
+	if(checkGrade(grade.val())) grade.css("border","1px solid #04ff00");
+	else grade.css("border","1px solid #ff0000");
+	return true;
+}
+
+function changeExamEditCFU() {
+	var cfu = $("#examEditCFU");
+	if(checkCFU(cfu.val())) cfu.css("border","1px solid #04ff00");
+	else cfu.css("border","1px solid #ff0000");
+	return true;
+}
+
+
+function changeCalendarAddName() {
+	var name = $("#calendarAddName");
+	if(checkName(name.val())) name.css("border","1px solid #04ff00");
+	else name.css("border","1px solid #ff0000");
+	return true;
+}
+
+function changeCalendarAddDate() {
+	var date = $("#calendarAddDate");
+	if(!checkDate(new Date(date.val())) || !checkDateMin(new Date(date.val()))) date.css("border","1px solid #ff0000");
+	else date.css("border","1px solid #04ff00");
+	return true;
+}
+
+function changeCalendarAddTimes() {
+	var time_start = $("#calendarAddTimeStart");
+	var time_end = $("#calendarAddTimeEnd");
+	if(!checkTimes(time_start.val(), time_end.val())) {
+		time_start.css("border","1px solid #ff0000");
+		time_end.css("border","1px solid #ff0000");
+	}
+	else {
+		time_start.css("border","1px solid #04ff00");
+		time_end.css("border","1px solid #04ff00");
+	}
+	return true;
+}
+
+function changeCalendarEditDate() {
+	var date = $("#calendarEditDate");
+	if(!checkDate(new Date(date.val())) || !checkDateMin(new Date(date.val()))) date.css("border","1px solid #ff0000");
+	else date.css("border","1px solid #04ff00");
+	return true;
+}
+
+function changeCalendarEditTimes() {
+	var time_start = $("#calendarEditTimeStart");
+	var time_end = $("#calendarEditTimeEnd");
+	if(!checkTimes(time_start.val(), time_end.val())) {
+		time_start.css("border","1px solid #ff0000");
+		time_end.css("border","1px solid #ff0000");
+	}
+	else {
+		time_start.css("border","1px solid #04ff00");
+		time_end.css("border","1px solid #04ff00");
+	}
+	return true;
+}
+
+
+/*------------------*/
+
 /* CHECK IF ALL FIELDS ON REGISTER FORM ARE VALID */
 function checkRegister() {
 	var email = $("#registerEmail");
@@ -598,50 +723,66 @@ function checkRegister() {
 	var university = $("#registerUniversity");
 	var course = $("#registerCourse");
 
+	var email_error = $("#emailError");
+	var password_error = $("#passwordError");
+	var repeat_password_error = $("#repeatPasswordError");
+	var university_error = $("#universityError");
+	var course_error = $("#courseError");
+
 	var flag = true;
+
+	/* FOR EACH REGISTER ELEMENT CHECK IF VALID: IF VALID, BORDER GREEN, ELSE BORDER RED*/
 
 	var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (!email_regex.test(email.val())) {
 		email.css("border","1px solid #ff0000");
+		email_error.css({"display":"block", "visibility":"visible"});
 		flag = false;
 	}
 	else {
 		email.css("border","1px solid #04ff00");
+		email_error.css({"display":"none", "visibility":"hidden"});
 	}
 
 	var password_regex = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/;
 	if (!password_regex.test(password.val())) {
 		password.css("border","1px solid #ff0000");
+		password_error.css({"display":"block", "visibility":"visible"});
 		flag = false;
 	}
 	else {
 		password.css("border","1px solid #04ff00");
+		password_error.css({"display":"none", "visibility":"hidden"});
 	}
 
 	if (password.val() != repeat_password.val()) {
-		password.css("border","1px solid #ff0000");
 		repeat_password.css("border","1px solid #ff0000");
+		repeat_password_error.css({"display":"block", "visibility":"visible"});
 		flag = false;
 	}
 	else {
-		password.css("border","1px solid #04ff00");
 		repeat_password.css("border","1px solid #04ff00");
+		repeat_password_error.css({"display":"none", "visibility":"hidden"});
 	}
 	
 	if (university.val() == "") {
 		university.css("border","1px solid #ff0000");
+		university_error.css({"display":"block", "visibility":"visible"});
 		flag = false;
 	}
 	else {
 		university.css("border","1px solid #04ff00");
+		university_error.css({"display":"none", "visibility":"hidden"});
 	}
 
 	if (course.val() == "") {
 		course.css("border","1px solid #ff0000");
+		course_error.css({"display":"block", "visibility":"visible"});
 		flag = false;
 	}
 	else {
 		course.css("border","1px solid #04ff00");
+		course_error.css({"display":"none", "visibility":"hidden"});
 	}
 
 	if(flag) register(email.val(), password.val(), university.val(), course.val());
@@ -685,6 +826,8 @@ function checkStorageCFU() {
 		$("#mainAddExamButton").css({"visibility": "hidden", "display": "none"});
 		$("#progress").css({"visibility": "hidden", "display": "none"});
 	}
+
+	return true;
 }
 
 /* CHECK MODE */
@@ -700,8 +843,39 @@ function checkMode(elem) {
 /* ---------------- */
 function login(email, password){
 	return true;
+	/*
+	var users = JSON.parse(localStorage.users);
+	var len = users.length;
+
+	for (i=0; i<len; i++) {
+		if(users[i].email == email) {
+			if(users[i].password == password) {
+				return true;	
+			}
+			alert("Password errata!");
+			return false;
+		}
+	}
+	alert("Utente non esistente!");
+	return false;
+	*/
 }
 
 function register(email, password, university, course) {
 	return true;
+	/*
+	var users = JSON.parse(localStorage.users);
+	var len = users.length;
+
+	user = {
+		email: email,
+		password: password,
+		university: university,
+		course: course
+	};
+
+	users[len] = user;
+	localStorage.users = JSON.stringify(users);
+	return true;
+	*/
 }
