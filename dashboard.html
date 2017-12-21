@@ -458,24 +458,29 @@
 
                   $(document).ready(function() {
                     $("#initCourseCFUButton").on("click", function() {
-                      if(checkCourse()) {
-                        
+                      if(!checkCourse()) {
+                        showAlert("courseAlert", "courseAlertText", "Errore CFU e Numero esami!");
+                        return false;
                       }
-                      if(localStorage.getItem("CFU") == null) {
+                      else if(localStorage.getItem("CFU") == null) {
+                        $("#initCourseCFUForm").modal("hide");
                         localStorage.setItem("CFU", $("#courseCFU").val()); 
                         localStorage.setItem("NumExam", $("#courseExams").val());
-                        $("#initCourseCFUDiv").hide();
                         checkStorageCFU();
                         getPercentageCFU();
                         printStatistics();
                       }
                     });
                     $(document).keypress(function(e) {
-                      if(e.which == 13 && $("#initCourseCFUButton").is(":visible")) {
-                        if(localStorage.getItem("CFU") == null) {
+                      if(e.which == 13 && $("#initCourseCFUForm").is(":visible")) {
+                        if(!checkCourse()) {
+                          showAlert("courseAlert", "courseAlertText", "Errore CFU e Numero esami!");
+                          return false;
+                        }
+                        else if(localStorage.getItem("CFU") == null) {
+                          $("#initCourseCFUForm").modal("hide");
                           localStorage.setItem("CFU", $("#courseCFU").val());
                           localStorage.setItem("NumExam", $("#courseExams").val()); 
-                          $("#initCourseCFUDiv").hide();
                           checkStorageCFU();
                           getPercentageCFU();
                           printStatistics();
