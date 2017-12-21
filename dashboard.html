@@ -424,24 +424,46 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
               </div>
               <div class="modal-body">
-                <form>
+                <div>
                   <!-- INSERT TOTAL CFU -->
                   <div class="form-group row">
                     <label for="courseCFU" class="col-sm-2 col-form-label">CFU Totali</label>
                     <div class="col-sm-10">
-                      <input type="numeric" class="form-control" id="courseCFU" min="50" max="300" placeholder="CFU Richiesti del corso" required autofocus>
+                      <input type="numeric" class="form-control" id="courseCFU" min="50" max="400" placeholder="CFU Richiesti del corso" required autofocus>
                     </div>
                   </div>
-                </form>
+                  <!-- INSERT TOTAL EXAMS NUM -->
+                  <div class="form-group row">
+                    <label for="courseExams" class="col-sm-2 col-form-label">Numero Esami</label>
+                    <div class="col-sm-10">
+                      <input type="numeric" class="form-control" id="courseExams" min="5" max="40" placeholder="Numero di esami del corso" required>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                 <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal">Vai al tuo libretto</button>
                 <script>
+
+                  function checkCourse() {
+                    var cfu = $("#courseCFU").val();
+                    var exams = $("#courseExams").val();
+
+                    if (cfu == "" || exams == "" || parseInt(cfu)>400 || parseInt(cfu)<50 || parseInt(exams)>40 || parseInt(exams)<5)
+                      return false;
+
+                    return true;
+                  }
+
                   $(document).ready(function() {
                     $("#initCourseCFUButton").on("click", function() {
+                      if(checkCourse()) {
+                        
+                      }
                       if(localStorage.getItem("CFU") == null) {
                         localStorage.setItem("CFU", $("#courseCFU").val()); 
+                        localStorage.setItem("NumExam", $("#courseExams").val());
                         $("#initCourseCFUDiv").hide();
                         checkStorageCFU();
                         getPercentageCFU();
@@ -451,7 +473,8 @@
                     $(document).keypress(function(e) {
                       if(e.which == 13 && $("#initCourseCFUButton").is(":visible")) {
                         if(localStorage.getItem("CFU") == null) {
-                          localStorage.setItem("CFU", $("#courseCFU").val()); 
+                          localStorage.setItem("CFU", $("#courseCFU").val());
+                          localStorage.setItem("NumExam", $("#courseExams").val()); 
                           $("#initCourseCFUDiv").hide();
                           checkStorageCFU();
                           getPercentageCFU();
@@ -463,6 +486,13 @@
                 </script>
               </div>
             </div>
+          </div>
+          <!-- ALERT CONTAINER FOR COURSE -->
+          <div id="courseAlert" class="alert alert-mystyle alert-warning alert-dismissible fade show" role="alert" >
+            <button type="button" class="close" aria-label="Close" onclick="hideAlert($(this).parent().attr('id'))">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <b>Attenzione!</b><p id="courseAlertText"></p>
           </div>
         </div>
       </div>

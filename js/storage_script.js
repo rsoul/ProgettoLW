@@ -44,53 +44,58 @@ function addExam(){
     var exam_add_alert_text = "examAddAlertText";
 
     var flag = true;
+
+    var alert_string = "";
 	
 	/* CHECK IF MAXIUM CFU REACHED */
 	if((parseInt(getProgress()) + parseInt(exam_cfu)) > localStorage.getItem('CFU')) {
-		showAlert(exam_add_alert, exam_add_alert_text, "CFU Massimi raggiunti!");
+		alert_string += "CFU Massimi raggiunti!<br>";
 		$("#examAddCFU").select();
 		flag = false;
 	}
 
     /* CHECK ALL FIELDS' VALUES */
     if (!checkType(exam_type)) {
-    	showAlert(exam_add_alert, exam_add_alert_text, "Tipo non valido!");
+    	alert_string += "Tipo non valido!<br>";
 		$("#examAddType").select();
 		flag = false;
     }
+    changeExamAddCode();
 	if (!checkCode(exam_code)) {
-		changeExamAddCode();
-		showAlert(exam_add_alert, exam_add_alert_text, "Codice non valido!");
+		alert_string += "Codice non valido!<br>";
 		$("#examAddCode").select();
 		flag = false;
 	}
+	changeExamAddDate();
 	if (!checkDate(new Date(exam_date))) {
-		changeExamAddDate();
-		showAlert(exam_add_alert, exam_add_alert_text, "Data non valida!");
+		alert_string += "Data non valida!<br>";
 		$("#examAddDate").select();
 		flag = false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		showAlert(exam_add_alert, exam_add_alert_text, "Data futura non valida!");
+		alert_string += "Data futura non valida!<br>";
 		$("#examAddDate").select();
 		flag = false;
 	}
+	changeExamAddGrade();
 	if (exam_type != "Idoneità") {
 		if (!checkGrade(exam_grade)) {
-			changeExamAddGrade();
-			showAlert(exam_add_alert, exam_add_alert_text, "Voto non valido!");
+			alert_string += "Voto non valido!<br>";
 			$("#examAddGrade").select();
 			flag = false;
 		}
 	}
+	changeExamAddCFU();
 	if (!checkCFU(exam_cfu)) {
-		changeExamAddCFU();
-		showAlert(exam_add_alert, exam_add_alert_text, "CFU non validi!");
+		alert_string += "CFU non validi!<br>";
 		$("#examAddCFU").select();
 		flag = false;
 	}
 
-	if (!flag) return false;
+	if (!flag) {
+		showAlert(exam_add_alert, exam_add_alert_text, alert_string);
+		return false;
+	}
 
 	var grade_for_print;
 	if(exam_type == "Idoneità") grade_for_print = "Idoneo";
@@ -139,32 +144,37 @@ function addCalendarEvent(){
 
 	var flag = true;
 
+	var alert_string = "";
+
 	/* CHECK ALL FIELDS' VALUES */
+	changeCalendarAddName();
 	if(!checkName(calendar_name)) {
-		changeCalendarAddName();
-		showAlert(calendar_add_alert, calendar_add_alert_text, "Nome non valido!");
+		alert_string += "Nome non valido!<br>";
 		$("#calendarAddName").select();
 		flag = false;
 	}
+	changeCalendarAddDate();
 	if (!checkDate(new Date(calendar_date))) {
-		changeCalendarAddDate();
-		showAlert(calendar_add_alert, calendar_add_alert_text, "Data non valida!");
+		alert_string += "Data non valida!<br>";
 		$("#calendarAddDate").select();
 		flag = false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		showAlert(calendar_add_alert, calendar_add_alert_text, "Data passata non valida!");
+		alert_string += "Data passata non valida!<br>";
 		$("#calendarAddDate").select();
 		flag = false;
 	}
+	changeCalendarAddTimes();
 	if (!checkTimes(calendar_time_start, calendar_time_end)) {
-		changeCalendarAddTimes();
-		showAlert(calendar_add_alert, calendar_add_alert_text, "Gli orari si sovrappongono!");
+		alert_string += "Gli orari si sovrappongono!<br>";
 		$("#calendarAddTimeStart").select();
 		flag = false;
 	}
 
-	if(!flag) return false;
+	if(!flag) {
+		showAlert(calendar_add_alert, calendar_add_alert_text, alert_string);
+		return false;
+	}
 
 	/* PARSING LOCAL STORAGE */
 	var calendar = JSON.parse(localStorage.calendar);
@@ -213,35 +223,39 @@ function editExam() {
     var exam_edit_alert_text = "examEditAlertText";
 
     var flag = true;
+    var alert_string = "";
 
     /* CHECK ALL FIELDS' VALUES */
+    changeExamAddDate();
 	if (!checkDate(new Date(exam_date))) {
-		changeExamAddDate();
-		showAlert(exam_edit_alert, exam_edit_alert_text, "Data non valida!");
+		alert_string += "Data non valida!<br>";
 		$("examEditDate").select();
 		flag = false;
 	}
 	if (!checkDateMax(new Date(exam_date))) {
-		showAlert(exam_edit_alert, exam_edit_alert_text, "Data futura non valida!");
+		alert_string += "Data futura non valida!<br>";
 		$("#examEditDate").select();
 		flag = false;
 	}
+	changeExamEditGrade();
 	if(exam_type != "Idoneità") {
 		if (!checkGrade(exam_grade)) {
-			changeExamEditGrade();
-			showAlert(exam_edit_alert, exam_edit_alert_text, "Voto non valido!");
+			alert_string += "Voto non valido!<br>";
 			$("#examEditGrade").select();
 			flag = false;
 		}
 	}
+	changeExamEditCFU();
 	if (!checkCFU(exam_cfu)) {
-		changeExamEditCFU();
-		showAlert(exam_edit_alert, exam_edit_alert_text, "CFU non validi!");
+		alert_string += "CFU non validi!<br>";
 		$("#examEditCFU").select();
 		flag = false;
 	}
 
-	if(!flag) return false;
+	if(!flag) {
+		showAlert(exam_edit_alert, exam_edit_alert_text, alert_string);
+		return false;
+	}
 
 	var grade_for_print;
 	if(exam_type == "Idoneità") grade_for_print = "Idoneo";
@@ -280,27 +294,31 @@ function editCalendarEvent() {
     var calendar_edit_alert_text = "calendarEditAlertText";
 
     var flag = true;
+    var alert_string = "";
 
     /* CHECK ALL FIELDS' VALUES */
+    changeCalendarEditDate();
 	if (!checkDate(new Date(calendar_date))) {
-		changeCalendarEditDate();
-		showAlert(calendar_edit_alert, calendar_edit_alert_text, "Data non valida!");
+		alert_string += "Data non valida!<br>";
 		$("#calendarEditDate").select();
 		flag = false;
 	}
 	if (!checkDateMin(new Date(calendar_date))) {
-		showAlert(calendar_edit_alert, calendar_edit_alert_text, "Data passata non valida!");
+		alert_string += "Data passata non valida!<br>";
 		$("#calendarEditDate").select();
 		flag = false;
 	}
+	changeCalendarEditTimes();
 	if (!checkTimes(calendar_time_start, calendar_time_end)) {
-		changeCalendarEditTimes();
-		showAlert(calendar_add_alert, calendar_add_alert_text, "Gli orari si sovrappongono!");
+		alert_string += "Gli orari si sovrappongono!<br>";
 		$("#calendarEditTimeStart").select();
 		flag = false;
 	}
 
-	if(!flag) return false;
+	if(!flag) {
+		showAlert(calendar_edit_alert, calendar_edit_alert_text, alert_string);
+		return false;
+	}
 
 	/* PARSING LOCAL STORAGE */
 	var calendar = JSON.parse(localStorage.calendar);

@@ -223,7 +223,7 @@ function getPercentageCFU(){
 	var progressBar = $("#progressBar");
 	if(percentageCFU >= 100) {
 		percentageCFU = 100;
-		$("#dashboard_title").append("<img src=\"img/laurel-wreath.png\" height=\"40px\" width=\"40px\" alt=\"\">");
+		$("#dashboard_title").html("<img src=\"img/laurel-wreath.png\" height=\"40px\" width=\"40px\" alt=\"\">Dashboard<img src=\"img/laurel-wreath.png\" height=\"40px\" width=\"40px\" alt=\"\">");
 		$("#mainAddExamButton").css({"display": "none", "visibility":"hidden"});
 	}
 	else {
@@ -274,7 +274,7 @@ function showAddExamGrade() {
 /* PERSONALIZED BOOTSTRAP ALERT WITH ELEMENT WHERE ALERT, WHERE THE TEXT IS IN AND THE TEXT TO BE WRITTEN */
 function showAlert(elem_alert, elem_alert_text, s){
 	$("#" + elem_alert).css("visibility", "visible");
-	$("#" + elem_alert_text).text(s);
+	$("#" + elem_alert_text).html(s);
 }
 
 /* HIDE ALERT ON CLOSE CLICK */
@@ -618,29 +618,24 @@ function changeExamAddCode() {
 	else code.css("border","1px solid #ff0000");
 	return true;
 }
-
 function changeExamAddDate() {
 	var date = $("#examAddDate");
 	if(!checkDate(new Date(date.val())) || !checkDateMax(new Date(date.val()))) date.css("border","1px solid #ff0000");
 	else date.css("border","1px solid #04ff00");
 	return true;
 }
-
 function changeExamAddGrade() {
 	var grade = $("#examAddGrade");
 	if(checkGrade(grade.val())) grade.css("border","1px solid #04ff00");
 	else grade.css("border","1px solid #ff0000");
 	return true;
 }
-
 function changeExamAddCFU() {
 	var cfu = $("#examAddCFU");
 	if(checkCFU(cfu.val())) cfu.css("border","1px solid #04ff00");
 	else cfu.css("border","1px solid #ff0000");
 	return true;
 }
-
-
 function changeExamEditDate() {
 	var date = $("#examEditDate");
 	if(!checkDate(new Date(date.val())) || !checkDateMax(new Date(date.val()))) date.css("border","1px solid #ff0000");
