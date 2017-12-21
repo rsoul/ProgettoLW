@@ -91,6 +91,7 @@ function initDashboard() {
 	loadEditExam(today);
 
 	checkStorageCFU();
+	checkStorageExams();
 	initStorageExams();
 	initStorageCalendar();
 
@@ -230,6 +231,16 @@ function getPercentageCFU(){
 		$("#dashboard_title").html("Dashboard");
 		$("#mainAddExamButton").css({"display": "", "visibility":"visible"});
 	}
+
+	if(!checkNumExams()) {
+		$("#dashboard_title").html("<img src=\"img/laurel-wreath.png\" height=\"40px\" width=\"40px\" alt=\"\">Dashboard<img src=\"img/laurel-wreath.png\" height=\"40px\" width=\"40px\" alt=\"\">");
+		$("#mainAddExamButton").css({"display": "none", "visibility":"hidden"});
+	}
+	else {
+		$("#dashboard_title").html("Dashboard");
+		$("#mainAddExamButton").css({"display": "", "visibility":"visible"});
+	}
+
 	progressBar.css("width", percentageCFU + "%");
 	if (percentageCFU>3) progressBar.html(percentageCFU + "%");
 	else progressBar.html('&nbsp;');
@@ -708,6 +719,20 @@ function changeCalendarEditTimes() {
 }
 
 
+/*------------------------------------*/
+/* CHECK FOR NUM EXAMS COURSE         */
+/*------------------------------------*/
+
+function checkNumExams() {
+	var exams = JSON.parse(localStorage.exams);
+	var len = exams.length;
+	var max = parseInt(localStorage.getItem("NumExams"));
+
+	if (len+1 > max) return false;
+	return true;
+}
+
+
 /*------------------*/
 
 /* CHECK IF ALL FIELDS ON REGISTER FORM ARE VALID */
@@ -825,6 +850,21 @@ function checkStorageCFU() {
 	return true;
 }
 
+function checkStorageExams() {
+	if (localStorage.getItem("NumExams") != null) {
+		$("#initCourseCFUDiv").css({"visibility": "hidden", "display": "none"});
+		$("#mainAddExamButton").css({"visibility": "visible", "display": ""});
+		$("#progress").css({"visibility": "visible", "display": "block"});
+		getPercentageCFU();
+	}
+	else {
+		$("#initCourseCFUDiv").css({"visibility": "visible", "display": "block"});
+		$("#mainAddExamButton").css({"visibility": "hidden", "display": "none"});
+		$("#progress").css({"visibility": "hidden", "display": "none"});
+	}
+	return true;
+}
+
 /* CHECK MODE */
 function checkMode(elem) {
 	/* IF CONTAINS UPPER ARROW, DESCENDENT, ELSE ASCENDENT */
@@ -845,7 +885,7 @@ function login(email, password){
 	for (i=0; i<len; i++) {
 		if(users[i].email == email) {
 			if(users[i].password == password) {
-				return true;	
+				return users[i];	
 			}
 			alert("Password errata!");
 			return false;
@@ -866,7 +906,9 @@ function register(email, password, university, course) {
 		email: email,
 		password: password,
 		university: university,
-		course: course
+		course: course,
+		exams: [],
+		calendar: []
 	};
 
 	users[len] = user;

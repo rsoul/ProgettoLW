@@ -46,6 +46,12 @@ function addExam(){
     var flag = true;
 
     var alert_string = "";
+
+    /* CHECK IF MAXIUM EXAMS NUMBER REACHED */
+    if(!checkNumExams()) {
+    	showAlert(exam_add_alert, exam_add_alert_text, "Massimo numero di esami raggiunto!<br>");
+    	return false;
+    }
 	
 	/* CHECK IF MAXIUM CFU REACHED */
 	if((parseInt(getProgress()) + parseInt(exam_cfu)) > localStorage.getItem('CFU')) {
@@ -714,6 +720,7 @@ function printStatistics() {
 	/* OPEN STORAGE IF ITS DEFINED */
 	if (typeof(localStorage.exams) == "undefined") return false;
 	var cfu_corso = localStorage.getItem("CFU");
+	var exams_corso = localStorage.getItem("NumExams");
 	//if (cfu_corso == null) return false;
 	var exams = JSON.parse(localStorage.exams);
 	var total_len = exams.length;
@@ -777,8 +784,8 @@ function printStatistics() {
 
 	/* GENERATE THE TABLE */
 	s += "<div id=\"mediaDiv\">";
-	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>CFU Ottenuti</th><th>CFU Richiesti</th></tr>";
-	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + total_len + "</td><td>" + getProgress() + "</td><td>" + cfu_corso + "</td></tr></table></div>";
+	s += "<table class=\"table table-striped table-bordered table-sm\" border=\"1px\"><tr><th>Media</th><th>Media Ponderata</th><th>Esami Dati</th><th>Esami Totali</th><th>CFU Ottenuti</th><th>CFU Richiesti</th></tr>";
+	s += "<tr><td>" + media + "</td><td>" + media_ponderata + "</td><td>" + total_len + "</td><td>" + exams_corso + "</td><td>" + getProgress() + "</td><td>" + cfu_corso + "</td></tr></table></div>";
 
 	/* DRAW THE GRAPHIC */
 	var ctx = $("#user_chart").get(0).getContext('2d');

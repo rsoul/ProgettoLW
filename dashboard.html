@@ -443,48 +443,64 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-                <button type="button" id="initCourseCFUButton" class="btn btn-primary" data-dismiss="modal">Vai al tuo libretto</button>
+                <button type="button" id="initCourseCFUButton" class="btn btn-primary">Vai al tuo libretto</button>
                 <script>
 
                   function checkCourse() {
                     var cfu = $("#courseCFU").val();
                     var exams = $("#courseExams").val();
+                    var flag = true;
+                    var alert_string = "";
 
-                    if (cfu == "" || exams == "" || parseInt(cfu)>400 || parseInt(cfu)<50 || parseInt(exams)>40 || parseInt(exams)<5)
+                    if (cfu == "" || parseInt(cfu)>400 || parseInt(cfu)<50) {
+                      $("#courseCFU").css("border","1px solid #ff0000");
+                      $("#courseCFU").select();
+                      alert_string += "CFU Non validi!<br>";
+                      flag = false;
+                    }
+                    else {
+                      $("#courseCFU").css("border","1px solid #04ff00");
+                    }
+
+                    if (exams == "" || parseInt(exams)>40 || parseInt(exams)<5) {
+                      $("#courseExams").css("border","1px solid #ff0000");
+                      $("#courseExams").select();
+                      alert_string += "Numero esami non valido!<br>";
+                      flag = false;
+                    }
+                    else {
+                      $("#courseExams").css("border","1px solid #04ff00");
+                    }
+
+                    if (!flag) {
+                      showAlert("courseAlert", "courseAlertText", alert_string);
                       return false;
+                    }
+                    else return true;
+                  }
 
+                  function initCourseCFUExams() {
+                    if(!checkCourse()) {
+                        return false;
+                    }
+                    else if(localStorage.getItem("CFU") == null) {
+                        $("#initCourseCFUForm").modal("hide");
+                        localStorage.setItem("CFU", $("#courseCFU").val()); 
+                        localStorage.setItem("NumExams", $("#courseExams").val());
+                        checkStorageCFU();
+                        getPercentageCFU();
+                        printStatistics();
+                    }
                     return true;
                   }
 
                   $(document).ready(function() {
                     $("#initCourseCFUButton").on("click", function() {
-                      if(!checkCourse()) {
-                        showAlert("courseAlert", "courseAlertText", "Errore CFU e Numero esami!");
-                        return false;
-                      }
-                      else if(localStorage.getItem("CFU") == null) {
-                        $("#initCourseCFUForm").modal("hide");
-                        localStorage.setItem("CFU", $("#courseCFU").val()); 
-                        localStorage.setItem("NumExam", $("#courseExams").val());
-                        checkStorageCFU();
-                        getPercentageCFU();
-                        printStatistics();
-                      }
+                      initCourseCFUExams();
                     });
                     $(document).keypress(function(e) {
                       if(e.which == 13 && $("#initCourseCFUForm").is(":visible")) {
-                        if(!checkCourse()) {
-                          showAlert("courseAlert", "courseAlertText", "Errore CFU e Numero esami!");
-                          return false;
-                        }
-                        else if(localStorage.getItem("CFU") == null) {
-                          $("#initCourseCFUForm").modal("hide");
-                          localStorage.setItem("CFU", $("#courseCFU").val());
-                          localStorage.setItem("NumExam", $("#courseExams").val()); 
-                          checkStorageCFU();
-                          getPercentageCFU();
-                          printStatistics();
-                        } 
+                        initCourseCFUExams(); 
                       }
                     });
                   });
